@@ -11,5 +11,21 @@
     "@searchbarHintText": {
         "description": "Searchbar hint text"
     },
-    "searchbarHintText": "Player name ..."
+    "searchbarHintText": "Player name ...",
+    "@leaderboardLabelRank": {
+        "description": "leaderboard label rank"
+    },
+    "leaderboardLabelRank": "#",
+    "@leaderboardLabelMmr": {
+        "description": "leaderboard label mmr"
+    },
+    "leaderboardLabelMmr": "MMR",
+    "@leaderboardLabelName": {
+        "description": "leaderboard label name"
+    },
+    "leaderboardLabelName": "Name",
+    "@leaderboardLabelWinsAndGames": {
+        "description": "leaderboard label wins and games"
+    },
+    "leaderboardLabelWinsAndGames": "Wins/Games"
 }
