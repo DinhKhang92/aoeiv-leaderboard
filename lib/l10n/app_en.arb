@@ -1,0 +1,15 @@
+{
+    "@appTitle": {
+        "description": "App title",
+        "placeholders": {
+            "gameMode": {
+                "type": "String"
+            }
+        }
+    },
+    "appTitle": "AoE IV - Leaderboard {gameMode}",
+    "@searchbarHintText": {
+        "description": "Searchbar hint text"
+    },
+    "searchbarHintText": "Player name ..."
+}
