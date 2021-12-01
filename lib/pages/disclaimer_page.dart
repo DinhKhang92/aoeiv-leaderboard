@@ -15,12 +15,7 @@ class DisclaimerPage extends StatelessWidget {
             bottom: false,
             child: Container(
               padding: const EdgeInsets.all(15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildHeader(context),
-                ],
-              ),
+              child: _buildHeader(context),
             ),
           ),
           Center(
@@ -29,9 +24,7 @@ class DisclaimerPage extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: const Color(0xffFFDB88),
-                ),
+                border: Border.all(color: const Color(0xffFFDB88)),
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Center(
