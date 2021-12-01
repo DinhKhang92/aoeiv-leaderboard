@@ -39,5 +39,21 @@
     "@disclaimerText": {
         "description": "disclaimer text on disclaimer page"
     },
-    "disclaimerText": "AoE IV - Leaderboard was created under Microsoft's \"Game Content Usage Rules\" using assets from Age of Empires IV, and it is not endorsed by or affiliated with Microsoft."
+    "disclaimerText": "AoE IV - Leaderboard was created under Microsoft's \"Game Content Usage Rules\" using assets from Age of Empires IV, and it is not endorsed by or affiliated with Microsoft.",
+    "@bottomNavigationBarLabel1v1": {
+        "description": "bottom navigation bar label 1v1"
+    },
+    "bottomNavigationBarLabel1v1": "1v1",
+    "@bottomNavigationBarLabel2v2": {
+        "description": "bottom navigation bar label 2v2"
+    },
+    "bottomNavigationBarLabel2v2": "2v2",
+    "@bottomNavigationBarLabel3v3": {
+        "description": "bottom navigation bar label 3v3"
+    },
+    "bottomNavigationBarLabel3v3": "3v3",
+    "@bottomNavigationBarLabel4v4": {
+        "description": "bottom navigation bar label 4v4"
+    },
+    "bottomNavigationBarLabel4v4": "4v4"
 }
