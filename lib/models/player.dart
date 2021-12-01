@@ -5,6 +5,7 @@ class Player {
   final int totalWins;
   final int totalLosses;
   final int mmr;
+  late final int winRate;
 
   Player({
     required this.rank,
@@ -23,4 +24,6 @@ class Player {
         totalLosses: json['losses'],
         mmr: json['rating'],
       );
+
+  set setWinRate(int rate) => winRate = rate;
 }

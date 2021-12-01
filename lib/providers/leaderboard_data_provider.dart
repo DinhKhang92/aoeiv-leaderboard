@@ -14,6 +14,8 @@ class LeaderboardDataProvider {
       final List leaderboardData = jsonData['leaderboard'];
       for (Map leaderboard in leaderboardData) {
         Player player = Player.fromJson(leaderboard);
+        player.setWinRate = (player.totalWins / player.totalGames * 100).round();
+
         playerList.add(player);
       }
 

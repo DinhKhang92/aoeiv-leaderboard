@@ -24,8 +24,8 @@
         "description": "leaderboard label name"
     },
     "leaderboardLabelName": "Name",
-    "@leaderboardLabelWinsAndGames": {
-        "description": "leaderboard label wins and games"
+    "@leaderboardLabelWinRate": {
+        "description": "leaderboard label win ratio"
     },
-    "leaderboardLabelWinsAndGames": "Wins/Games"
+    "leaderboardLabelWinRate": "Win %"
 }
