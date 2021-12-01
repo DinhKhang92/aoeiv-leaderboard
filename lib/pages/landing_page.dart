@@ -1,5 +1,6 @@
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -62,52 +63,48 @@ class _LandingPageState extends State<LandingPage> {
 
   Widget _buildLeaderboard(List leaderboardData) {
     return Expanded(
-      child: SingleChildScrollView(
-        child: DataTable(
-          columns: <DataColumn>[
-            DataColumn(
-              label: Container(
-                color: Colors.red,
-                margin: const EdgeInsets.only(right: 30),
-                child: Text(AppLocalizations.of(context)!.leaderboardLabelRank),
-              ),
-            ),
-            DataColumn(
-              label: Container(
-                margin: const EdgeInsets.only(right: 30),
-                color: Colors.blue,
-                child: Text(AppLocalizations.of(context)!.leaderboardLabelMmr),
-              ),
-            ),
-            DataColumn(
-              label: Container(
-                color: Colors.yellow,
-                child: Text(AppLocalizations.of(context)!.leaderboardLabelName),
-              ),
-            ),
-            DataColumn(
-              label: Container(
-                color: Colors.green,
-                child: Text(AppLocalizations.of(context)!.leaderboardLabelWinsAndGames),
-              ),
-            ),
-          ],
-          rows: _buildPlayerRows(leaderboardData),
-        ),
+      child: DataTable2(
+        lmRatio: 4,
+        columns: _buildPlayerColumns(),
+        rows: _buildPlayerRows(leaderboardData),
       ),
     );
+  }
+
+  List<DataColumn> _buildPlayerColumns() {
+    return [
+      DataColumn2(
+        size: ColumnSize.M,
+        label: Text(AppLocalizations.of(context)!.leaderboardLabelRank),
+      ),
+      DataColumn2(
+        size: ColumnSize.M,
+        label: Text(AppLocalizations.of(context)!.leaderboardLabelMmr),
+      ),
+      DataColumn2(
+        size: ColumnSize.L,
+        label: Text(AppLocalizations.of(context)!.leaderboardLabelName),
+      ),
+      DataColumn2(
+        size: ColumnSize.M,
+        label: Text(AppLocalizations.of(context)!.leaderboardLabelWinRate),
+      ),
+    ];
   }
 
   List<DataRow> _buildPlayerRows(List leaderboardData) {
     return leaderboardData.map((playerData) {
       final Player player = playerData as Player;
 
-      return DataRow(cells: [
-        DataCell(Text("${player.rank}")),
-        DataCell(Text("${player.mmr}")),
-        DataCell(Text(player.name)),
-        DataCell(Text("${player.totalWins}/${player.totalGames}")),
-      ]);
+      return DataRow2(
+        onTap: () => print("${player.name}"),
+        cells: [
+          DataCell(Text("${player.rank}")),
+          DataCell(Text("${player.mmr}")),
+          DataCell(Text(player.name)),
+          DataCell(Text("${player.winRate} %")),
+        ],
+      );
     }).toList();
   }
 

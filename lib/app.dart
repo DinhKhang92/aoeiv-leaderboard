@@ -34,9 +34,9 @@ class MyApp extends StatelessWidget {
             color: primaryColor,
           ),
           dataTableTheme: const DataTableThemeData(
+            columnSpacing: 15,
             horizontalMargin: 0,
             dividerThickness: 0,
-            columnSpacing: 0,
             headingTextStyle: TextStyle(
               color: Colors.white,
               fontSize: 14,
