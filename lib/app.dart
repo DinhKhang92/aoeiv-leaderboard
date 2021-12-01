@@ -1,4 +1,5 @@
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
+import 'package:aoeiv_leaderboard/cubit/bottom_navigation_bar_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/routes/route_generator.dart';
 import 'package:flutter/material.dart';
@@ -10,19 +11,20 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
   final LeaderboardDataCubit _leaderboardDataCubit = LeaderboardDataCubit();
+  final BottomNavigationBarCubit _bottomNavigationBarCubit = BottomNavigationBarCubit();
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<LeaderboardDataCubit>(create: (_) => _leaderboardDataCubit),
+        BlocProvider<BottomNavigationBarCubit>(create: (_) => _bottomNavigationBarCubit),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
-          appBarTheme: const AppBarTheme(centerTitle: false),
           textTheme: TextTheme(
             headline1: TextStyle(
               color: primaryColor,
@@ -43,10 +45,6 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
             dataTextStyle: TextStyle(color: Colors.white),
-          ),
-          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-            elevation: 0,
-            backgroundColor: Colors.red,
           ),
         ),
         initialRoute: '/',

@@ -9,10 +9,10 @@ class LeaderboardDataCubit extends Cubit<LeaderboardDataState> {
   final LeaderboardDataRepository _leaderboardDataRepository = LeaderboardDataRepository();
   LeaderboardDataCubit() : super(const LeaderboardDataInitial(leaderboardData: []));
 
-  Future<void> fetchLeaderboardData() async {
+  Future<void> fetchLeaderboardData(int leaderboardId) async {
     try {
       emit(LeaderboardDataLoading(leaderboardData: state.leaderboardData));
-      final List<Player> leaderboardData = await _leaderboardDataRepository.fetchLeaderboardData();
+      final List<Player> leaderboardData = await _leaderboardDataRepository.fetchLeaderboardData(leaderboardId);
       emit(LeaderboardDataLoaded(leaderboardData: leaderboardData));
     } catch (e) {
       emit(LeaderboardDataError());

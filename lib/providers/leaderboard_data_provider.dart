@@ -4,9 +4,8 @@ import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:http/http.dart' as http;
 
 class LeaderboardDataProvider {
-  final String url = 'https://aoeiv.net/api/leaderboard?game=aoe4&leaderboard_id=17&start=1&count=20';
-
-  Future<List<Player>> fetchLeaderboardData() async {
+  Future<List<Player>> fetchLeaderboardData(int leaderboardId) async {
+    final String url = 'https://aoeiv.net/api/leaderboard?game=aoe4&leaderboard_id=$leaderboardId&start=1&count=20';
     final List<Player> playerList = [];
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {

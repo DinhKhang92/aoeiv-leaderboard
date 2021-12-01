@@ -4,5 +4,5 @@ import 'package:aoeiv_leaderboard/providers/leaderboard_data_provider.dart';
 class LeaderboardDataRepository {
   final LeaderboardDataProvider _leaderboardDataProvider = LeaderboardDataProvider();
 
-  Future<List<Player>> fetchLeaderboardData() => _leaderboardDataProvider.fetchLeaderboardData();
+  Future<List<Player>> fetchLeaderboardData(int leaderboardId) => _leaderboardDataProvider.fetchLeaderboardData(leaderboardId);
 }
