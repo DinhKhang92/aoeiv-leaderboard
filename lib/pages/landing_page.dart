@@ -1,3 +1,6 @@
+import 'package:aoeiv_leaderboard/config/config.dart';
+import 'package:aoeiv_leaderboard/config/styles/colors.dart';
+import 'package:aoeiv_leaderboard/cubit/bottom_navigation_bar_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
@@ -21,14 +24,62 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> fetchLeaderboardData() async {
-    await BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData();
+    await BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.oneVOne.id);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color(0xff151925),
+              Color(0xff151925),
+            ],
+          ),
+        ),
+        child: BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
+          builder: (context, state) {
+            return BottomNavigationBar(
+              onTap: (index) => _handleBottomNavbarOnTap(context, index),
+              currentIndex: state.index,
+              elevation: 0,
+              showUnselectedLabels: true,
+              selectedItemColor: primaryColor,
+              unselectedItemColor: const Color(0xffB6B6B6),
+              backgroundColor: Colors.transparent,
+              type: BottomNavigationBarType.fixed,
+              items: [
+                BottomNavigationBarItem(icon: const Icon(Icons.person_outline), label: AppLocalizations.of(context)!.bottomNavigationBarLabel1v1),
+                BottomNavigationBarItem(icon: const Icon(Icons.group_outlined), label: AppLocalizations.of(context)!.bottomNavigationBarLabel2v2),
+                BottomNavigationBarItem(icon: const Icon(Icons.groups_outlined), label: AppLocalizations.of(context)!.bottomNavigationBarLabel3v3),
+                BottomNavigationBarItem(icon: const Icon(Icons.schema_outlined), label: AppLocalizations.of(context)!.bottomNavigationBarLabel4v4),
+              ],
+            );
+          },
+        ),
+      ),
       body: _buildBody(),
     );
+  }
+
+  void _handleBottomNavbarOnTap(BuildContext context, int index) {
+    BlocProvider.of<BottomNavigationBarCubit>(context).setIndex(index);
+
+    if (index == 0) {
+      BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.oneVOne.id);
+    } else if (index == 1) {
+      BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.twoVTwo.id);
+    } else if (index == 2) {
+      BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.threeVThree.id);
+    } else if (index == 3) {
+      BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.fourVFour.id);
+    } else {
+      BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.oneVOne.id);
+    }
   }
 
   Widget _buildBody() {
@@ -48,6 +99,9 @@ class _LandingPageState extends State<LandingPage> {
                 const SizedBox(height: 15),
                 BlocBuilder<LeaderboardDataCubit, LeaderboardDataState>(
                   builder: (context, state) {
+                    if (state is LeaderboardDataLoading) {
+                      return _buildLeaderboardLoading();
+                    }
                     if (state is LeaderboardDataLoaded) {
                       return _buildLeaderboard(state.leaderboardData);
                     }
@@ -59,6 +113,14 @@ class _LandingPageState extends State<LandingPage> {
           ),
         ),
       ],
+    );
+  }
+
+  Expanded _buildLeaderboardLoading() {
+    return Expanded(
+      child: Center(
+        child: CircularProgressIndicator(color: primaryColor),
+      ),
     );
   }
 
@@ -113,9 +175,15 @@ class _LandingPageState extends State<LandingPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          AppLocalizations.of(context)!.appTitle("1v1"),
-          style: Theme.of(context).textTheme.headline1,
+        BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
+          builder: (context, state) {
+            final String mode = _getMode(state.index);
+
+            return Text(
+              AppLocalizations.of(context)!.appTitle(mode),
+              style: Theme.of(context).textTheme.headline1,
+            );
+          },
         ),
         InkWell(
           onTap: () => Navigator.of(context).pushNamed('/disclaimer'),
@@ -143,5 +211,20 @@ class _LandingPageState extends State<LandingPage> {
         ),
       ),
     );
+  }
+
+  String _getMode(int bottomNavbarIndex) {
+    switch (bottomNavbarIndex) {
+      case 0:
+        return AppLocalizations.of(context)!.bottomNavigationBarLabel1v1;
+      case 1:
+        return AppLocalizations.of(context)!.bottomNavigationBarLabel2v2;
+      case 2:
+        return AppLocalizations.of(context)!.bottomNavigationBarLabel3v3;
+      case 3:
+        return AppLocalizations.of(context)!.bottomNavigationBarLabel4v4;
+      default:
+        return AppLocalizations.of(context)!.bottomNavigationBarLabel1v1;
+    }
   }
 }
