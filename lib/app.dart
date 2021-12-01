@@ -1,6 +1,6 @@
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
-import 'package:aoeiv_leaderboard/pages/landing_page.dart';
+import 'package:aoeiv_leaderboard/routes/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -49,7 +49,8 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.red,
           ),
         ),
-        home: const LandingPage(),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
         supportedLocales: const [
           Locale('en', ''),
         ],

@@ -1,5 +1,6 @@
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
+import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +34,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget _buildBody() {
     return Stack(
       children: [
-        _buildBackground(),
+        const Background(),
         SafeArea(
           bottom: false,
           child: Container(
@@ -97,7 +98,7 @@ class _LandingPageState extends State<LandingPage> {
       final Player player = playerData as Player;
 
       return DataRow2(
-        onTap: () => print("${player.name}"),
+        onTap: () => print(player.name),
         cells: [
           DataCell(Text("${player.rank}")),
           DataCell(Text("${player.mmr}")),
@@ -117,7 +118,7 @@ class _LandingPageState extends State<LandingPage> {
           style: Theme.of(context).textTheme.headline1,
         ),
         InkWell(
-          onTap: () => print("open-disclaimer"),
+          onTap: () => Navigator.of(context).pushNamed('/disclaimer'),
           child: const Icon(Icons.info_outline_rounded),
         ),
       ],
@@ -139,21 +140,6 @@ class _LandingPageState extends State<LandingPage> {
           contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
           isDense: true,
           border: InputBorder.none,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBackground() {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xff2C3B4D),
-            Color(0xff151925),
-          ],
         ),
       ),
     );

@@ -27,5 +27,17 @@
     "@leaderboardLabelWinRate": {
         "description": "leaderboard label win ratio"
     },
-    "leaderboardLabelWinRate": "Win %"
+    "leaderboardLabelWinRate": "Win %",
+    "@pageTitleDisclaimer": {
+        "description": "disclaimer page title"
+    },
+    "pageTitleDisclaimer": "Disclaimer",
+    "@disclaimerCaption": {
+        "description": "caption of disclaimer text on disclaimer page"
+    },
+    "disclaimerCaption": " Age of Empires IV © Microsoft Corporation.",
+    "@disclaimerText": {
+        "description": "disclaimer text on disclaimer page"
+    },
+    "disclaimerText": "AoE IV - Leaderboard was created under Microsoft's \"Game Content Usage Rules\" using assets from Age of Empires IV, and it is not endorsed by or affiliated with Microsoft."
 }
