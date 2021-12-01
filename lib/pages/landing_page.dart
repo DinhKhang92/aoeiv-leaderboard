@@ -45,7 +45,7 @@ class _LandingPageState extends State<LandingPage> {
                 _buildHeader(),
                 const SizedBox(height: 30),
                 _buildSearchbar(),
-                const SizedBox(height: 30),
+                const SizedBox(height: 15),
                 BlocBuilder<LeaderboardDataCubit, LeaderboardDataState>(
                   builder: (context, state) {
                     if (state is LeaderboardDataLoaded) {
