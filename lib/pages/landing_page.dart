@@ -142,27 +142,23 @@ class _LandingPageState extends State<LandingPage> {
 
   Widget _buildLeaderboard(List leaderboardData) {
     return Expanded(
-      child: BlocBuilder<LeaderboardDataCubit, LeaderboardDataState>(
-        builder: (context, state) {
-          return ListView.separated(
-            padding: const EdgeInsets.only(top: 15),
-            separatorBuilder: (context, index) => const SizedBox(height: 30),
-            itemCount: state.leaderboardData.length,
-            itemBuilder: (context, index) {
-              final Player player = state.leaderboardData[index];
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(width: 60, child: Text("${player.rank}")),
-                  SizedBox(width: 50, child: Text("${player.mmr}")),
-                  Expanded(child: Text(player.name)),
-                  SizedBox(
-                    width: 30,
-                    child: Text("${player.winRate}", textAlign: TextAlign.end),
-                  ),
-                ],
-              );
-            },
+      child: ListView.separated(
+        padding: const EdgeInsets.only(top: 15),
+        separatorBuilder: (context, index) => const SizedBox(height: 30),
+        itemCount: leaderboardData.length,
+        itemBuilder: (context, index) {
+          final Player player = leaderboardData[index];
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(width: 60, child: Text("${player.rank}")),
+              SizedBox(width: 50, child: Text("${player.mmr}")),
+              Expanded(child: Text(player.name)),
+              SizedBox(
+                width: 30,
+                child: Text("${player.winRate}", textAlign: TextAlign.end),
+              ),
+            ],
           );
         },
       ),
@@ -255,7 +251,7 @@ class _LandingPageState extends State<LandingPage> {
           isDense: true,
           border: InputBorder.none,
         ),
-        onChanged: (playerName) => BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(playerName),
+        onChanged: (playerName) => BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(playerName.toLowerCase()),
       ),
     );
   }
