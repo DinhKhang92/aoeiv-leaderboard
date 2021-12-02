@@ -3,22 +3,23 @@ part of 'leaderboard_data_cubit.dart';
 @immutable
 abstract class LeaderboardDataState {
   final List leaderboardData;
+  final List filteredPlayers;
 
-  const LeaderboardDataState({required this.leaderboardData});
+  const LeaderboardDataState({required this.leaderboardData, required this.filteredPlayers});
 }
 
 class LeaderboardDataInitial extends LeaderboardDataState {
-  const LeaderboardDataInitial({leaderboardData}) : super(leaderboardData: leaderboardData);
+  const LeaderboardDataInitial({leaderboardData, filteredPlayers}) : super(leaderboardData: leaderboardData, filteredPlayers: filteredPlayers);
 }
 
 class LeaderboardDataLoading extends LeaderboardDataState {
-  const LeaderboardDataLoading({leaderboardData}) : super(leaderboardData: leaderboardData);
+  const LeaderboardDataLoading({leaderboardData, filteredPlayers}) : super(leaderboardData: leaderboardData, filteredPlayers: filteredPlayers);
 }
 
 class LeaderboardDataLoaded extends LeaderboardDataState {
-  const LeaderboardDataLoaded({leaderboardData}) : super(leaderboardData: leaderboardData);
+  const LeaderboardDataLoaded({leaderboardData, filteredPlayers}) : super(leaderboardData: leaderboardData, filteredPlayers: filteredPlayers);
 }
 
 class LeaderboardDataError extends LeaderboardDataState {
-  LeaderboardDataError() : super(leaderboardData: []);
+  LeaderboardDataError() : super(leaderboardData: [], filteredPlayers: []);
 }

@@ -17,10 +17,18 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  final TextEditingController _searchFieldController = TextEditingController();
+
   @override
   void initState() {
     fetchLeaderboardData();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _searchFieldController.dispose();
+    super.dispose();
   }
 
   Future<void> fetchLeaderboardData() async {
@@ -29,6 +37,7 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
+    print((50001 / 10000).ceil());
     return Scaffold(
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
@@ -46,12 +55,6 @@ class _LandingPageState extends State<LandingPage> {
             return BottomNavigationBar(
               onTap: (index) => _handleBottomNavbarOnTap(context, index),
               currentIndex: state.index,
-              elevation: 0,
-              showUnselectedLabels: true,
-              selectedItemColor: primaryColor,
-              unselectedItemColor: const Color(0xffB6B6B6),
-              backgroundColor: Colors.transparent,
-              type: BottomNavigationBarType.fixed,
               items: [
                 BottomNavigationBarItem(icon: const Icon(Icons.person_outline), label: AppLocalizations.of(context)!.bottomNavigationBarLabel1v1),
                 BottomNavigationBarItem(icon: const Icon(Icons.group_outlined), label: AppLocalizations.of(context)!.bottomNavigationBarLabel2v2),
@@ -67,6 +70,8 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   void _handleBottomNavbarOnTap(BuildContext context, int index) {
+    _searchFieldController.clear();
+
     BlocProvider.of<BottomNavigationBarCubit>(context).setIndex(index);
 
     if (index == 0) {
@@ -103,7 +108,9 @@ class _LandingPageState extends State<LandingPage> {
                       return _buildLeaderboardLoading();
                     }
                     if (state is LeaderboardDataLoaded) {
-                      return _buildLeaderboard(state.leaderboardData);
+                      final List data = _searchFieldController.text.isEmpty ? state.leaderboardData : state.filteredPlayers;
+
+                      return _buildLeaderboard(data);
                     }
                     return const SizedBox.shrink();
                   },
@@ -202,6 +209,7 @@ class _LandingPageState extends State<LandingPage> {
         ),
       ),
       child: TextField(
+        controller: _searchFieldController,
         decoration: InputDecoration(
           hintText: AppLocalizations.of(context)!.searchbarHintText,
           hintStyle: const TextStyle(fontSize: 12, color: Color(0xff4E4E4E)),
@@ -209,6 +217,7 @@ class _LandingPageState extends State<LandingPage> {
           isDense: true,
           border: InputBorder.none,
         ),
+        onChanged: (playerName) => BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(playerName),
       ),
     );
   }
