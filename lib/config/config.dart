@@ -14,3 +14,7 @@ extension LeaderboardIdExtension on LeaderboardId {
     }
   }
 }
+
+class Config {
+  final String baseUrl = "https://aoeiv.net/api/leaderboard?game=aoe4";
+}
