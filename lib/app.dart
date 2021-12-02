@@ -31,6 +31,15 @@ class MyApp extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.w400,
             ),
+            bodyText1: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            bodyText2: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+            ),
           ),
           iconTheme: IconThemeData(
             color: primaryColor,
