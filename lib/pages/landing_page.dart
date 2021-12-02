@@ -37,7 +37,6 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    print((50001 / 10000).ceil());
     return Scaffold(
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
@@ -102,6 +101,16 @@ class _LandingPageState extends State<LandingPage> {
                 const SizedBox(height: 30),
                 _buildSearchbar(),
                 const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(width: 60, child: Text(AppLocalizations.of(context)!.leaderboardLabelRank, style: Theme.of(context).textTheme.bodyText1)),
+                    SizedBox(width: 50, child: Text(AppLocalizations.of(context)!.leaderboardLabelMmr, style: Theme.of(context).textTheme.bodyText1)),
+                    Expanded(child: Text(AppLocalizations.of(context)!.leaderboardLabelName, style: Theme.of(context).textTheme.bodyText1)),
+                    Text(AppLocalizations.of(context)!.leaderboardLabelWinRate, textAlign: TextAlign.end, style: Theme.of(context).textTheme.bodyText1),
+                  ],
+                ),
+                const SizedBox(height: 15),
                 BlocBuilder<LeaderboardDataCubit, LeaderboardDataState>(
                   builder: (context, state) {
                     if (state is LeaderboardDataLoading) {
@@ -133,50 +142,79 @@ class _LandingPageState extends State<LandingPage> {
 
   Widget _buildLeaderboard(List leaderboardData) {
     return Expanded(
-      child: DataTable2(
-        lmRatio: 4,
-        columns: _buildPlayerColumns(),
-        rows: _buildPlayerRows(leaderboardData),
+      child: BlocBuilder<LeaderboardDataCubit, LeaderboardDataState>(
+        builder: (context, state) {
+          return ListView.separated(
+            padding: const EdgeInsets.only(top: 15),
+            separatorBuilder: (context, index) => const SizedBox(height: 30),
+            itemCount: state.leaderboardData.length,
+            itemBuilder: (context, index) {
+              final Player player = state.leaderboardData[index];
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(width: 60, child: Text("${player.rank}")),
+                  SizedBox(width: 50, child: Text("${player.mmr}")),
+                  Expanded(child: Text(player.name)),
+                  SizedBox(
+                    width: 30,
+                    child: Text("${player.winRate}", textAlign: TextAlign.end),
+                  ),
+                ],
+              );
+            },
+          );
+        },
       ),
     );
   }
 
-  List<DataColumn> _buildPlayerColumns() {
-    return [
-      DataColumn2(
-        size: ColumnSize.M,
-        label: Text(AppLocalizations.of(context)!.leaderboardLabelRank),
-      ),
-      DataColumn2(
-        size: ColumnSize.M,
-        label: Text(AppLocalizations.of(context)!.leaderboardLabelMmr),
-      ),
-      DataColumn2(
-        size: ColumnSize.L,
-        label: Text(AppLocalizations.of(context)!.leaderboardLabelName),
-      ),
-      DataColumn2(
-        size: ColumnSize.M,
-        label: Text(AppLocalizations.of(context)!.leaderboardLabelWinRate),
-      ),
-    ];
-  }
+  // Widget _buildLeaderboard(List leaderboardData) {
+  //   return Expanded(
+  //     child: DataTable2(
+  //       lmRatio: 4,
+  //       columns: _buildPlayerColumns(),
+  //       rows: _buildPlayerRows(leaderboardData),
+  //     ),
+  //   );
+  // }
 
-  List<DataRow> _buildPlayerRows(List leaderboardData) {
-    return leaderboardData.map((playerData) {
-      final Player player = playerData as Player;
+  // List<DataColumn> _buildPlayerColumns() {
+  //   return [
+  //     DataColumn2(
+  //       size: ColumnSize.M,
+  //       label: Text(AppLocalizations.of(context)!.leaderboardLabelRank),
+  //     ),
+  //     DataColumn2(
+  //       size: ColumnSize.M,
+  //       label: Text(AppLocalizations.of(context)!.leaderboardLabelMmr),
+  //     ),
+  //     DataColumn2(
+  //       size: ColumnSize.L,
+  //       label: Text(AppLocalizations.of(context)!.leaderboardLabelName),
+  //     ),
+  //     DataColumn2(
+  //       size: ColumnSize.M,
+  //       label: Text(AppLocalizations.of(context)!.leaderboardLabelWinRate),
+  //     ),
+  //   ];
+  // }
 
-      return DataRow2(
-        onTap: () => print(player.name),
-        cells: [
-          DataCell(Text("${player.rank}")),
-          DataCell(Text("${player.mmr}")),
-          DataCell(Text(player.name)),
-          DataCell(Text("${player.winRate} %")),
-        ],
-      );
-    }).toList();
-  }
+  // List<DataRow> _buildPlayerRows(List leaderboardData) {
+  //   return leaderboardData.map((playerData) {
+  //     final Player player = playerData as Player;
+
+  //     return DataRow2(
+  //       onTap: () => print(player.name),
+  //       cells: [
+  //         DataCell(Text("${player.rank}")),
+  //         DataCell(Text("${player.mmr}")),
+  //         DataCell(Text(player.name)),
+  //         DataCell(Text("${player.winRate} %")),
+  //       ],
+  //     );
+  //   }).toList();
+  // }
 
   Widget _buildHeader() {
     return Row(
