@@ -16,5 +16,7 @@ extension LeaderboardIdExtension on LeaderboardId {
 }
 
 class Config {
-  final String baseUrl = "https://aoeiv.net/api/leaderboard?game=aoe4";
+  final int maxCount = 10000;
+  final String leaderboardBaseUrl = "https://aoeiv.net/api/leaderboard?game=aoe4";
+  final String ratingHistoryBaseUrl = "https://aoeiv.net/api/player/ratinghistory?game=aoe4";
 }
