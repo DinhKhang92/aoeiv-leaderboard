@@ -4,7 +4,6 @@ import 'package:aoeiv_leaderboard/cubit/bottom_navigation_bar_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -151,12 +150,12 @@ class _LandingPageState extends State<LandingPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(width: 60, child: Text("${player.rank}")),
-              SizedBox(width: 50, child: Text("${player.mmr}")),
+              Container(constraints: const BoxConstraints(minWidth: 60), child: Text("${player.rank}")),
+              Container(constraints: const BoxConstraints(minWidth: 50), child: Text("${player.mmr}")),
               Expanded(child: Text(player.name)),
-              SizedBox(
-                width: 30,
-                child: Text("${player.winRate}", textAlign: TextAlign.end),
+              Container(
+                constraints: const BoxConstraints(minWidth: 30),
+                child: Text("${player.winRate} %", textAlign: TextAlign.end),
               ),
             ],
           );
@@ -164,53 +163,6 @@ class _LandingPageState extends State<LandingPage> {
       ),
     );
   }
-
-  // Widget _buildLeaderboard(List leaderboardData) {
-  //   return Expanded(
-  //     child: DataTable2(
-  //       lmRatio: 4,
-  //       columns: _buildPlayerColumns(),
-  //       rows: _buildPlayerRows(leaderboardData),
-  //     ),
-  //   );
-  // }
-
-  // List<DataColumn> _buildPlayerColumns() {
-  //   return [
-  //     DataColumn2(
-  //       size: ColumnSize.M,
-  //       label: Text(AppLocalizations.of(context)!.leaderboardLabelRank),
-  //     ),
-  //     DataColumn2(
-  //       size: ColumnSize.M,
-  //       label: Text(AppLocalizations.of(context)!.leaderboardLabelMmr),
-  //     ),
-  //     DataColumn2(
-  //       size: ColumnSize.L,
-  //       label: Text(AppLocalizations.of(context)!.leaderboardLabelName),
-  //     ),
-  //     DataColumn2(
-  //       size: ColumnSize.M,
-  //       label: Text(AppLocalizations.of(context)!.leaderboardLabelWinRate),
-  //     ),
-  //   ];
-  // }
-
-  // List<DataRow> _buildPlayerRows(List leaderboardData) {
-  //   return leaderboardData.map((playerData) {
-  //     final Player player = playerData as Player;
-
-  //     return DataRow2(
-  //       onTap: () => print(player.name),
-  //       cells: [
-  //         DataCell(Text("${player.rank}")),
-  //         DataCell(Text("${player.mmr}")),
-  //         DataCell(Text(player.name)),
-  //         DataCell(Text("${player.winRate} %")),
-  //       ],
-  //     );
-  //   }).toList();
-  // }
 
   Widget _buildHeader() {
     return Row(
@@ -243,13 +195,24 @@ class _LandingPageState extends State<LandingPage> {
         ),
       ),
       child: TextField(
+        style: const TextStyle(fontSize: 14),
         controller: _searchFieldController,
+        textAlignVertical: TextAlignVertical.center,
+        cursorColor: const Color(0xff2C3B4D),
         decoration: InputDecoration(
           hintText: AppLocalizations.of(context)!.searchbarHintText,
           hintStyle: const TextStyle(fontSize: 12, color: Color(0xff4E4E4E)),
           contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
           isDense: true,
           border: InputBorder.none,
+          suffixIcon: IconButton(
+            icon: const Icon(Icons.clear),
+            color: const Color(0xff2C3B4D),
+            onPressed: () {
+              _searchFieldController.clear();
+              BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(_searchFieldController.text);
+            },
+          ),
         ),
         onChanged: (playerName) => BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(playerName.toLowerCase()),
       ),
