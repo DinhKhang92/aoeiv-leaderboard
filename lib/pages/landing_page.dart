@@ -147,17 +147,20 @@ class _LandingPageState extends State<LandingPage> {
         itemCount: leaderboardData.length,
         itemBuilder: (context, index) {
           final Player player = leaderboardData[index];
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(constraints: const BoxConstraints(minWidth: 60), child: Text("${player.rank}")),
-              Container(constraints: const BoxConstraints(minWidth: 50), child: Text("${player.mmr}")),
-              Expanded(child: Text(player.name)),
-              Container(
-                constraints: const BoxConstraints(minWidth: 30),
-                child: Text("${player.winRate} %", textAlign: TextAlign.end),
-              ),
-            ],
+          return InkWell(
+            onTap: () => Navigator.of(context).pushNamed('/player', arguments: player),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(constraints: const BoxConstraints(minWidth: 60), child: Text("${player.rank}")),
+                Container(constraints: const BoxConstraints(minWidth: 50), child: Text("${player.mmr}")),
+                Expanded(child: Text(player.name)),
+                Container(
+                  constraints: const BoxConstraints(minWidth: 30),
+                  child: Text("${player.winRate} %", textAlign: TextAlign.end),
+                ),
+              ],
+            ),
           );
         },
       ),
