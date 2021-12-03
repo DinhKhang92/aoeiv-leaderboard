@@ -6,18 +6,16 @@ import 'package:http/http.dart' as http;
 
 class LeaderboardDataProvider {
   final Config _config = Config();
-  final int maxCount = 10000;
 
   Future<List<Player>> fetchLeaderboardData(int leaderboardId) async {
-    final int totalPlayerCount = await _getTotalPlayerCount("${_config.baseUrl}&leaderboard_id=$leaderboardId").catchError((error) {
+    final int totalPlayerCount = await _getTotalPlayerCount("${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId").catchError((error) {
       throw Exception(error);
     });
 
     final List<Player> playerList = [];
-    for (int i = 0; i < (totalPlayerCount / maxCount).ceil(); i++) {
-      final int start = 1 + i * maxCount;
-
-      final String url = '${_config.baseUrl}&leaderboard_id=$leaderboardId&start=$start&count=$maxCount';
+    for (int i = 0; i < (totalPlayerCount / _config.maxCount).ceil(); i++) {
+      final int start = 1 + i * _config.maxCount;
+      final String url = '${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId&start=$start&count=${_config.maxCount}';
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -31,7 +29,7 @@ class LeaderboardDataProvider {
           playerList.add(player);
         }
       } else {
-        throw Exception('Failed to fetch leaderboard data with url: ${_config.baseUrl}&leaderboard_id=$leaderboardId}');
+        throw Exception('Failed to fetch leaderboard data with url: ${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId}');
       }
     }
 
