@@ -2,6 +2,7 @@ import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/cubit/bottom_navigation_bar_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
+import 'package:aoeiv_leaderboard/utils/get_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
@@ -72,17 +73,8 @@ class _LandingPageState extends State<LandingPage> {
 
     BlocProvider.of<BottomNavigationBarCubit>(context).setIndex(index);
 
-    if (index == 0) {
-      BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.oneVOne.id);
-    } else if (index == 1) {
-      BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.twoVTwo.id);
-    } else if (index == 2) {
-      BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.threeVThree.id);
-    } else if (index == 3) {
-      BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.fourVFour.id);
-    } else {
-      BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.oneVOne.id);
-    }
+    final int leaderboardId = getLeaderboardId(index);
+    BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(leaderboardId);
   }
 
   Widget _buildBody() {
