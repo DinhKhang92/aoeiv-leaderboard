@@ -1,4 +1,5 @@
 import 'package:aoeiv_leaderboard/widgets/background.dart';
+import 'package:aoeiv_leaderboard/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -15,7 +16,7 @@ class DisclaimerPage extends StatelessWidget {
             bottom: false,
             child: Container(
               padding: const EdgeInsets.all(15),
-              child: _buildHeader(context),
+              child: Header(headerTitle: AppLocalizations.of(context)!.pageTitleDisclaimer),
             ),
           ),
           Center(
@@ -46,23 +47,6 @@ class DisclaimerPage extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        InkWell(
-          onTap: () => Navigator.of(context).pop(),
-          child: Icon(Theme.of(context).platform == TargetPlatform.iOS ? Icons.arrow_back_ios : Icons.arrow_back_ios),
-        ),
-        Text(
-          AppLocalizations.of(context)!.pageTitleDisclaimer,
-          style: Theme.of(context).textTheme.headline1,
-        ),
-        const SizedBox(width: 24),
-      ],
     );
   }
 }
