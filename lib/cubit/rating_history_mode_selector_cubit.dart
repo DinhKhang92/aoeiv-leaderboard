@@ -6,4 +6,6 @@ class RatingHistoryModeSelectorCubit extends Cubit<RatingHistoryModeSelectorStat
   RatingHistoryModeSelectorCubit() : super(RatingHistoryModeSelectorState(index: 0));
 
   void setIndex(int index) => emit(RatingHistoryModeSelectorState(index: index));
+
+  void clear() => emit(RatingHistoryModeSelectorState(index: 0));
 }

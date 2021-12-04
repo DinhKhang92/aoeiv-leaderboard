@@ -25,6 +25,8 @@ class PlayerPage extends StatefulWidget {
 class _PlayerPageState extends State<PlayerPage> {
   @override
   void initState() {
+    BlocProvider.of<RatingHistoryModeSelectorCubit>(context).clear();
+
     _fetchRatingHistoryData();
     super.initState();
   }
@@ -47,6 +49,11 @@ class _PlayerPageState extends State<PlayerPage> {
                 children: [
                   Header(headerTitle: AppLocalizations.of(context)!.pageTitlePlayerDetails),
                   const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: _buildRatingHistoryModeSelectors(),
+                  ),
+                  const SizedBox(height: 30),
                   Text("Name: ${widget.player.name}"),
                   Text("MMR: ${widget.player.mmr}"),
                   Text("Wins: ${widget.player.totalWins}"),
@@ -66,10 +73,6 @@ class _PlayerPageState extends State<PlayerPage> {
                   ),
                   _buildRatingHistoryLineChart(),
                   const SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: _buildRatingHistoryModeSelectors(),
-                  ),
                 ],
               ),
             ),
@@ -108,22 +111,24 @@ class _PlayerPageState extends State<PlayerPage> {
         .map((index, label) {
           return MapEntry(
             index,
-            InkWell(
-              onTap: () {
-                BlocProvider.of<RatingHistoryModeSelectorCubit>(context).setIndex(index);
+            BlocBuilder<RatingHistoryModeSelectorCubit, RatingHistoryModeSelectorState>(
+              builder: (context, state) {
+                return InkWell(
+                  onTap: () {
+                    if (state.index != index) {
+                      BlocProvider.of<RatingHistoryModeSelectorCubit>(context).setIndex(index);
 
-                final int leaderboardId = getLeaderboardId(index);
-                BlocProvider.of<RatingHistoryDataCubit>(context).fetchRatingHistoryData(leaderboardId, widget.player.profileId);
-              },
-              child: BlocBuilder<RatingHistoryModeSelectorCubit, RatingHistoryModeSelectorState>(
-                builder: (context, state) {
-                  return RatingHistoryModeSelector(
+                      final int leaderboardId = getLeaderboardId(index);
+                      BlocProvider.of<RatingHistoryDataCubit>(context).fetchRatingHistoryData(leaderboardId, widget.player.profileId);
+                    }
+                  },
+                  child: RatingHistoryModeSelector(
                     label: label,
                     labelColor: secondaryColor,
                     backgroundColor: state.index == index ? primaryColor : const Color(0xffB6B6B6),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           );
         })

@@ -52,7 +52,11 @@ class _LandingPageState extends State<LandingPage> {
         child: BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
           builder: (context, state) {
             return BottomNavigationBar(
-              onTap: (index) => _handleBottomNavbarOnTap(context, index),
+              onTap: (index) {
+                if (index != state.index) {
+                  _handleBottomNavbarOnTap(context, index);
+                }
+              },
               currentIndex: state.index,
               items: [
                 BottomNavigationBarItem(icon: const Icon(Icons.person_outline), label: AppLocalizations.of(context)!.bottomNavigationBarLabel1v1),
