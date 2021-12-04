@@ -2,6 +2,7 @@ import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/cubit/bottom_navigation_bar_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
+import 'package:aoeiv_leaderboard/cubit/rating_history_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/routes/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
   final LeaderboardDataCubit _leaderboardDataCubit = LeaderboardDataCubit();
   final RatingHistoryDataCubit _ratingHistoryDataCubit = RatingHistoryDataCubit();
   final BottomNavigationBarCubit _bottomNavigationBarCubit = BottomNavigationBarCubit();
+  final RatingHistoryModeSelectorCubit _ratingHistoryModeSelectorCubit = RatingHistoryModeSelectorCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<LeaderboardDataCubit>(create: (_) => _leaderboardDataCubit),
         BlocProvider<RatingHistoryDataCubit>(create: (_) => _ratingHistoryDataCubit),
         BlocProvider<BottomNavigationBarCubit>(create: (_) => _bottomNavigationBarCubit),
+        BlocProvider<RatingHistoryModeSelectorCubit>(create: (_) => _ratingHistoryModeSelectorCubit),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
