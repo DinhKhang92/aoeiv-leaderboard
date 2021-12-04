@@ -2,7 +2,9 @@ import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
+import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
 import 'package:aoeiv_leaderboard/widgets/header.dart';
+import 'package:aoeiv_leaderboard/widgets/line_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -39,6 +41,20 @@ class _PlayerPageState extends State<PlayerPage> {
               child: Column(
                 children: [
                   Header(headerTitle: AppLocalizations.of(context)!.pageTitlePlayerDetails),
+                  Container(
+                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.width - 50),
+                    child: BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
+                      builder: (context, state) {
+                        if (state is RatingHistoryDataLoading) {
+                          return const CenteredCircularProgressIndicator();
+                        }
+                        if (state is RatingHistoryDataLoaded) {
+                          return TestLineChart(ratingHistoryData: state.ratingHistoryData);
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
