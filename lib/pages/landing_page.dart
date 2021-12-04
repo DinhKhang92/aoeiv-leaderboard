@@ -1,9 +1,9 @@
 import 'package:aoeiv_leaderboard/config/config.dart';
-import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/cubit/bottom_navigation_bar_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
+import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -113,7 +113,7 @@ class _LandingPageState extends State<LandingPage> {
                 BlocBuilder<LeaderboardDataCubit, LeaderboardDataState>(
                   builder: (context, state) {
                     if (state is LeaderboardDataLoading) {
-                      return _buildLeaderboardLoading();
+                      return const Expanded(child: CenteredCircularProgressIndicator());
                     }
                     if (state is LeaderboardDataLoaded) {
                       final List data = _searchFieldController.text.isEmpty ? state.leaderboardData : state.filteredPlayers;
@@ -128,14 +128,6 @@ class _LandingPageState extends State<LandingPage> {
           ),
         ),
       ],
-    );
-  }
-
-  Expanded _buildLeaderboardLoading() {
-    return Expanded(
-      child: Center(
-        child: CircularProgressIndicator(color: primaryColor),
-      ),
     );
   }
 
