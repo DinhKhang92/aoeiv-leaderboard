@@ -55,5 +55,9 @@
     "@bottomNavigationBarLabel4v4": {
         "description": "bottom navigation bar label 4v4"
     },
-    "bottomNavigationBarLabel4v4": "4v4"
+    "bottomNavigationBarLabel4v4": "4v4",
+    "@pageTitlePlayerDetails": {
+        "description": "page title of player details"
+    },
+    "pageTitlePlayerDetails": "Player Details"
 }
