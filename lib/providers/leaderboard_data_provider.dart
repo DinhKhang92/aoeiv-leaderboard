@@ -2,32 +2,29 @@ import 'dart:convert';
 
 import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart';
 
 class LeaderboardDataProvider {
+  final Client _client = Client();
   final Config _config = Config();
 
   Future<List<Player>> fetchLeaderboardData(int leaderboardId) async {
-    final int totalPlayerCount = await _getTotalPlayerCount("${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId").catchError((error) {
-      throw Exception(error);
-    });
+    final Map initData = await _getDataFromInitRequest(_client, "${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId&start=1&count=${_config.maxCount}");
+    final int totalPlayerCount = initData["totalPlayerCount"];
+    List<Player> playerList = initData["playerList"];
 
-    final List<Player> playerList = [];
-    for (int i = 0; i < (totalPlayerCount / _config.maxCount).ceil(); i++) {
-      final int start = 1 + i * _config.maxCount;
+    for (int index = 1; index < (totalPlayerCount / _config.maxCount).ceil(); index++) {
+      final int start = 1 + index * _config.maxCount;
       final String url = '${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId&start=$start&count=${_config.maxCount}';
-      final response = await http.get(Uri.parse(url));
+      final response = await _client.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
         final Map jsonData = jsonDecode(response.body);
         final List leaderboardData = jsonData['leaderboard'];
 
-        for (Map leaderboard in leaderboardData) {
-          Player player = Player.fromJson(leaderboard);
-          player.setWinRate = (player.totalWins / player.totalGames * 100).round();
-
-          playerList.add(player);
-        }
+        final List<Player> parsedPlayerList = await compute(_parsePlayer, leaderboardData);
+        playerList = [...playerList, ...parsedPlayerList];
       } else {
         throw Exception('Failed to fetch leaderboard data with url: ${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId}');
       }
@@ -36,15 +33,32 @@ class LeaderboardDataProvider {
     return playerList;
   }
 
-  Future<int> _getTotalPlayerCount(String baseUrl) async {
-    final response = await http.get(Uri.parse(baseUrl));
+  Future<Map> _getDataFromInitRequest(Client client, String url) async {
+    final response = await client.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final Map jsonData = jsonDecode(response.body);
       final int totalPlayerCount = jsonData['total'];
+      final List leaderboardData = jsonData['leaderboard'];
 
-      return totalPlayerCount;
+      final List<Player> playerList = await compute(_parsePlayer, leaderboardData);
+
+      return {
+        "totalPlayerCount": totalPlayerCount,
+        "playerList": playerList,
+      };
     }
 
-    throw Exception("Failed to fetch total player count with baseUrl: $baseUrl");
+    throw Exception("Failed to fetch total player count with baseUrl: $url");
+  }
+
+  static List<Player> _parsePlayer(List leaderboardData) {
+    final List<Player> playerList = [];
+    for (Map leaderboard in leaderboardData) {
+      Player player = Player.fromJson(leaderboard);
+      player.setWinRate = (player.totalWins / player.totalGames * 100).round();
+
+      playerList.add(player);
+    }
+    return playerList;
   }
 }
