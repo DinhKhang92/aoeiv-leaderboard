@@ -11,7 +11,7 @@ class TimeSeriesSales {
 }
 
 class TestLineChart extends StatefulWidget {
-  final List ratingHistoryData;
+  final List<Rating> ratingHistoryData;
   const TestLineChart({required this.ratingHistoryData, Key? key}) : super(key: key);
 
   @override
@@ -39,27 +39,32 @@ class _TestLineChartState extends State<TestLineChart> {
   Widget build(BuildContext context) {
     return TimeSeriesChart(
       _createSeriesData(),
-      animate: true,
-      domainAxis: const DateTimeAxisSpec(
+      animate: false,
+      domainAxis: DateTimeAxisSpec(
         renderSpec: GridlineRendererSpec(
-          labelStyle: TextStyleSpec(
+          labelStyle: const TextStyleSpec(
             color: MaterialPalette.white,
           ),
           lineStyle: LineStyleSpec(
-            color: Color(r: 182, g: 182, b: 182),
+            color: ColorUtil.fromDartColor(unselectedColor),
           ),
         ),
       ),
-      primaryMeasureAxis: const NumericAxisSpec(
+      primaryMeasureAxis: NumericAxisSpec(
+        tickProviderSpec: const BasicNumericTickProviderSpec(
+          zeroBound: false,
+          dataIsInWholeNumbers: true,
+        ),
         renderSpec: GridlineRendererSpec(
-          labelStyle: TextStyleSpec(
+          labelStyle: const TextStyleSpec(
             color: MaterialPalette.white,
           ),
           lineStyle: LineStyleSpec(
-            color: Color(r: 182, g: 182, b: 182),
+            color: ColorUtil.fromDartColor(unselectedColor),
           ),
           axisLineStyle: LineStyleSpec(
-            color: Color(r: 182, g: 182, b: 182),
+            thickness: 2,
+            color: ColorUtil.fromDartColor(unselectedColor),
           ),
         ),
       ),
