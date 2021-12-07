@@ -54,6 +54,7 @@ class _TestLineChartState extends State<TestLineChart> {
         tickProviderSpec: const BasicNumericTickProviderSpec(
           zeroBound: false,
           dataIsInWholeNumbers: true,
+          desiredMinTickCount: 3,
         ),
         renderSpec: GridlineRendererSpec(
           labelStyle: const TextStyleSpec(

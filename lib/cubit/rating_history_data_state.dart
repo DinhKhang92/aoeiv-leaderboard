@@ -2,7 +2,7 @@ part of 'rating_history_data_cubit.dart';
 
 @immutable
 abstract class RatingHistoryDataState {
-  final List<Rating> ratingHistoryData;
+  final List ratingHistoryData;
 
   const RatingHistoryDataState({required this.ratingHistoryData});
 }

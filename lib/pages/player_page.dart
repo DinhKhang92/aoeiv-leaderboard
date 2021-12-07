@@ -3,6 +3,7 @@ import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
+import 'package:aoeiv_leaderboard/models/rating.dart';
 import 'package:aoeiv_leaderboard/utils/get_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
@@ -54,11 +55,11 @@ class _PlayerPageState extends State<PlayerPage> {
                     children: _buildRatingHistoryModeSelectors(),
                   ),
                   const SizedBox(height: 30),
-                  Text("Name: ${widget.player.name}"),
-                  Text("MMR: ${widget.player.mmr}"),
-                  Text("Wins: ${widget.player.totalWins}"),
-                  Text("Losses: ${widget.player.totalLosses}"),
-                  Text("Winrate: ${widget.player.winRate} %"),
+                  _buildProfileName(),
+                  _buildProfileMmr(),
+                  _buildProfileWins(),
+                  _buildProfileLosses(),
+                  _buildProfileWinrate(),
                   const SizedBox(height: 30),
                   const Align(
                     alignment: Alignment.center,
@@ -82,6 +83,66 @@ class _PlayerPageState extends State<PlayerPage> {
     );
   }
 
+  Widget _buildProfileName() {
+    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
+      builder: (context, state) {
+        if (state is RatingHistoryDataLoaded) {
+          return Text("Name: ${widget.player.name}");
+        }
+
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildProfileMmr() {
+    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
+      builder: (context, state) {
+        if (state is RatingHistoryDataLoaded) {
+          final String mmr = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.rating}";
+          return Text("MMR: $mmr");
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildProfileWins() {
+    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
+      builder: (context, state) {
+        if (state is RatingHistoryDataLoaded) {
+          final String wins = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.totalWins}";
+          return Text("Wins: $wins");
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildProfileLosses() {
+    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
+      builder: (context, state) {
+        if (state is RatingHistoryDataLoaded) {
+          final String losses = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.totalLosses}";
+          return Text("Losses: $losses");
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildProfileWinrate() {
+    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
+      builder: (context, state) {
+        if (state is RatingHistoryDataLoaded) {
+          final String winRate = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.winRate} %";
+          return Text("Winrate: $winRate");
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
   Widget _buildRatingHistoryLineChart() {
     return Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.width - 50),
@@ -91,7 +152,7 @@ class _PlayerPageState extends State<PlayerPage> {
             return const CenteredCircularProgressIndicator();
           }
           if (state is RatingHistoryDataLoaded) {
-            return TestLineChart(ratingHistoryData: state.ratingHistoryData);
+            return TestLineChart(ratingHistoryData: state.ratingHistoryData as List<Rating>);
           }
           return const SizedBox.shrink();
         },

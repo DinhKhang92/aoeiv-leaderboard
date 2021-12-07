@@ -8,7 +8,7 @@ part 'rating_history_data_state.dart';
 class RatingHistoryDataCubit extends Cubit<RatingHistoryDataState> {
   final RatingHistoryDataRepository _ratingHistoryDataRepository = RatingHistoryDataRepository();
 
-  RatingHistoryDataCubit() : super(RatingHistoryDataInitial(ratingHistoryData: [] as List<Rating>));
+  RatingHistoryDataCubit() : super(const RatingHistoryDataInitial(ratingHistoryData: []));
 
   Future<void> fetchRatingHistoryData(int leaderboardId, int profileId) async {
     try {

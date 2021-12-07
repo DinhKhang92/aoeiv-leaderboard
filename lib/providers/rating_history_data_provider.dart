@@ -18,6 +18,7 @@ class RatingHistoryDataProvider {
 
       for (Map ratingHistory in jsonData) {
         final Rating rating = Rating.fromJSON(ratingHistory);
+        rating.setWinRate = (rating.totalWins / (rating.totalWins + rating.totalLosses) * 100).round();
 
         ratingList.add(rating);
       }
