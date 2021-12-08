@@ -1,5 +1,6 @@
 import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
+import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/cubit/bottom_navigation_bar_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
@@ -40,7 +41,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
@@ -94,9 +95,9 @@ class _LandingPageState extends State<LandingPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildHeader(),
-                const SizedBox(height: 30),
+                SizedBox(height: Spacing.xl.spacing),
                 _buildSearchbar(),
-                const SizedBox(height: 15),
+                SizedBox(height: Spacing.m.spacing),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -106,7 +107,7 @@ class _LandingPageState extends State<LandingPage> {
                     Text(AppLocalizations.of(context)!.leaderboardLabelWinRate, textAlign: TextAlign.end, style: Theme.of(context).textTheme.bodyText1),
                   ],
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: Spacing.m.spacing),
                 BlocBuilder<LeaderboardDataCubit, LeaderboardDataState>(
                   builder: (context, state) {
                     if (state is LeaderboardDataLoading) {
@@ -132,7 +133,7 @@ class _LandingPageState extends State<LandingPage> {
     return Expanded(
       child: ListView.separated(
         padding: const EdgeInsets.only(top: 15),
-        separatorBuilder: (context, index) => const SizedBox(height: 30),
+        separatorBuilder: (context, index) => SizedBox(height: Spacing.xl.spacing),
         itemCount: leaderboardData.length,
         itemBuilder: (context, index) {
           final Player player = leaderboardData[index];
@@ -180,23 +181,17 @@ class _LandingPageState extends State<LandingPage> {
 
   Widget _buildSearchbar() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: kcSearchbarColor,
-        borderRadius: const BorderRadius.all(
+        borderRadius: BorderRadius.all(
           Radius.circular(5),
         ),
       ),
       child: TextField(
-        style: const TextStyle(fontSize: 14),
         controller: _searchFieldController,
         textAlignVertical: TextAlignVertical.center,
-        cursorColor: kcTertiaryColor,
         decoration: InputDecoration(
           hintText: AppLocalizations.of(context)!.searchbarHintText,
-          hintStyle: TextStyle(fontSize: 12, color: kcHintColor),
-          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
-          isDense: true,
-          border: InputBorder.none,
           suffixIcon: IconButton(
             icon: const Icon(Icons.clear),
             color: kcTertiaryColor,

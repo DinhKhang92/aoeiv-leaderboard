@@ -1,4 +1,4 @@
-import 'package:aoeiv_leaderboard/config/styles/colors.dart';
+import 'package:aoeiv_leaderboard/config/styles/theme.dart';
 import 'package:aoeiv_leaderboard/cubit/bottom_navigation_bar_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
@@ -27,48 +27,14 @@ class MyApp extends StatelessWidget {
         BlocProvider<RatingHistoryModeSelectorCubit>(create: (_) => _ratingHistoryModeSelectorCubit),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'AoE4-Leaderboard',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          textTheme: TextTheme(
-            headline1: TextStyle(
-              color: kcPrimaryColor,
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-            ),
-            bodyText1: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-            bodyText2: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-            ),
-          ),
-          iconTheme: IconThemeData(
-            color: kcPrimaryColor,
-          ),
-          dataTableTheme: const DataTableThemeData(
-            columnSpacing: 15,
-            horizontalMargin: 0,
-            dividerThickness: 0,
-            headingTextStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-            dataTextStyle: TextStyle(color: Colors.white),
-          ),
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            elevation: 0,
-            showUnselectedLabels: true,
-            selectedItemColor: kcPrimaryColor,
-            unselectedItemColor: kcUnselectedColor,
-            backgroundColor: Colors.transparent,
-            type: BottomNavigationBarType.fixed,
-          ),
+          textSelectionTheme: ktTextSelectionTheme,
+          inputDecorationTheme: ktInputDecorationTheme,
+          textTheme: ktTextTheme,
+          iconTheme: ktIconThemeData,
+          bottomNavigationBarTheme: ktBottomNavigationBarTheme,
         ),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,

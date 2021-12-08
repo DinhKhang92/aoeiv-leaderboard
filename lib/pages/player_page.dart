@@ -1,5 +1,6 @@
 import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
+import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
@@ -49,31 +50,27 @@ class _PlayerPageState extends State<PlayerPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Header(headerTitle: AppLocalizations.of(context)!.pageTitlePlayerDetails),
-                  const SizedBox(height: 30),
+                  SizedBox(height: Spacing.xl.spacing),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: _buildRatingHistoryModeSelectors(),
                   ),
-                  const SizedBox(height: 30),
+                  SizedBox(height: Spacing.xl.spacing),
                   _buildProfileName(),
                   _buildProfileMmr(),
                   _buildProfileWins(),
                   _buildProfileLosses(),
                   _buildProfileWinrate(),
-                  const SizedBox(height: 30),
+                  SizedBox(height: Spacing.xl.spacing),
                   Align(
                     alignment: Alignment.center,
                     child: Text(
                       "- MMR History -",
-                      style: TextStyle(
-                        color: kcUnselectedColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                      ),
+                      style: Theme.of(context).textTheme.headline2,
                     ),
                   ),
                   _buildRatingHistoryLineChart(),
-                  const SizedBox(height: 15),
+                  SizedBox(height: Spacing.m.spacing),
                 ],
               ),
             ),
