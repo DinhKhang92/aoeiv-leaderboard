@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 const TextSelectionThemeData ktTextSelectionTheme = TextSelectionThemeData(
   cursorColor: kcTertiaryColor,
-  selectionColor: kcTertiaryColor,
 );
 
 const InputDecorationTheme ktInputDecorationTheme = InputDecorationTheme(

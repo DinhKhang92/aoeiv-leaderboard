@@ -132,7 +132,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget _buildLeaderboard(List leaderboardData) {
     return Expanded(
       child: ListView.separated(
-        padding: const EdgeInsets.only(top: 15),
+        padding: EdgeInsets.only(top: Spacing.m.spacing),
         separatorBuilder: (context, index) => SizedBox(height: Spacing.xl.spacing),
         itemCount: leaderboardData.length,
         itemBuilder: (context, index) {
@@ -146,7 +146,7 @@ class _LandingPageState extends State<LandingPage> {
                 Container(constraints: const BoxConstraints(minWidth: 50), child: Text("${player.mmr}")),
                 Expanded(child: Text(player.name)),
                 Container(
-                  constraints: const BoxConstraints(minWidth: 30),
+                  constraints: BoxConstraints(minWidth: Spacing.xl.spacing),
                   child: Text("${player.winRate} %", textAlign: TextAlign.end),
                 ),
               ],

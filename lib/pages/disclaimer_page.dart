@@ -1,4 +1,5 @@
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
+import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/header.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class DisclaimerPage extends StatelessWidget {
           ),
           Center(
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 15),
+              margin: EdgeInsets.symmetric(horizontal: Spacing.m.spacing),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
