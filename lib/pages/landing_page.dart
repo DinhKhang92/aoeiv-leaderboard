@@ -97,7 +97,7 @@ class _LandingPageState extends State<LandingPage> {
                 _buildHeader(),
                 SizedBox(height: Spacing.xl.spacing),
                 _buildSearchbar(),
-                SizedBox(height: Spacing.m.spacing),
+                SizedBox(height: Spacing.l.spacing),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
