@@ -61,12 +61,12 @@ class _PlayerPageState extends State<PlayerPage> {
                   _buildProfileLosses(),
                   _buildProfileWinrate(),
                   const SizedBox(height: 30),
-                  const Align(
+                  Align(
                     alignment: Alignment.center,
                     child: Text(
                       "- MMR History -",
                       style: TextStyle(
-                        color: Color(0xffB6B6B6),
+                        color: kcUnselectedColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
                       ),
@@ -185,8 +185,8 @@ class _PlayerPageState extends State<PlayerPage> {
                   },
                   child: RatingHistoryModeSelector(
                     label: label,
-                    labelColor: secondaryColor,
-                    backgroundColor: state.index == index ? primaryColor : const Color(0xffB6B6B6),
+                    labelColor: kcSecondaryColor,
+                    backgroundColor: state.index == index ? kcPrimaryColor : kcUnselectedColor,
                   ),
                 );
               },

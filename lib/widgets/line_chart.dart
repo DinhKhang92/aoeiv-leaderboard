@@ -27,7 +27,7 @@ class _TestLineChartState extends State<TestLineChart> {
 
     final series = Series<TimeSeriesSales, DateTime>(
       id: 'Sales',
-      colorFn: (_, __) => ColorUtil.fromDartColor(primaryColor),
+      colorFn: (_, __) => ColorUtil.fromDartColor(kcPrimaryColor),
       domainFn: (TimeSeriesSales sales, _) => sales.time,
       measureFn: (TimeSeriesSales sales, _) => sales.rating,
       data: dataList,
@@ -46,7 +46,7 @@ class _TestLineChartState extends State<TestLineChart> {
             color: MaterialPalette.white,
           ),
           lineStyle: LineStyleSpec(
-            color: ColorUtil.fromDartColor(unselectedColor),
+            color: ColorUtil.fromDartColor(kcUnselectedColor),
           ),
         ),
       ),
@@ -61,11 +61,11 @@ class _TestLineChartState extends State<TestLineChart> {
             color: MaterialPalette.white,
           ),
           lineStyle: LineStyleSpec(
-            color: ColorUtil.fromDartColor(unselectedColor),
+            color: ColorUtil.fromDartColor(kcUnselectedColor),
           ),
           axisLineStyle: LineStyleSpec(
             thickness: 2,
-            color: ColorUtil.fromDartColor(unselectedColor),
+            color: ColorUtil.fromDartColor(kcUnselectedColor),
           ),
         ),
       ),

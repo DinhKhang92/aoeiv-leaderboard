@@ -1,4 +1,5 @@
 import 'package:aoeiv_leaderboard/config/config.dart';
+import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/cubit/bottom_navigation_bar_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
@@ -39,13 +40,13 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Color(0xff151925),
-              Color(0xff151925),
+              kcSecondaryColor,
+              kcSecondaryColor,
             ],
           ),
         ),
@@ -179,9 +180,9 @@ class _LandingPageState extends State<LandingPage> {
 
   Widget _buildSearchbar() {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xffECECEC),
-        borderRadius: BorderRadius.all(
+      decoration: BoxDecoration(
+        color: kcSearchbarColor,
+        borderRadius: const BorderRadius.all(
           Radius.circular(5),
         ),
       ),
@@ -189,16 +190,16 @@ class _LandingPageState extends State<LandingPage> {
         style: const TextStyle(fontSize: 14),
         controller: _searchFieldController,
         textAlignVertical: TextAlignVertical.center,
-        cursorColor: const Color(0xff2C3B4D),
+        cursorColor: kcTertiaryColor,
         decoration: InputDecoration(
           hintText: AppLocalizations.of(context)!.searchbarHintText,
-          hintStyle: const TextStyle(fontSize: 12, color: Color(0xff4E4E4E)),
+          hintStyle: TextStyle(fontSize: 12, color: kcHintColor),
           contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
           isDense: true,
           border: InputBorder.none,
           suffixIcon: IconButton(
             icon: const Icon(Icons.clear),
-            color: const Color(0xff2C3B4D),
+            color: kcTertiaryColor,
             onPressed: () {
               _searchFieldController.clear();
               BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(_searchFieldController.text);

@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           textTheme: TextTheme(
             headline1: TextStyle(
-              color: primaryColor,
+              color: kcPrimaryColor,
               fontSize: 20,
               fontWeight: FontWeight.w400,
             ),
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           iconTheme: IconThemeData(
-            color: primaryColor,
+            color: kcPrimaryColor,
           ),
           dataTableTheme: const DataTableThemeData(
             columnSpacing: 15,
@@ -64,8 +64,8 @@ class MyApp extends StatelessWidget {
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
             elevation: 0,
             showUnselectedLabels: true,
-            selectedItemColor: primaryColor,
-            unselectedItemColor: const Color(0xffB6B6B6),
+            selectedItemColor: kcPrimaryColor,
+            unselectedItemColor: kcUnselectedColor,
             backgroundColor: Colors.transparent,
             type: BottomNavigationBarType.fixed,
           ),

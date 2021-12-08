@@ -1,3 +1,4 @@
+import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:flutter/material.dart';
 
 class Background extends StatelessWidget {
@@ -6,13 +7,13 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color(0xff2C3B4D),
-            Color(0xff151925),
+            kcTertiaryColor,
+            kcSecondaryColor,
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/header.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class DisclaimerPage extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xffFFDB88)),
+                border: Border.all(color: kcPrimaryColor),
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Center(
