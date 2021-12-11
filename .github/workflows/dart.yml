@@ -31,8 +31,8 @@ jobs:
         git-name: 'DinhKhang92'
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: install dependencies
-      working-directory: '/'
+      working-directory: scripts
       run: flutter pub get
     - name: run tests
-      working-directory: '/'
+      working-directory: scripts
       run: flutter test
