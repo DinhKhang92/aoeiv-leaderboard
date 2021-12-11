@@ -12,6 +12,10 @@ on:
     branches: [ master ]
 
 jobs:
+  defaults:
+    run:
+      working-directory: ./aoeiv-leaderboard
+
   build:
     runs-on: macos-latest
 
@@ -31,5 +35,4 @@ jobs:
         git-name: 'DinhKhang92'
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: install dependencies
-      working-directory: ./
       run: flutter pub get
