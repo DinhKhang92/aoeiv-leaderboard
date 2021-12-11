@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/cubit/bottom_navigation_bar_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
+import 'package:aoeiv_leaderboard/utils/debouncer.dart';
 import 'package:aoeiv_leaderboard/utils/get_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/get_mode.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
@@ -21,6 +24,7 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   final TextEditingController _searchFieldController = TextEditingController();
+  final Debouncer _debouncer = Debouncer(milliseconds: 800);
 
   @override
   void initState() {
@@ -206,7 +210,11 @@ class _LandingPageState extends State<LandingPage> {
                 },
               ),
             ),
-            onChanged: (playerName) => BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, playerName.toLowerCase()),
+            onChanged: (playerName) {
+              _debouncer.run(() {
+                BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, playerName.toLowerCase());
+              });
+            },
           );
         },
       ),
