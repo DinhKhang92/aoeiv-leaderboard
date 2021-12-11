@@ -7,20 +7,20 @@ part 'leaderboard_data_state.dart';
 
 class LeaderboardDataCubit extends Cubit<LeaderboardDataState> {
   final LeaderboardDataRepository _leaderboardDataRepository = LeaderboardDataRepository();
-  LeaderboardDataCubit() : super(const LeaderboardDataInitial(leaderboardData: [], filteredPlayers: []));
+  LeaderboardDataCubit() : super(const LeaderboardDataInitial(leaderboardData: [], searchedPlayers: []));
 
   Future<void> fetchLeaderboardData(int leaderboardId) async {
     try {
-      emit(LeaderboardDataLoading(leaderboardData: state.leaderboardData, filteredPlayers: state.filteredPlayers));
+      emit(LeaderboardDataLoading(leaderboardData: state.leaderboardData, searchedPlayers: state.searchedPlayers));
       final List<Player> leaderboardData = await _leaderboardDataRepository.fetchLeaderboardData(leaderboardId);
-      emit(LeaderboardDataLoaded(leaderboardData: leaderboardData, filteredPlayers: state.filteredPlayers));
+      emit(LeaderboardDataLoaded(leaderboardData: leaderboardData, searchedPlayers: state.searchedPlayers));
     } catch (e) {
       emit(LeaderboardDataError());
     }
   }
 
-  void searchPlayer(String playerName) {
-    final Iterable<dynamic> foundPlayers = state.leaderboardData.where((dynamic player) => player.name.toLowerCase().contains(playerName));
-    emit(LeaderboardDataLoaded(leaderboardData: state.leaderboardData, filteredPlayers: foundPlayers.toList()));
+  void searchPlayer(int leaderboardId, String playerName) async {
+    final List<Player> searchedPlayers = await _leaderboardDataRepository.searchPlayer(leaderboardId, playerName);
+    emit(LeaderboardDataLoaded(leaderboardData: state.leaderboardData, searchedPlayers: searchedPlayers));
   }
 }

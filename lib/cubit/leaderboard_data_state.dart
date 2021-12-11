@@ -3,23 +3,23 @@ part of 'leaderboard_data_cubit.dart';
 @immutable
 abstract class LeaderboardDataState {
   final List leaderboardData;
-  final List filteredPlayers;
+  final List searchedPlayers;
 
-  const LeaderboardDataState({required this.leaderboardData, required this.filteredPlayers});
+  const LeaderboardDataState({required this.leaderboardData, required this.searchedPlayers});
 }
 
 class LeaderboardDataInitial extends LeaderboardDataState {
-  const LeaderboardDataInitial({leaderboardData, filteredPlayers}) : super(leaderboardData: leaderboardData, filteredPlayers: filteredPlayers);
+  const LeaderboardDataInitial({leaderboardData, searchedPlayers}) : super(leaderboardData: leaderboardData, searchedPlayers: searchedPlayers);
 }
 
 class LeaderboardDataLoading extends LeaderboardDataState {
-  const LeaderboardDataLoading({leaderboardData, filteredPlayers}) : super(leaderboardData: leaderboardData, filteredPlayers: filteredPlayers);
+  const LeaderboardDataLoading({leaderboardData, searchedPlayers}) : super(leaderboardData: leaderboardData, searchedPlayers: searchedPlayers);
 }
 
 class LeaderboardDataLoaded extends LeaderboardDataState {
-  const LeaderboardDataLoaded({leaderboardData, filteredPlayers}) : super(leaderboardData: leaderboardData, filteredPlayers: filteredPlayers);
+  const LeaderboardDataLoaded({leaderboardData, searchedPlayers}) : super(leaderboardData: leaderboardData, searchedPlayers: searchedPlayers);
 }
 
 class LeaderboardDataError extends LeaderboardDataState {
-  LeaderboardDataError() : super(leaderboardData: [], filteredPlayers: []);
+  LeaderboardDataError() : super(leaderboardData: [], searchedPlayers: []);
 }

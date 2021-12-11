@@ -114,7 +114,7 @@ class _LandingPageState extends State<LandingPage> {
                       return const Expanded(child: CenteredCircularProgressIndicator());
                     }
                     if (state is LeaderboardDataLoaded) {
-                      final List data = _searchFieldController.text.isEmpty ? state.leaderboardData : state.filteredPlayers;
+                      final List data = _searchFieldController.text.isEmpty ? state.leaderboardData : state.searchedPlayers;
 
                       return _buildLeaderboard(data);
                     }
@@ -132,7 +132,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget _buildLeaderboard(List leaderboardData) {
     return Expanded(
       child: ListView.separated(
-        padding: EdgeInsets.only(top: Spacing.m.spacing),
+        padding: EdgeInsets.symmetric(vertical: Spacing.m.spacing),
         separatorBuilder: (context, index) => SizedBox(height: Spacing.xl.spacing),
         itemCount: leaderboardData.length,
         itemBuilder: (context, index) {
@@ -187,21 +187,27 @@ class _LandingPageState extends State<LandingPage> {
           Radius.circular(5),
         ),
       ),
-      child: TextField(
-        controller: _searchFieldController,
-        textAlignVertical: TextAlignVertical.center,
-        decoration: InputDecoration(
-          hintText: AppLocalizations.of(context)!.searchbarHintText,
-          suffixIcon: IconButton(
-            icon: const Icon(Icons.clear),
-            color: kcTertiaryColor,
-            onPressed: () {
-              _searchFieldController.clear();
-              BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(_searchFieldController.text);
-            },
-          ),
-        ),
-        onChanged: (playerName) => BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(playerName.toLowerCase()),
+      child: BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
+        builder: (context, state) {
+          final int leaderboardId = getLeaderboardId(state.index);
+
+          return TextField(
+            controller: _searchFieldController,
+            textAlignVertical: TextAlignVertical.center,
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context)!.searchbarHintText,
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.clear),
+                color: kcTertiaryColor,
+                onPressed: () {
+                  _searchFieldController.clear();
+                  BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, _searchFieldController.text);
+                },
+              ),
+            ),
+            onChanged: (playerName) => BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, playerName.toLowerCase()),
+          );
+        },
       ),
     );
   }
