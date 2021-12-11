@@ -30,9 +30,6 @@ jobs:
         git-email: 'dinh.khang92@hotmail.de'
         git-name: 'DinhKhang92'
         token: ${{ secrets.GITHUB_TOKEN }}
-    - name: install dependencies
-      working-directory: scripts
-      run: flutter pub get
     - name: run tests
-      working-directory: scripts
+      working-directory: ../
       run: flutter test
