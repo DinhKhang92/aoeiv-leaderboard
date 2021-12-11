@@ -31,5 +31,5 @@ jobs:
         git-name: 'DinhKhang92'
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: install dependencies
-      working-directory: ./aoeiv_leaderboard
+      working-directory: ./aoeiv-leaderboard
       run: flutter pub get
