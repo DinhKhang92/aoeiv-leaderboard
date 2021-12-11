@@ -12,10 +12,6 @@ on:
     branches: [ master ]
 
 jobs:
-  defaults:
-    run:
-      working-directory: ./aoeiv-leaderboard
-
   build:
     runs-on: macos-latest
 
