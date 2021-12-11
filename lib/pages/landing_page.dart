@@ -5,6 +5,7 @@ import 'package:aoeiv_leaderboard/cubit/bottom_navigation_bar_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/utils/get_leaderboard_id.dart';
+import 'package:aoeiv_leaderboard/utils/get_mode.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +91,7 @@ class _LandingPageState extends State<LandingPage> {
         SafeArea(
           bottom: false,
           child: Container(
-            padding: const EdgeInsets.all(15),
+            padding: EdgeInsets.all(Spacing.m.spacing),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -163,7 +164,7 @@ class _LandingPageState extends State<LandingPage> {
       children: [
         BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
           builder: (context, state) {
-            final String mode = _getMode(state.index);
+            final String mode = getMode(context, state.index);
 
             return Text(
               AppLocalizations.of(context)!.appTitle(mode),
@@ -210,20 +211,5 @@ class _LandingPageState extends State<LandingPage> {
         },
       ),
     );
-  }
-
-  String _getMode(int bottomNavbarIndex) {
-    switch (bottomNavbarIndex) {
-      case 0:
-        return AppLocalizations.of(context)!.bottomNavigationBarLabel1v1;
-      case 1:
-        return AppLocalizations.of(context)!.bottomNavigationBarLabel2v2;
-      case 2:
-        return AppLocalizations.of(context)!.bottomNavigationBarLabel3v3;
-      case 3:
-        return AppLocalizations.of(context)!.bottomNavigationBarLabel4v4;
-      default:
-        return AppLocalizations.of(context)!.bottomNavigationBarLabel1v1;
-    }
   }
 }

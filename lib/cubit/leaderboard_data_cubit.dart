@@ -20,6 +20,7 @@ class LeaderboardDataCubit extends Cubit<LeaderboardDataState> {
   }
 
   void searchPlayer(int leaderboardId, String playerName) async {
+    emit(LeaderboardDataLoading(leaderboardData: state.leaderboardData, searchedPlayers: state.searchedPlayers));
     final List<Player> searchedPlayers = await _leaderboardDataRepository.searchPlayer(leaderboardId, playerName);
     emit(LeaderboardDataLoaded(leaderboardData: state.leaderboardData, searchedPlayers: searchedPlayers));
   }
