@@ -24,6 +24,7 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: 'stable'
+    - run: flutter pub get
     - name: run flutter renovate bot
       uses: DinhKhang92/flutter_renovate_bot@v1.0.1
       with:
@@ -31,4 +32,3 @@ jobs:
         git-email: 'dinh.khang92@hotmail.de'
         git-name: 'DinhKhang92'
         token: ${{ secrets.GITHUB_TOKEN }}
-    - run: flutter pub get
