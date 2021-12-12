@@ -10,12 +10,12 @@ void main() {
       _bottomNavigationBarCubit = BottomNavigationBarCubit();
     });
 
-    test('initial index is set to 0', () {
+    test('emits index 0 after initializing', () {
       expect(_bottomNavigationBarCubit.state, 0);
     });
 
     blocTest<BottomNavigationBarCubit, int>(
-      'emits BottomNavigationBarState with index of 2 when setting it',
+      'emits index of 2 after setting it',
       build: () => _bottomNavigationBarCubit,
       act: (cubit) => cubit.setIndex(2),
       expect: () => [2],
