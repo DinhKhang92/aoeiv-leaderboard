@@ -36,13 +36,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'AoE4-Leaderboard',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          textSelectionTheme: ktTextSelectionTheme,
-          inputDecorationTheme: ktInputDecorationTheme,
-          textTheme: ktTextTheme,
-          iconTheme: ktIconThemeData,
-          bottomNavigationBarTheme: ktBottomNavigationBarTheme,
-        ),
+        theme: ktTheme,
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
         supportedLocales: const [

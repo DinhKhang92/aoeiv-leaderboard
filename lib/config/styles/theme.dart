@@ -1,6 +1,14 @@
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:flutter/material.dart';
 
+final ThemeData ktTheme = ThemeData(
+  textSelectionTheme: ktTextSelectionTheme,
+  inputDecorationTheme: ktInputDecorationTheme,
+  textTheme: ktTextTheme,
+  iconTheme: ktIconThemeData,
+  bottomNavigationBarTheme: ktBottomNavigationBarTheme,
+);
+
 const TextSelectionThemeData ktTextSelectionTheme = TextSelectionThemeData(
   cursorColor: kcTertiaryColor,
 );

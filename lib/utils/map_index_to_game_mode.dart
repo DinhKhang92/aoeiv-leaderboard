@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-String getMode(BuildContext context, int index) {
+String mapIndexToGameMode(BuildContext context, int index) {
   switch (index) {
     case 0:
       return AppLocalizations.of(context)!.bottomNavigationBarLabel1v1;

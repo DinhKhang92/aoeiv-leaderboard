@@ -7,8 +7,8 @@ import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/utils/debouncer.dart';
-import 'package:aoeiv_leaderboard/utils/get_leaderboard_id.dart';
-import 'package:aoeiv_leaderboard/utils/get_mode.dart';
+import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
+import 'package:aoeiv_leaderboard/utils/map_index_to_game_mode.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   final TextEditingController _searchFieldController = TextEditingController();
-  final Debouncer _debouncer = Debouncer(milliseconds: 800);
+  final Debouncer _debouncer = Debouncer(milliseconds: 600);
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _LandingPageState extends State<LandingPage> {
             return BottomNavigationBar(
               onTap: (index) {
                 if (index != state.leaderboardGameMode) {
-                  _handleBottomNavbarOnTap(context, index);
+                  _handleBottomNavbarOnTap(index);
                 }
               },
               currentIndex: state.leaderboardGameMode,
@@ -79,12 +79,12 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  void _handleBottomNavbarOnTap(BuildContext context, int index) {
+  void _handleBottomNavbarOnTap(int index) {
     _searchFieldController.clear();
 
     BlocProvider.of<GameModeSelectorCubit>(context).setLeaderboardGameMode(index);
 
-    final int leaderboardId = getLeaderboardId(index);
+    final int leaderboardId = mapIndexToLeaderboardId(index);
     BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(leaderboardId);
   }
 
@@ -169,7 +169,7 @@ class _LandingPageState extends State<LandingPage> {
       children: [
         BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
           builder: (context, state) {
-            final String mode = getMode(context, state.leaderboardGameMode);
+            final String mode = mapIndexToGameMode(context, state.leaderboardGameMode);
 
             return Text(
               AppLocalizations.of(context)!.appTitle(mode),
@@ -195,7 +195,7 @@ class _LandingPageState extends State<LandingPage> {
       ),
       child: BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
         builder: (context, state) {
-          final int leaderboardId = getLeaderboardId(state.leaderboardGameMode);
+          final int leaderboardId = mapIndexToLeaderboardId(state.leaderboardGameMode);
 
           return TextField(
             controller: _searchFieldController,

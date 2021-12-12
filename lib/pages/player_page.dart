@@ -5,7 +5,7 @@ import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
-import 'package:aoeiv_leaderboard/utils/get_leaderboard_id.dart';
+import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
 import 'package:aoeiv_leaderboard/widgets/header.dart';
@@ -164,7 +164,7 @@ class _PlayerPageState extends State<PlayerPage> {
                     if (state.ratingHistoryGameMode != index) {
                       BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(index);
 
-                      final int leaderboardId = getLeaderboardId(index);
+                      final int leaderboardId = mapIndexToLeaderboardId(index);
                       BlocProvider.of<RatingHistoryDataCubit>(context).fetchRatingHistoryData(leaderboardId, widget.player.profileId);
                     }
                   },
