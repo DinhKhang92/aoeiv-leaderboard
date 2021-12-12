@@ -137,7 +137,7 @@ class _PlayerPageState extends State<PlayerPage> {
             return const CenteredCircularProgressIndicator();
           }
           if (state is RatingHistoryDataLoaded) {
-            return TestLineChart(ratingHistoryData: state.ratingHistoryData);
+            return RatingLineChart(ratingHistoryData: state.ratingHistoryData);
           }
           return const SizedBox.shrink();
         },
