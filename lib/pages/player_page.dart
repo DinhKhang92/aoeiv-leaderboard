@@ -2,6 +2,7 @@ import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
+import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/utils/get_leaderboard_id.dart';
@@ -27,6 +28,7 @@ class _PlayerPageState extends State<PlayerPage> {
   @override
   void initState() {
     BlocProvider.of<GameModeSelectorCubit>(context).clearRatingHistoryGameMode();
+    BlocProvider.of<MatchHistoryDataCubit>(context).fetchMatchHistoryData(widget.player.profileId);
 
     _fetchRatingHistoryData();
     super.initState();
@@ -44,18 +46,17 @@ class _PlayerPageState extends State<PlayerPage> {
           const Background(),
           SafeArea(
             child: Container(
-              padding: const EdgeInsets.all(15),
+              padding: EdgeInsets.all(Spacing.m.spacing),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Header(headerTitle: AppLocalizations.of(context)!.pageTitlePlayerDetails),
+                  Header(headerTitle: widget.player.name),
                   SizedBox(height: Spacing.xl.spacing),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: _buildRatingHistoryModeSelectors(),
                   ),
                   SizedBox(height: Spacing.xl.spacing),
-                  _buildProfileName(),
                   _buildProfileMmr(),
                   _buildProfileWins(),
                   _buildProfileLosses(),
@@ -76,18 +77,6 @@ class _PlayerPageState extends State<PlayerPage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildProfileName() {
-    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
-      builder: (context, state) {
-        if (state is RatingHistoryDataLoaded) {
-          return Text("Name: ${widget.player.name}");
-        }
-
-        return const SizedBox.shrink();
-      },
     );
   }
 

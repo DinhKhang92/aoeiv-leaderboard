@@ -3,11 +3,11 @@ import 'package:aoeiv_leaderboard/models/rating.dart';
 import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 
-class TimeSeriesSales {
+class TimeSeriesRating {
   final DateTime time;
   final int rating;
 
-  TimeSeriesSales(this.time, this.rating);
+  TimeSeriesRating(this.time, this.rating);
 }
 
 class TestLineChart extends StatefulWidget {
@@ -19,17 +19,17 @@ class TestLineChart extends StatefulWidget {
 }
 
 class _TestLineChartState extends State<TestLineChart> {
-  List<Series<TimeSeriesSales, DateTime>> _createSeriesData() {
-    final List<TimeSeriesSales> dataList = widget.ratingHistoryData.map((data) {
+  List<Series<TimeSeriesRating, DateTime>> _createSeriesData() {
+    final List<TimeSeriesRating> dataList = widget.ratingHistoryData.map((data) {
       final Rating rating = data;
-      return TimeSeriesSales(DateTime.fromMillisecondsSinceEpoch(rating.timestamp * 1000), rating.rating);
+      return TimeSeriesRating(DateTime.fromMillisecondsSinceEpoch(rating.timestamp * 1000), rating.rating);
     }).toList();
 
-    final series = Series<TimeSeriesSales, DateTime>(
-      id: 'Sales',
+    final series = Series<TimeSeriesRating, DateTime>(
+      id: 'Rating',
       colorFn: (_, __) => ColorUtil.fromDartColor(kcPrimaryColor),
-      domainFn: (TimeSeriesSales sales, _) => sales.time,
-      measureFn: (TimeSeriesSales sales, _) => sales.rating,
+      domainFn: (TimeSeriesRating rating, _) => rating.time,
+      measureFn: (TimeSeriesRating rating, _) => rating.rating,
       data: dataList,
     );
     return [series];

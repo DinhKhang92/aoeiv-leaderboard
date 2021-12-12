@@ -1,8 +1,10 @@
 import 'package:aoeiv_leaderboard/config/styles/theme.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
+import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/repositories/leaderboard_data_repository.dart';
+import 'package:aoeiv_leaderboard/repositories/match_history_data_repository.dart';
 import 'package:aoeiv_leaderboard/repositories/rating_history_data_repository.dart';
 import 'package:aoeiv_leaderboard/routes/route_generator.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +17,11 @@ class MyApp extends StatelessWidget {
 
   final LeaderboardDataRepository _leaderboardDataRepository = LeaderboardDataRepository();
   final RatingHistoryDataRepository _ratingHistoryDataRepository = RatingHistoryDataRepository();
+  final MatchHistoryDataRepository _matchHistoryDataRepository = MatchHistoryDataRepository();
 
   late final LeaderboardDataCubit _leaderboardDataCubit = LeaderboardDataCubit(leaderboardDataRepository: _leaderboardDataRepository);
   late final RatingHistoryDataCubit _ratingHistoryDataCubit = RatingHistoryDataCubit(ratingHistoryDataRepository: _ratingHistoryDataRepository);
+  late final MatchHistoryDataCubit _matchHistoryDataCubit = MatchHistoryDataCubit(matchHistoryDataRepository: _matchHistoryDataRepository);
   final GameModeSelectorCubit _gameModeSelectorCubit = GameModeSelectorCubit();
 
   @override
@@ -27,6 +31,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<LeaderboardDataCubit>(create: (_) => _leaderboardDataCubit),
         BlocProvider<RatingHistoryDataCubit>(create: (_) => _ratingHistoryDataCubit),
         BlocProvider<GameModeSelectorCubit>(create: (_) => _gameModeSelectorCubit),
+        BlocProvider<MatchHistoryDataCubit>(create: (_) => _matchHistoryDataCubit),
       ],
       child: MaterialApp(
         title: 'AoE4-Leaderboard',

@@ -19,4 +19,5 @@ class Config {
   final int maxCount = 1000;
   final String leaderboardBaseUrl = "https://aoeiv.net/api/leaderboard?game=aoe4";
   final String ratingHistoryBaseUrl = "https://aoeiv.net/api/player/ratinghistory?game=aoe4";
+  final String matchHistoryBaseUrl = "https://aoeiv.net/api/player/matches?game=aoe4";
 }

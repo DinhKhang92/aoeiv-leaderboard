@@ -152,6 +152,7 @@ class _LandingPageState extends State<LandingPage> {
                 Expanded(child: Text(player.name)),
                 Container(
                   constraints: BoxConstraints(minWidth: Spacing.xl.spacing),
+                  margin: EdgeInsets.only(left: Spacing.m.spacing),
                   child: Text("${player.winRate} %", textAlign: TextAlign.end),
                 ),
               ],
