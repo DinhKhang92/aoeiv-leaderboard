@@ -1,4 +1,4 @@
-enum Spacing { xxs, xs, s, m, l, xl }
+enum Spacing { xxs, xs, s, m, l, xl, xxl, xxxl }
 
 extension SpacingExtension on Spacing {
   double get spacing {
@@ -15,6 +15,10 @@ extension SpacingExtension on Spacing {
         return 20.0;
       case Spacing.xl:
         return 30.0;
+      case Spacing.xxl:
+        return 50.0;
+      case Spacing.xxxl:
+        return 60.0;
     }
   }
 }

@@ -4,11 +4,11 @@ import 'package:equatable/equatable.dart';
 part 'game_mode_selector_state.dart';
 
 class GameModeSelectorCubit extends Cubit<GameModeSelectorState> {
-  GameModeSelectorCubit() : super(const GameModeSelectorState(leaderboardGameMode: 0, ratingHistoryGameMode: 0));
+  GameModeSelectorCubit() : super(const GameModeSelectorState(leaderboardGameModeIndex: 0, ratingHistoryGameModeIndex: 0));
 
-  void setLeaderboardGameMode(int index) => emit(GameModeSelectorState(leaderboardGameMode: index, ratingHistoryGameMode: state.ratingHistoryGameMode));
+  void setLeaderboardGameMode(int index) => emit(GameModeSelectorState(leaderboardGameModeIndex: index, ratingHistoryGameModeIndex: state.ratingHistoryGameModeIndex));
 
-  void setRatingHistoryGameMode(int index) => emit(GameModeSelectorState(leaderboardGameMode: state.leaderboardGameMode, ratingHistoryGameMode: index));
+  void setRatingHistoryGameMode(int index) => emit(GameModeSelectorState(leaderboardGameModeIndex: state.leaderboardGameModeIndex, ratingHistoryGameModeIndex: index));
 
-  void clearRatingHistoryGameMode() => emit(GameModeSelectorState(leaderboardGameMode: state.leaderboardGameMode, ratingHistoryGameMode: 0));
+  void clearRatingHistoryGameMode() => emit(GameModeSelectorState(leaderboardGameModeIndex: state.leaderboardGameModeIndex, ratingHistoryGameModeIndex: 0));
 }

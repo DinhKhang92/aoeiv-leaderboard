@@ -161,7 +161,7 @@ class _PlayerPageState extends State<PlayerPage> {
               builder: (context, state) {
                 return InkWell(
                   onTap: () {
-                    if (state.ratingHistoryGameMode != index) {
+                    if (state.ratingHistoryGameModeIndex != index) {
                       BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(index);
 
                       final int leaderboardId = mapIndexToLeaderboardId(index);
@@ -171,7 +171,7 @@ class _PlayerPageState extends State<PlayerPage> {
                   child: RatingHistoryModeSelector(
                     label: label,
                     labelColor: kcSecondaryColor,
-                    backgroundColor: state.ratingHistoryGameMode == index ? kcPrimaryColor : kcUnselectedColor,
+                    backgroundColor: state.ratingHistoryGameModeIndex == index ? kcPrimaryColor : kcUnselectedColor,
                   ),
                 );
               },

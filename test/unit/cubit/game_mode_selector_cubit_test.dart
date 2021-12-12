@@ -11,28 +11,28 @@ void main() {
     });
 
     test('emits index 0 for leaderboard and rating history gamemode after initializing', () {
-      expect(_gameModeSelectorCubit.state.leaderboardGameMode, 0);
-      expect(_gameModeSelectorCubit.state.ratingHistoryGameMode, 0);
+      expect(_gameModeSelectorCubit.state.leaderboardGameModeIndex, 0);
+      expect(_gameModeSelectorCubit.state.ratingHistoryGameModeIndex, 0);
     });
 
     blocTest<GameModeSelectorCubit, GameModeSelectorState>(
       'emits state with leaderboard game mode of 2 after setting it to 2',
       build: () => _gameModeSelectorCubit,
       act: (cubit) => cubit.setLeaderboardGameMode(2),
-      expect: () => [const GameModeSelectorState(leaderboardGameMode: 2, ratingHistoryGameMode: 0)],
+      expect: () => [const GameModeSelectorState(leaderboardGameModeIndex: 2, ratingHistoryGameModeIndex: 0)],
     );
     blocTest<GameModeSelectorCubit, GameModeSelectorState>(
       'emits state with rating history game mode of 2 after setting it to 2',
       build: () => _gameModeSelectorCubit,
       act: (cubit) => cubit.setRatingHistoryGameMode(2),
-      expect: () => [const GameModeSelectorState(leaderboardGameMode: 0, ratingHistoryGameMode: 2)],
+      expect: () => [const GameModeSelectorState(leaderboardGameModeIndex: 0, ratingHistoryGameModeIndex: 2)],
     );
     blocTest<GameModeSelectorCubit, GameModeSelectorState>(
       'emits state with rating history game mode of 0 after clearing it',
       build: () => _gameModeSelectorCubit,
-      seed: () => const GameModeSelectorState(leaderboardGameMode: 0, ratingHistoryGameMode: 2),
+      seed: () => const GameModeSelectorState(leaderboardGameModeIndex: 0, ratingHistoryGameModeIndex: 2),
       act: (cubit) => cubit.clearRatingHistoryGameMode(),
-      expect: () => [const GameModeSelectorState(leaderboardGameMode: 0, ratingHistoryGameMode: 0)],
+      expect: () => [const GameModeSelectorState(leaderboardGameModeIndex: 0, ratingHistoryGameModeIndex: 0)],
     );
   });
 }
