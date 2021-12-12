@@ -1,9 +1,7 @@
 import 'package:bloc/bloc.dart';
 
-part 'bottom_navigation_bar_state.dart';
+class BottomNavigationBarCubit extends Cubit<int> {
+  BottomNavigationBarCubit() : super(0);
 
-class BottomNavigationBarCubit extends Cubit<BottomNavigationBarState> {
-  BottomNavigationBarCubit() : super(const BottomNavigationBarState(index: 0));
-
-  void setIndex(int index) => emit(BottomNavigationBarState(index: index));
+  void setIndex(int index) => emit(index);
 }

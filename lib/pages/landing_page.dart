@@ -56,15 +56,15 @@ class _LandingPageState extends State<LandingPage> {
             ],
           ),
         ),
-        child: BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
-          builder: (context, state) {
+        child: BlocBuilder<BottomNavigationBarCubit, int>(
+          builder: (context, bottomNavigationBarIndex) {
             return BottomNavigationBar(
               onTap: (index) {
-                if (index != state.index) {
+                if (index != bottomNavigationBarIndex) {
                   _handleBottomNavbarOnTap(context, index);
                 }
               },
-              currentIndex: state.index,
+              currentIndex: bottomNavigationBarIndex,
               items: [
                 BottomNavigationBarItem(icon: const Icon(Icons.person_outline), label: AppLocalizations.of(context)!.bottomNavigationBarLabel1v1),
                 BottomNavigationBarItem(icon: const Icon(Icons.group_outlined), label: AppLocalizations.of(context)!.bottomNavigationBarLabel2v2),
@@ -166,9 +166,9 @@ class _LandingPageState extends State<LandingPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
-          builder: (context, state) {
-            final String mode = getMode(context, state.index);
+        BlocBuilder<BottomNavigationBarCubit, int>(
+          builder: (context, bottomNavigationBarIndex) {
+            final String mode = getMode(context, bottomNavigationBarIndex);
 
             return Text(
               AppLocalizations.of(context)!.appTitle(mode),
@@ -192,9 +192,9 @@ class _LandingPageState extends State<LandingPage> {
           Radius.circular(5),
         ),
       ),
-      child: BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
-        builder: (context, state) {
-          final int leaderboardId = getLeaderboardId(state.index);
+      child: BlocBuilder<BottomNavigationBarCubit, int>(
+        builder: (context, bottomNavigationBarIndex) {
+          final int leaderboardId = getLeaderboardId(bottomNavigationBarIndex);
 
           return TextField(
             controller: _searchFieldController,
