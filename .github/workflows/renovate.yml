@@ -20,7 +20,7 @@ jobs:
     - name: run flutter renovate bot
       uses: DinhKhang92/flutter_renovate_bot@v1.0.1
       with:
-        flutter-project: '/'
+        flutter-project: './'
         git-email: 'dinh.khang92@hotmail.de'
         git-name: 'DinhKhang92'
         token: ${{ secrets.GITHUB_TOKEN }}
