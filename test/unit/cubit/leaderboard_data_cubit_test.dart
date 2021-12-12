@@ -35,6 +35,19 @@ void main() {
         expect: () => [isA<LeaderboardDataLoading>(), isA<LeaderboardDataLoaded>()],
       );
       blocTest<LeaderboardDataCubit, LeaderboardDataState>(
+        'emits LeaderboardDataLoading and LeaderboardDataLoaded with player data when fetching data succeeded',
+        build: () {
+          when(_mockLeaderboardDataRepository.fetchLeaderboardData(any)).thenAnswer((_) async => [examplePlayer]);
+
+          return _leaderboardDataCubit;
+        },
+        act: (cubit) => cubit.fetchLeaderboardData(leaderboardId),
+        expect: () => [
+          const LeaderboardDataLoading(leaderboardData: [], searchedPlayers: []),
+          LeaderboardDataLoaded(leaderboardData: [examplePlayer], searchedPlayers: const [])
+        ],
+      );
+      blocTest<LeaderboardDataCubit, LeaderboardDataState>(
         'emits LeaderboardDataLoading and LeaderboardDataError when fetching leaderboard data failed',
         build: () {
           when(_mockLeaderboardDataRepository.fetchLeaderboardData(any)).thenThrow(Error);
@@ -54,8 +67,34 @@ void main() {
 
           return _leaderboardDataCubit;
         },
-        act: (cubit) => cubit.searchPlayer(leaderboardId, "T0nb"),
+        act: (cubit) => cubit.searchPlayer(leaderboardId, "t0nb"),
         expect: () => [isA<LeaderboardDataLoading>(), isA<LeaderboardDataLoaded>()],
+      );
+      blocTest<LeaderboardDataCubit, LeaderboardDataState>(
+        'emits LeaderboardDataLoading and LeaderboardDataLoaded with player data when player found',
+        build: () {
+          when(_mockLeaderboardDataRepository.searchPlayer(any, any)).thenAnswer((_) async => [examplePlayer]);
+
+          return _leaderboardDataCubit;
+        },
+        act: (cubit) => cubit.searchPlayer(leaderboardId, "t0nb"),
+        expect: () => [
+          const LeaderboardDataLoading(leaderboardData: [], searchedPlayers: []),
+          LeaderboardDataLoaded(leaderboardData: const [], searchedPlayers: [examplePlayer])
+        ],
+      );
+      blocTest<LeaderboardDataCubit, LeaderboardDataState>(
+        'emits LeaderboardDataLoading and LeaderboardDataLoaded with empty array when no players found',
+        build: () {
+          when(_mockLeaderboardDataRepository.searchPlayer(any, any)).thenAnswer((_) async => []);
+
+          return _leaderboardDataCubit;
+        },
+        act: (cubit) => cubit.searchPlayer(leaderboardId, "abc"),
+        expect: () => [
+          const LeaderboardDataLoading(leaderboardData: [], searchedPlayers: []),
+          const LeaderboardDataLoaded(leaderboardData: [], searchedPlayers: []),
+        ],
       );
       blocTest<LeaderboardDataCubit, LeaderboardDataState>(
         'emits LeaderboardDataLoading and LeaderboardDataError when searching player failed',

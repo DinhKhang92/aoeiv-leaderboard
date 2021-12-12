@@ -1,11 +1,14 @@
 part of 'leaderboard_data_cubit.dart';
 
 @immutable
-abstract class LeaderboardDataState {
+abstract class LeaderboardDataState extends Equatable {
   final List leaderboardData;
   final List searchedPlayers;
 
   const LeaderboardDataState({required this.leaderboardData, required this.searchedPlayers});
+
+  @override
+  List<Object> get props => [leaderboardData, searchedPlayers];
 }
 
 class LeaderboardDataInitial extends LeaderboardDataState {

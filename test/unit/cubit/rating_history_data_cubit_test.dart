@@ -36,6 +36,19 @@ void main() {
         expect: () => [isA<RatingHistoryDataLoading>(), isA<RatingHistoryDataLoaded>()],
       );
       blocTest<RatingHistoryDataCubit, RatingHistoryDataState>(
+        'emits RatingHistoryDataLoading and RatingHistoryDataLoaded with rating history data when fetching data succeeded',
+        build: () {
+          when(_mockRatingHistoryDataRepository.fetchRatingHistoryData(any, any)).thenAnswer((_) async => [exampleRating]);
+
+          return _ratingHistoryDataCubit;
+        },
+        act: (cubit) => cubit.fetchRatingHistoryData(leaderboardId, profileId),
+        expect: () => [
+          const RatingHistoryDataLoading(ratingHistoryData: []),
+          RatingHistoryDataLoaded(ratingHistoryData: [exampleRating])
+        ],
+      );
+      blocTest<RatingHistoryDataCubit, RatingHistoryDataState>(
         'emits RatingHistoryDataLoading and RatingHistoryDataError when fetching rating history data failed',
         build: () {
           when(_mockRatingHistoryDataRepository.fetchRatingHistoryData(any, any)).thenThrow(Error);

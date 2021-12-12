@@ -1,10 +1,13 @@
 part of 'rating_history_data_cubit.dart';
 
 @immutable
-abstract class RatingHistoryDataState {
+abstract class RatingHistoryDataState extends Equatable {
   final List<Rating> ratingHistoryData;
 
   const RatingHistoryDataState({required this.ratingHistoryData});
+
+  @override
+  List<Object> get props => [ratingHistoryData];
 }
 
 class RatingHistoryDataInitial extends RatingHistoryDataState {
