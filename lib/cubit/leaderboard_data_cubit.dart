@@ -7,7 +7,7 @@ part 'leaderboard_data_state.dart';
 
 class LeaderboardDataCubit extends Cubit<LeaderboardDataState> {
   final LeaderboardDataRepository leaderboardDataRepository;
-  LeaderboardDataCubit(this.leaderboardDataRepository) : super(const LeaderboardDataInitial(leaderboardData: [], searchedPlayers: []));
+  LeaderboardDataCubit({required this.leaderboardDataRepository}) : super(const LeaderboardDataInitial(leaderboardData: [], searchedPlayers: []));
 
   Future<void> fetchLeaderboardData(int leaderboardId) async {
     try {

@@ -20,7 +20,7 @@ void main() {
     final Player examplePlayer = Player(rank: 1412, name: "T0nb3rry", totalGames: 100, totalWins: 71, totalLosses: 29, mmr: 1412, profileId: 1412);
 
     setUp(() {
-      _leaderboardDataCubit = LeaderboardDataCubit(_mockLeaderboardDataRepository);
+      _leaderboardDataCubit = LeaderboardDataCubit(leaderboardDataRepository: _mockLeaderboardDataRepository);
     });
 
     group("fetchLeaderboardData", () {

@@ -6,14 +6,14 @@ import 'package:meta/meta.dart';
 part 'rating_history_data_state.dart';
 
 class RatingHistoryDataCubit extends Cubit<RatingHistoryDataState> {
-  final RatingHistoryDataRepository _ratingHistoryDataRepository = RatingHistoryDataRepository();
+  final RatingHistoryDataRepository ratingHistoryDataRepository;
 
-  RatingHistoryDataCubit() : super(const RatingHistoryDataInitial(ratingHistoryData: []));
+  RatingHistoryDataCubit({required this.ratingHistoryDataRepository}) : super(const RatingHistoryDataInitial(ratingHistoryData: []));
 
   Future<void> fetchRatingHistoryData(int leaderboardId, int profileId) async {
     try {
       emit(RatingHistoryDataLoading(ratingHistoryData: state.ratingHistoryData));
-      final List<Rating> ratingHistoryData = await _ratingHistoryDataRepository.fetchRatingHistoryData(leaderboardId, profileId);
+      final List<Rating> ratingHistoryData = await ratingHistoryDataRepository.fetchRatingHistoryData(leaderboardId, profileId);
       emit(RatingHistoryDataLoaded(ratingHistoryData: ratingHistoryData));
     } catch (e) {
       emit(RatingHistoryDataError());

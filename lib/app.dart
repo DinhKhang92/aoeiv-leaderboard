@@ -3,6 +3,7 @@ import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/repositories/leaderboard_data_repository.dart';
+import 'package:aoeiv_leaderboard/repositories/rating_history_data_repository.dart';
 import 'package:aoeiv_leaderboard/routes/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,9 +14,10 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
   final LeaderboardDataRepository _leaderboardDataRepository = LeaderboardDataRepository();
+  final RatingHistoryDataRepository _ratingHistoryDataRepository = RatingHistoryDataRepository();
 
-  late final LeaderboardDataCubit _leaderboardDataCubit = LeaderboardDataCubit(_leaderboardDataRepository);
-  final RatingHistoryDataCubit _ratingHistoryDataCubit = RatingHistoryDataCubit();
+  late final LeaderboardDataCubit _leaderboardDataCubit = LeaderboardDataCubit(leaderboardDataRepository: _leaderboardDataRepository);
+  late final RatingHistoryDataCubit _ratingHistoryDataCubit = RatingHistoryDataCubit(ratingHistoryDataRepository: _ratingHistoryDataRepository);
   final GameModeSelectorCubit _gameModeSelectorCubit = GameModeSelectorCubit();
 
   @override
