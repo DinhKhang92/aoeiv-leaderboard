@@ -20,7 +20,7 @@ class LeaderboardDataProvider {
       return playerList;
     }
 
-    throw Exception("Failed to fetch total player count with url: $url");
+    throw Exception("Failed to fetch leaderboard data with url: $url");
   }
 
   List<Player> _parsePlayers(List leaderboardData) {
@@ -46,6 +46,6 @@ class LeaderboardDataProvider {
       return playerList;
     }
 
-    throw Exception("Failed to fetch total player count with url: $url");
+    throw Exception("Failed to fetch searched player with url: $url");
   }
 }

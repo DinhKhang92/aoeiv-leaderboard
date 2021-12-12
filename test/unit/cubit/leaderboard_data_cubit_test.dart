@@ -23,25 +23,50 @@ void main() {
       _leaderboardDataCubit = LeaderboardDataCubit(_mockLeaderboardDataRepository);
     });
 
-    blocTest<LeaderboardDataCubit, LeaderboardDataState>(
-      'emits LeaderboardDataLoading and LeaderboardDataLoaded when fetching leaderboard data succeeded',
-      build: () {
-        when(_mockLeaderboardDataRepository.fetchLeaderboardData(any)).thenAnswer((_) async => [examplePlayer]);
+    group("fetchLeaderboardData", () {
+      blocTest<LeaderboardDataCubit, LeaderboardDataState>(
+        'emits LeaderboardDataLoading and LeaderboardDataLoaded when fetching leaderboard data succeeded',
+        build: () {
+          when(_mockLeaderboardDataRepository.fetchLeaderboardData(any)).thenAnswer((_) async => [examplePlayer]);
 
-        return _leaderboardDataCubit;
-      },
-      act: (cubit) => cubit.fetchLeaderboardData(leaderboardId),
-      expect: () => [isA<LeaderboardDataLoading>(), isA<LeaderboardDataLoaded>()],
-    );
-    blocTest<LeaderboardDataCubit, LeaderboardDataState>(
-      'emits LeaderboardDataLoading and LeaderboardDataError when fetching leaderboard data failed',
-      build: () {
-        when(_mockLeaderboardDataRepository.fetchLeaderboardData(any)).thenThrow(Error());
+          return _leaderboardDataCubit;
+        },
+        act: (cubit) => cubit.fetchLeaderboardData(leaderboardId),
+        expect: () => [isA<LeaderboardDataLoading>(), isA<LeaderboardDataLoaded>()],
+      );
+      blocTest<LeaderboardDataCubit, LeaderboardDataState>(
+        'emits LeaderboardDataLoading and LeaderboardDataError when fetching leaderboard data failed',
+        build: () {
+          when(_mockLeaderboardDataRepository.fetchLeaderboardData(any)).thenThrow(Error);
 
-        return _leaderboardDataCubit;
-      },
-      act: (cubit) => cubit.fetchLeaderboardData(leaderboardId),
-      expect: () => [isA<LeaderboardDataLoading>(), isA<LeaderboardDataError>()],
-    );
+          return _leaderboardDataCubit;
+        },
+        act: (cubit) => cubit.fetchLeaderboardData(leaderboardId),
+        expect: () => [isA<LeaderboardDataLoading>(), isA<LeaderboardDataError>()],
+      );
+    });
+
+    group("searchPlayer", () {
+      blocTest<LeaderboardDataCubit, LeaderboardDataState>(
+        'emits LeaderboardDataLoading and LeaderboardDataLoaded when searching player succeeded',
+        build: () {
+          when(_mockLeaderboardDataRepository.searchPlayer(any, any)).thenAnswer((_) async => [examplePlayer]);
+
+          return _leaderboardDataCubit;
+        },
+        act: (cubit) => cubit.searchPlayer(leaderboardId, "T0nb"),
+        expect: () => [isA<LeaderboardDataLoading>(), isA<LeaderboardDataLoaded>()],
+      );
+      blocTest<LeaderboardDataCubit, LeaderboardDataState>(
+        'emits LeaderboardDataLoading and LeaderboardDataError when searching player failed',
+        build: () {
+          when(_mockLeaderboardDataRepository.searchPlayer(any, any)).thenThrow(Error);
+
+          return _leaderboardDataCubit;
+        },
+        act: (cubit) => cubit.searchPlayer(leaderboardId, "T0nb"),
+        expect: () => [isA<LeaderboardDataLoading>(), isA<LeaderboardDataError>()],
+      );
+    });
   });
 }
