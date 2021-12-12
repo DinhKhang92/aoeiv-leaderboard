@@ -4,7 +4,6 @@ import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
-import 'package:aoeiv_leaderboard/models/rating.dart';
 import 'package:aoeiv_leaderboard/utils/get_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
@@ -149,7 +148,7 @@ class _PlayerPageState extends State<PlayerPage> {
             return const CenteredCircularProgressIndicator();
           }
           if (state is RatingHistoryDataLoaded) {
-            return TestLineChart(ratingHistoryData: state.ratingHistoryData as List<Rating>);
+            return TestLineChart(ratingHistoryData: state.ratingHistoryData);
           }
           return const SizedBox.shrink();
         },
