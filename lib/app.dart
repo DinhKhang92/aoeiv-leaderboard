@@ -1,8 +1,7 @@
 import 'package:aoeiv_leaderboard/config/styles/theme.dart';
-import 'package:aoeiv_leaderboard/cubit/bottom_navigation_bar_cubit.dart';
+import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
-import 'package:aoeiv_leaderboard/cubit/rating_history_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/repositories/leaderboard_data_repository.dart';
 import 'package:aoeiv_leaderboard/routes/route_generator.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +16,7 @@ class MyApp extends StatelessWidget {
 
   late final LeaderboardDataCubit _leaderboardDataCubit = LeaderboardDataCubit(_leaderboardDataRepository);
   final RatingHistoryDataCubit _ratingHistoryDataCubit = RatingHistoryDataCubit();
-  final BottomNavigationBarCubit _bottomNavigationBarCubit = BottomNavigationBarCubit();
-  final RatingHistoryModeSelectorCubit _ratingHistoryModeSelectorCubit = RatingHistoryModeSelectorCubit();
+  final GameModeSelectorCubit _gameModeSelectorCubit = GameModeSelectorCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<LeaderboardDataCubit>(create: (_) => _leaderboardDataCubit),
         BlocProvider<RatingHistoryDataCubit>(create: (_) => _ratingHistoryDataCubit),
-        BlocProvider<BottomNavigationBarCubit>(create: (_) => _bottomNavigationBarCubit),
-        BlocProvider<RatingHistoryModeSelectorCubit>(create: (_) => _ratingHistoryModeSelectorCubit),
+        BlocProvider<GameModeSelectorCubit>(create: (_) => _gameModeSelectorCubit),
       ],
       child: MaterialApp(
         title: 'AoE4-Leaderboard',

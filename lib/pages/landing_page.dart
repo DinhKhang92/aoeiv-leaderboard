@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
-import 'package:aoeiv_leaderboard/cubit/bottom_navigation_bar_cubit.dart';
+import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/utils/debouncer.dart';
@@ -56,15 +56,15 @@ class _LandingPageState extends State<LandingPage> {
             ],
           ),
         ),
-        child: BlocBuilder<BottomNavigationBarCubit, int>(
-          builder: (context, bottomNavigationBarIndex) {
+        child: BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
+          builder: (context, state) {
             return BottomNavigationBar(
               onTap: (index) {
-                if (index != bottomNavigationBarIndex) {
+                if (index != state.leaderboardGameMode) {
                   _handleBottomNavbarOnTap(context, index);
                 }
               },
-              currentIndex: bottomNavigationBarIndex,
+              currentIndex: state.leaderboardGameMode,
               items: [
                 BottomNavigationBarItem(icon: const Icon(Icons.person_outline), label: AppLocalizations.of(context)!.bottomNavigationBarLabel1v1),
                 BottomNavigationBarItem(icon: const Icon(Icons.group_outlined), label: AppLocalizations.of(context)!.bottomNavigationBarLabel2v2),
@@ -82,7 +82,7 @@ class _LandingPageState extends State<LandingPage> {
   void _handleBottomNavbarOnTap(BuildContext context, int index) {
     _searchFieldController.clear();
 
-    BlocProvider.of<BottomNavigationBarCubit>(context).setIndex(index);
+    BlocProvider.of<GameModeSelectorCubit>(context).setLeaderboardGameMode(index);
 
     final int leaderboardId = getLeaderboardId(index);
     BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(leaderboardId);
@@ -166,9 +166,9 @@ class _LandingPageState extends State<LandingPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        BlocBuilder<BottomNavigationBarCubit, int>(
-          builder: (context, bottomNavigationBarIndex) {
-            final String mode = getMode(context, bottomNavigationBarIndex);
+        BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
+          builder: (context, state) {
+            final String mode = getMode(context, state.leaderboardGameMode);
 
             return Text(
               AppLocalizations.of(context)!.appTitle(mode),
@@ -192,9 +192,9 @@ class _LandingPageState extends State<LandingPage> {
           Radius.circular(5),
         ),
       ),
-      child: BlocBuilder<BottomNavigationBarCubit, int>(
-        builder: (context, bottomNavigationBarIndex) {
-          final int leaderboardId = getLeaderboardId(bottomNavigationBarIndex);
+      child: BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
+        builder: (context, state) {
+          final int leaderboardId = getLeaderboardId(state.leaderboardGameMode);
 
           return TextField(
             controller: _searchFieldController,

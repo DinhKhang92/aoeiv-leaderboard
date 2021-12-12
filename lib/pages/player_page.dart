@@ -1,8 +1,8 @@
 import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
+import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
-import 'package:aoeiv_leaderboard/cubit/rating_history_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/utils/get_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
@@ -26,7 +26,7 @@ class PlayerPage extends StatefulWidget {
 class _PlayerPageState extends State<PlayerPage> {
   @override
   void initState() {
-    BlocProvider.of<RatingHistoryModeSelectorCubit>(context).clear();
+    BlocProvider.of<GameModeSelectorCubit>(context).clearRatingHistoryGameMode();
 
     _fetchRatingHistoryData();
     super.initState();
@@ -168,12 +168,12 @@ class _PlayerPageState extends State<PlayerPage> {
         .map((index, label) {
           return MapEntry(
             index,
-            BlocBuilder<RatingHistoryModeSelectorCubit, RatingHistoryModeSelectorState>(
+            BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
               builder: (context, state) {
                 return InkWell(
                   onTap: () {
-                    if (state.index != index) {
-                      BlocProvider.of<RatingHistoryModeSelectorCubit>(context).setIndex(index);
+                    if (state.ratingHistoryGameMode != index) {
+                      BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(index);
 
                       final int leaderboardId = getLeaderboardId(index);
                       BlocProvider.of<RatingHistoryDataCubit>(context).fetchRatingHistoryData(leaderboardId, widget.player.profileId);
@@ -182,7 +182,7 @@ class _PlayerPageState extends State<PlayerPage> {
                   child: RatingHistoryModeSelector(
                     label: label,
                     labelColor: kcSecondaryColor,
-                    backgroundColor: state.index == index ? kcPrimaryColor : kcUnselectedColor,
+                    backgroundColor: state.ratingHistoryGameMode == index ? kcPrimaryColor : kcUnselectedColor,
                   ),
                 );
               },
