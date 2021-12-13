@@ -8,7 +8,7 @@ extension SpacingExtension on Spacing {
       case Spacing.xs:
         return 7.0;
       case Spacing.s:
-        return 8.0;
+        return 10.0;
       case Spacing.m:
         return 15.0;
       case Spacing.l:

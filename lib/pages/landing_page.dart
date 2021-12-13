@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
+import 'package:aoeiv_leaderboard/config/styles/theme.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
@@ -156,7 +157,7 @@ class _LandingPageState extends State<LandingPage> {
       decoration: const BoxDecoration(
         color: kcSearchbarColor,
         borderRadius: BorderRadius.all(
-          Radius.circular(5),
+          Radius.circular(kbBorderRadius),
         ),
       ),
       child: BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(

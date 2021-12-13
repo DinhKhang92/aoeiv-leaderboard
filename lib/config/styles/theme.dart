@@ -1,5 +1,8 @@
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
+import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:flutter/material.dart';
+
+const double kbBorderRadius = 5.0;
 
 final ThemeData ktTheme = ThemeData(
   textSelectionTheme: ktTextSelectionTheme,
@@ -13,9 +16,9 @@ const TextSelectionThemeData ktTextSelectionTheme = TextSelectionThemeData(
   cursorColor: kcTertiaryColor,
 );
 
-const InputDecorationTheme ktInputDecorationTheme = InputDecorationTheme(
-  hintStyle: TextStyle(fontSize: 12, color: kcHintColor),
-  contentPadding: EdgeInsets.symmetric(horizontal: 10),
+InputDecorationTheme ktInputDecorationTheme = InputDecorationTheme(
+  hintStyle: const TextStyle(fontSize: 12, color: kcHintColor),
+  contentPadding: EdgeInsets.symmetric(horizontal: Spacing.s.spacing),
   border: InputBorder.none,
 );
 

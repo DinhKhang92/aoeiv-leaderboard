@@ -41,42 +41,50 @@ class _PlayerPageState extends State<PlayerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          const Background(),
-          SafeArea(
-            child: Container(
-              padding: EdgeInsets.all(Spacing.m.spacing),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Header(headerTitle: widget.player.name),
-                  SizedBox(height: Spacing.xl.spacing),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: _buildRatingHistoryModeSelectors(),
+      body: _buildBody(),
+    );
+  }
+
+  Widget _buildBody() {
+    return Stack(
+      children: [
+        const Background(),
+        SafeArea(
+          child: Container(
+            padding: EdgeInsets.all(Spacing.m.spacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Header(headerTitle: widget.player.name),
+                SizedBox(height: Spacing.xl.spacing),
+                _buildRatingHistoryModeSelectors(),
+                SizedBox(height: Spacing.xl.spacing),
+                _buildProfileMmr(),
+                _buildProfileWins(),
+                _buildProfileLosses(),
+                _buildProfileWinrate(),
+                SizedBox(height: Spacing.xl.spacing),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "- MMR History -",
+                    style: Theme.of(context).textTheme.headline2,
                   ),
-                  SizedBox(height: Spacing.xl.spacing),
-                  _buildProfileMmr(),
-                  _buildProfileWins(),
-                  _buildProfileLosses(),
-                  _buildProfileWinrate(),
-                  SizedBox(height: Spacing.xl.spacing),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "- MMR History -",
-                      style: Theme.of(context).textTheme.headline2,
-                    ),
-                  ),
-                  _buildRatingHistoryLineChart(),
-                  SizedBox(height: Spacing.m.spacing),
-                ],
-              ),
+                ),
+                _buildRatingHistoryLineChart(),
+                SizedBox(height: Spacing.m.spacing),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
+    );
+  }
+
+  Row _buildRatingHistoryModeSelectors() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: _getRatingHistoryModeSelectors(),
     );
   }
 
@@ -145,7 +153,7 @@ class _PlayerPageState extends State<PlayerPage> {
     );
   }
 
-  List<Widget> _buildRatingHistoryModeSelectors() {
+  List<Widget> _getRatingHistoryModeSelectors() {
     final List<String> buttonLabels = [
       AppLocalizations.of(context)!.bottomNavigationBarLabel1v1,
       AppLocalizations.of(context)!.bottomNavigationBarLabel2v2,

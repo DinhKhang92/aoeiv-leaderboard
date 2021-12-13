@@ -1,3 +1,5 @@
+import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
+import 'package:aoeiv_leaderboard/config/styles/theme.dart';
 import 'package:flutter/material.dart';
 
 class RatingHistoryModeSelector extends StatelessWidget {
@@ -9,11 +11,11 @@ class RatingHistoryModeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+      padding: EdgeInsets.symmetric(horizontal: 25, vertical: Spacing.xs.spacing),
       child: Text(label, style: TextStyle(color: labelColor)),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: const BorderRadius.all(Radius.circular(5)),
+        borderRadius: const BorderRadius.all(Radius.circular(kbBorderRadius)),
       ),
     );
   }
