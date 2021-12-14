@@ -6,6 +6,8 @@ class Player {
   final int totalLosses;
   final int mmr;
   final int profileId;
+  final int? previousRating;
+
   late final int winRate;
 
   Player({
@@ -16,6 +18,7 @@ class Player {
     required this.totalLosses,
     required this.mmr,
     required this.profileId,
+    this.previousRating,
   });
 
   factory Player.fromJson(Map json) => Player(
@@ -26,6 +29,7 @@ class Player {
         totalLosses: json['losses'],
         mmr: json['rating'],
         profileId: json['profile_id'],
+        previousRating: json['previous_rating'],
       );
 
   set setWinRate(int rate) => winRate = rate;

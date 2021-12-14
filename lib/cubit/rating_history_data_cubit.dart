@@ -1,3 +1,4 @@
+import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/models/rating.dart';
 import 'package:aoeiv_leaderboard/repositories/rating_history_data_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -11,11 +12,12 @@ class RatingHistoryDataCubit extends Cubit<RatingHistoryDataState> {
 
   RatingHistoryDataCubit({required this.ratingHistoryDataRepository}) : super(const RatingHistoryDataInitial(ratingHistoryData: []));
 
-  Future<void> fetchRatingHistoryData(int leaderboardId, int profileId) async {
+  Future<void> fetchPlayerData(int leaderboardId, int profileId) async {
     try {
-      emit(RatingHistoryDataLoading(ratingHistoryData: state.ratingHistoryData));
+      emit(RatingHistoryDataLoading(ratingHistoryData: state.ratingHistoryData, player: state.player));
       final List<Rating> ratingHistoryData = await ratingHistoryDataRepository.fetchRatingHistoryData(leaderboardId, profileId);
-      emit(RatingHistoryDataLoaded(ratingHistoryData: ratingHistoryData));
+      final Player player = await ratingHistoryDataRepository.fetchPlayerDataByProfileId(leaderboardId, profileId);
+      emit(RatingHistoryDataLoaded(ratingHistoryData: ratingHistoryData, player: player));
     } catch (e) {
       emit(RatingHistoryDataError());
     }

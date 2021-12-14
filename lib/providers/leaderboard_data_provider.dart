@@ -48,4 +48,23 @@ class LeaderboardDataProvider {
 
     throw Exception("Failed to fetch searched player with url: $url");
   }
+
+  Future<Player> fetchPlayerDataByProfileId(int leaderboardId, int profileId) async {
+    final String url = "${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId&profile_id=$profileId";
+    final response = await _client.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final Map jsonData = jsonDecode(response.body);
+      final List leaderboardData = jsonData['leaderboard'];
+
+      final List<Player> playerList = _parsePlayers(leaderboardData);
+
+      if (playerList.isEmpty) {
+        throw Exception("Failed to fetch player data by profileId: $profileId with url :$url");
+      }
+
+      return playerList.first;
+    }
+
+    throw Exception("Failed to fetch searched player with url: $url");
+  }
 }

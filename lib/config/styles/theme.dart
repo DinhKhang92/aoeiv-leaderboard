@@ -33,6 +33,11 @@ const TextTheme ktTextTheme = TextTheme(
     fontSize: 18,
     fontWeight: FontWeight.w400,
   ),
+  headline3: TextStyle(
+    color: kcColorWhite,
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+  ),
   bodyText1: TextStyle(
     color: kcColorWhite,
     fontSize: 14,

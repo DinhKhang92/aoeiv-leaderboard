@@ -11,6 +11,7 @@ import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.d
 import 'package:aoeiv_leaderboard/widgets/header.dart';
 import 'package:aoeiv_leaderboard/widgets/line_chart.dart';
 import 'package:aoeiv_leaderboard/widgets/rating_history_mode_selector.dart';
+import 'package:aoeiv_leaderboard/widgets/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -35,7 +36,7 @@ class _PlayerPageState extends State<PlayerPage> {
   }
 
   Future<void> _fetchRatingHistoryData() async {
-    BlocProvider.of<RatingHistoryDataCubit>(context).fetchRatingHistoryData(LeaderboardId.oneVOne.id, widget.player.profileId);
+    BlocProvider.of<RatingHistoryDataCubit>(context).fetchPlayerData(LeaderboardId.oneVOne.id, widget.player.profileId);
   }
 
   @override
@@ -58,19 +59,10 @@ class _PlayerPageState extends State<PlayerPage> {
                 Header(headerTitle: widget.player.name),
                 SizedBox(height: Spacing.xl.spacing),
                 _buildRatingHistoryModeSelectors(),
+                SizedBox(height: Spacing.l.spacing),
+                _buildStats(),
                 SizedBox(height: Spacing.xl.spacing),
-                _buildProfileMmr(),
-                _buildProfileWins(),
-                _buildProfileLosses(),
-                _buildProfileWinrate(),
-                SizedBox(height: Spacing.xl.spacing),
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "- MMR History -",
-                    style: Theme.of(context).textTheme.headline2,
-                  ),
-                ),
+                SectionTitle(title: AppLocalizations.of(context)!.sectionTitleMmrHistory),
                 _buildRatingHistoryLineChart(),
                 SizedBox(height: Spacing.m.spacing),
               ],
@@ -81,58 +73,50 @@ class _PlayerPageState extends State<PlayerPage> {
     );
   }
 
+  Widget _buildStats() {
+    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
+      builder: (context, state) {
+        final String mmr = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.rating}";
+        final String wins = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.totalWins}";
+        final String losses = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.totalLosses}";
+        final String winRate = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.winRate}";
+        final int mmrDifference = 0;
+        // final int mmrDifference = state.player?.previousRating != null ? int.parse(mmr) - state.player!.previousRating! : int.parse(mmr);
+        print(mmrDifference);
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("#${state.player?.rank} | $mmr "),
+            Icon(
+              mmrDifference > 0 ? Icons.arrow_upward : Icons.arrow_downward,
+              size: 14,
+              color: mmrDifference > 0 ? Colors.green : Colors.red,
+            ),
+            Text(
+              "${mmrDifference.abs()}",
+              style: TextStyle(color: mmrDifference > 0 ? Colors.green : Colors.red),
+            ),
+            Text(" | $winRate% - "),
+            Text(
+              "${wins}W ",
+              style: const TextStyle(color: Colors.green),
+            ),
+            Text(
+              "${losses}L",
+              style: const TextStyle(color: Colors.red),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void getDiff(RatingHistoryDataState state, Player player) {}
+
   Row _buildRatingHistoryModeSelectors() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: _getRatingHistoryModeSelectors(),
-    );
-  }
-
-  Widget _buildProfileMmr() {
-    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
-      builder: (context, state) {
-        if (state is RatingHistoryDataLoaded) {
-          final String mmr = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.rating}";
-          return Text("MMR: $mmr");
-        }
-        return const SizedBox.shrink();
-      },
-    );
-  }
-
-  Widget _buildProfileWins() {
-    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
-      builder: (context, state) {
-        if (state is RatingHistoryDataLoaded) {
-          final String wins = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.totalWins}";
-          return Text("Wins: $wins");
-        }
-        return const SizedBox.shrink();
-      },
-    );
-  }
-
-  Widget _buildProfileLosses() {
-    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
-      builder: (context, state) {
-        if (state is RatingHistoryDataLoaded) {
-          final String losses = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.totalLosses}";
-          return Text("Losses: $losses");
-        }
-        return const SizedBox.shrink();
-      },
-    );
-  }
-
-  Widget _buildProfileWinrate() {
-    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
-      builder: (context, state) {
-        if (state is RatingHistoryDataLoaded) {
-          final String winRate = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.winRate} %";
-          return Text("Winrate: $winRate");
-        }
-        return const SizedBox.shrink();
-      },
     );
   }
 
@@ -173,7 +157,7 @@ class _PlayerPageState extends State<PlayerPage> {
                       BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(index);
 
                       final int leaderboardId = mapIndexToLeaderboardId(index);
-                      BlocProvider.of<RatingHistoryDataCubit>(context).fetchRatingHistoryData(leaderboardId, widget.player.profileId);
+                      BlocProvider.of<RatingHistoryDataCubit>(context).fetchPlayerData(leaderboardId, widget.player.profileId);
                     }
                   },
                   child: RatingHistoryModeSelector(

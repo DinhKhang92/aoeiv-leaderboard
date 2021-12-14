@@ -59,5 +59,9 @@
     "@pageTitlePlayerDetails": {
         "description": "page title of player details"
     },
-    "pageTitlePlayerDetails": "Player Details"
+    "pageTitlePlayerDetails": "Player Details",
+    "@sectionTitleMmrHistory": {
+        "description": "section title for mmr history"
+    },
+    "sectionTitleMmrHistory": "MMR History"
 }

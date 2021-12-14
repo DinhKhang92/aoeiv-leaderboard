@@ -32,7 +32,7 @@ void main() {
 
           return _ratingHistoryDataCubit;
         },
-        act: (cubit) => cubit.fetchRatingHistoryData(leaderboardId, profileId),
+        act: (cubit) => cubit.fetchPlayerData(leaderboardId, profileId),
         expect: () => [isA<RatingHistoryDataLoading>(), isA<RatingHistoryDataLoaded>()],
       );
       blocTest<RatingHistoryDataCubit, RatingHistoryDataState>(
@@ -42,7 +42,7 @@ void main() {
 
           return _ratingHistoryDataCubit;
         },
-        act: (cubit) => cubit.fetchRatingHistoryData(leaderboardId, profileId),
+        act: (cubit) => cubit.fetchPlayerData(leaderboardId, profileId),
         expect: () => [
           const RatingHistoryDataLoading(ratingHistoryData: []),
           RatingHistoryDataLoaded(ratingHistoryData: [exampleRating])
@@ -55,7 +55,7 @@ void main() {
 
           return _ratingHistoryDataCubit;
         },
-        act: (cubit) => cubit.fetchRatingHistoryData(leaderboardId, profileId),
+        act: (cubit) => cubit.fetchPlayerData(leaderboardId, profileId),
         expect: () => [isA<RatingHistoryDataLoading>(), isA<RatingHistoryDataError>()],
       );
     });
