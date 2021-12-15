@@ -10,7 +10,7 @@ class MatchHistoryDataProvider {
   final Client _client = Client();
 
   Future<List<Match>> fetchMatchHistoryData(int profileId) async {
-    final String url = "${_config.matchHistoryBaseUrl}&profile_id=$profileId&count=${2}";
+    final String url = "${_config.matchHistoryBaseUrl}&profile_id=$profileId&count=${_config.maxCount}";
 
     final List<Match> matchList = [];
     final response = await _client.get(Uri.parse(url));

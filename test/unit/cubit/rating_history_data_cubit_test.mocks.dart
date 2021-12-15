@@ -2,11 +2,12 @@
 // in aoeiv_leaderboard/test/unit/cubit/rating_history_data_cubit_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
-import 'package:aoeiv_leaderboard/models/rating.dart' as _i4;
+import 'package:aoeiv_leaderboard/models/player.dart' as _i2;
+import 'package:aoeiv_leaderboard/models/rating.dart' as _i5;
 import 'package:aoeiv_leaderboard/repositories/rating_history_data_repository.dart'
-    as _i2;
+    as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -18,23 +19,33 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
+class _FakePlayer_0 extends _i1.Fake implements _i2.Player {}
+
 /// A class which mocks [RatingHistoryDataRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockRatingHistoryDataRepository extends _i1.Mock
-    implements _i2.RatingHistoryDataRepository {
+    implements _i3.RatingHistoryDataRepository {
   MockRatingHistoryDataRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<List<_i4.Rating>> fetchRatingHistoryData(
+  _i4.Future<List<_i5.Rating>> fetchRatingHistoryData(
           int? leaderboardId, int? profileId) =>
       (super.noSuchMethod(
               Invocation.method(
                   #fetchRatingHistoryData, [leaderboardId, profileId]),
-              returnValue: Future<List<_i4.Rating>>.value(<_i4.Rating>[]))
-          as _i3.Future<List<_i4.Rating>>);
+              returnValue: Future<List<_i5.Rating>>.value(<_i5.Rating>[]))
+          as _i4.Future<List<_i5.Rating>>);
+  @override
+  _i4.Future<_i2.Player> fetchPlayerDataByProfileId(
+          int? leaderboardId, int? profileId) =>
+      (super.noSuchMethod(
+              Invocation.method(
+                  #fetchPlayerDataByProfileId, [leaderboardId, profileId]),
+              returnValue: Future<_i2.Player>.value(_FakePlayer_0()))
+          as _i4.Future<_i2.Player>);
   @override
   String toString() => super.toString();
 }

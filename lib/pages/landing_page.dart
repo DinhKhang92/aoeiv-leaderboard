@@ -7,6 +7,7 @@ import 'package:aoeiv_leaderboard/config/styles/theme.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
+import 'package:aoeiv_leaderboard/models/rating_history_screen_args.dart';
 import 'package:aoeiv_leaderboard/utils/debouncer.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_game_mode.dart';
@@ -109,21 +110,28 @@ class _LandingPageState extends State<LandingPage> {
         itemCount: leaderboardData.length,
         itemBuilder: (context, index) {
           final Player player = leaderboardData[index];
-          return InkWell(
-            onTap: () => Navigator.of(context).pushNamed('/player', arguments: player),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(constraints: BoxConstraints(minWidth: Spacing.xxxl.spacing), child: Text("${player.rank}")),
-                Container(constraints: BoxConstraints(minWidth: Spacing.xxl.spacing), child: Text("${player.mmr}")),
-                Expanded(child: Text(player.name)),
-                Container(
-                  constraints: BoxConstraints(minWidth: Spacing.xl.spacing),
-                  margin: EdgeInsets.only(left: Spacing.m.spacing),
-                  child: Text("${player.winRate} %", textAlign: TextAlign.end),
+          return BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
+            builder: (context, state) {
+              return InkWell(
+                onTap: () => Navigator.of(context).pushNamed(
+                  '/player',
+                  arguments: RatingHistoryScreenArgs(leaderboardId: mapIndexToLeaderboardId(state.leaderboardGameModeIndex), player: player),
                 ),
-              ],
-            ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(constraints: BoxConstraints(minWidth: Spacing.xxxl.spacing), child: Text("${player.rank}")),
+                    Container(constraints: BoxConstraints(minWidth: Spacing.xxl.spacing), child: Text("${player.mmr}")),
+                    Expanded(child: Text(player.name)),
+                    Container(
+                      constraints: BoxConstraints(minWidth: Spacing.xl.spacing),
+                      margin: EdgeInsets.only(left: Spacing.m.spacing),
+                      child: Text("${player.winRate} %", textAlign: TextAlign.end),
+                    ),
+                  ],
+                ),
+              );
+            },
           );
         },
       ),

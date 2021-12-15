@@ -1,4 +1,4 @@
-import 'package:aoeiv_leaderboard/models/player.dart';
+import 'package:aoeiv_leaderboard/models/rating_history_screen_args.dart';
 import 'package:aoeiv_leaderboard/pages/disclaimer_page.dart';
 import 'package:aoeiv_leaderboard/pages/landing_page.dart';
 import 'package:aoeiv_leaderboard/pages/player_page.dart';
@@ -12,7 +12,13 @@ class RouteGenerator {
       case '/disclaimer':
         return MaterialPageRoute(builder: (_) => const DisclaimerPage());
       case '/player':
-        return MaterialPageRoute(builder: (_) => PlayerPage(player: settings.arguments as Player));
+        final RatingHistoryScreenArgs args = settings.arguments as RatingHistoryScreenArgs;
+        return MaterialPageRoute(
+          builder: (_) => PlayerPage(
+            player: args.player,
+            leaderboardId: args.leaderboardId,
+          ),
+        );
       default:
         return _errorRoute();
     }

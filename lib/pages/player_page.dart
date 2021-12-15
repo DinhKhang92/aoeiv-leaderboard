@@ -1,4 +1,3 @@
-import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
@@ -6,6 +5,7 @@ import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
+import 'package:aoeiv_leaderboard/utils/map_leaderboard_id_to_index.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
 import 'package:aoeiv_leaderboard/widgets/header.dart';
@@ -18,8 +18,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlayerPage extends StatefulWidget {
   final Player player;
+  final int leaderboardId;
 
-  const PlayerPage({required this.player, Key? key}) : super(key: key);
+  const PlayerPage({required this.leaderboardId, required this.player, Key? key}) : super(key: key);
 
   @override
   _PlayerPageState createState() => _PlayerPageState();
@@ -28,15 +29,23 @@ class PlayerPage extends StatefulWidget {
 class _PlayerPageState extends State<PlayerPage> {
   @override
   void initState() {
-    BlocProvider.of<GameModeSelectorCubit>(context).clearRatingHistoryGameMode();
-    BlocProvider.of<MatchHistoryDataCubit>(context).fetchMatchHistoryData(widget.player.profileId);
-
-    _fetchRatingHistoryData();
+    _clearRatingHistoryGameMode();
+    _initGameMode();
+    _fetchData();
     super.initState();
   }
 
-  Future<void> _fetchRatingHistoryData() async {
-    BlocProvider.of<RatingHistoryDataCubit>(context).fetchPlayerData(LeaderboardId.oneVOne.id, widget.player.profileId);
+  void _initGameMode() {
+    BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(mapLeaderboardIdToIndex(widget.leaderboardId));
+  }
+
+  void _clearRatingHistoryGameMode() {
+    BlocProvider.of<GameModeSelectorCubit>(context).clearRatingHistoryGameMode();
+  }
+
+  Future<void> _fetchData() async {
+    BlocProvider.of<RatingHistoryDataCubit>(context).fetchPlayerData(widget.leaderboardId, widget.player.profileId);
+    BlocProvider.of<MatchHistoryDataCubit>(context).fetchMatchHistoryData(widget.player.profileId);
   }
 
   @override
@@ -76,37 +85,40 @@ class _PlayerPageState extends State<PlayerPage> {
   Widget _buildStats() {
     return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
       builder: (context, state) {
-        final String mmr = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.rating}";
-        final String wins = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.totalWins}";
-        final String losses = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.totalLosses}";
-        final String winRate = state.ratingHistoryData.isEmpty ? "-" : "${state.ratingHistoryData.first.winRate}";
-        final int mmrDifference = 0;
-        // final int mmrDifference = state.player?.previousRating != null ? int.parse(mmr) - state.player!.previousRating! : int.parse(mmr);
-        print(mmrDifference);
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("#${state.player?.rank} | $mmr "),
-            Icon(
-              mmrDifference > 0 ? Icons.arrow_upward : Icons.arrow_downward,
-              size: 14,
-              color: mmrDifference > 0 ? Colors.green : Colors.red,
-            ),
-            Text(
-              "${mmrDifference.abs()}",
-              style: TextStyle(color: mmrDifference > 0 ? Colors.green : Colors.red),
-            ),
-            Text(" | $winRate% - "),
-            Text(
-              "${wins}W ",
-              style: const TextStyle(color: Colors.green),
-            ),
-            Text(
-              "${losses}L",
-              style: const TextStyle(color: Colors.red),
-            ),
-          ],
-        );
+        if (state is RatingHistoryDataLoaded) {
+          final int mmr = state.ratingHistoryData.first.rating;
+          final int wins = state.ratingHistoryData.first.totalWins;
+          final int losses = state.ratingHistoryData.first.totalLosses;
+          final int winRate = state.ratingHistoryData.first.winRate;
+          final int previousRating = state.player?.previousRating ?? 0;
+          final int mmrDifference = mmr - previousRating;
+
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("#${state.player?.rank} | $mmr "),
+              Icon(
+                mmrDifference >= 0 ? Icons.arrow_upward : Icons.arrow_downward,
+                size: 14,
+                color: mmrDifference >= 0 ? Colors.green : Colors.red,
+              ),
+              Text(
+                "${mmrDifference.abs()}",
+                style: TextStyle(color: mmrDifference >= 0 ? Colors.green : Colors.red),
+              ),
+              Text(" | $winRate% - "),
+              Text(
+                "${wins}W ",
+                style: const TextStyle(color: Colors.green),
+              ),
+              Text(
+                "${losses}L",
+                style: const TextStyle(color: Colors.red),
+              ),
+            ],
+          );
+        }
+        return const SizedBox.shrink();
       },
     );
   }
@@ -130,6 +142,9 @@ class _PlayerPageState extends State<PlayerPage> {
           }
           if (state is RatingHistoryDataLoaded) {
             return RatingLineChart(ratingHistoryData: state.ratingHistoryData);
+          }
+          if (state is RatingHistoryDataError) {
+            return const RatingLineChart(ratingHistoryData: []);
           }
           return const SizedBox.shrink();
         },

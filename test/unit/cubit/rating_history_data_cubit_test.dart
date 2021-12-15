@@ -1,4 +1,5 @@
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
+import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/models/rating.dart';
 import 'package:aoeiv_leaderboard/repositories/rating_history_data_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
@@ -19,6 +20,7 @@ void main() {
     const int profileId = 1412;
 
     final Rating exampleRating = Rating(rating: 1412, streak: 2, timestamp: 123, totalLosses: 2, totalWins: 8);
+    final Player examplePlayer = Player(rank: 1412, name: "T0nb3rry", totalGames: 100, totalWins: 71, totalLosses: 29, mmr: 1412, profileId: 1412);
 
     setUp(() {
       _ratingHistoryDataCubit = RatingHistoryDataCubit(ratingHistoryDataRepository: _mockRatingHistoryDataRepository);
@@ -29,6 +31,7 @@ void main() {
         'emits RatingHistoryDataLoading and RatingHistoryDataLoaded when fetching rating history data succeeded',
         build: () {
           when(_mockRatingHistoryDataRepository.fetchRatingHistoryData(any, any)).thenAnswer((_) async => [exampleRating]);
+          when(_mockRatingHistoryDataRepository.fetchPlayerDataByProfileId(any, any)).thenAnswer((_) async => examplePlayer);
 
           return _ratingHistoryDataCubit;
         },
@@ -39,6 +42,7 @@ void main() {
         'emits RatingHistoryDataLoading and RatingHistoryDataLoaded with rating history data when fetching data succeeded',
         build: () {
           when(_mockRatingHistoryDataRepository.fetchRatingHistoryData(any, any)).thenAnswer((_) async => [exampleRating]);
+          when(_mockRatingHistoryDataRepository.fetchPlayerDataByProfileId(any, any)).thenAnswer((_) async => examplePlayer);
 
           return _ratingHistoryDataCubit;
         },
