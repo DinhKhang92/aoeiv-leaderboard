@@ -4,8 +4,9 @@ part of 'rating_history_data_cubit.dart';
 abstract class RatingHistoryDataState extends Equatable {
   final List<Rating> ratingHistoryData;
   final Player? player;
+  final Exception? error;
 
-  const RatingHistoryDataState({required this.ratingHistoryData, this.player});
+  const RatingHistoryDataState({required this.ratingHistoryData, this.player, this.error});
 
   @override
   List<Object> get props => [ratingHistoryData];
@@ -24,5 +25,5 @@ class RatingHistoryDataLoaded extends RatingHistoryDataState {
 }
 
 class RatingHistoryDataError extends RatingHistoryDataState {
-  RatingHistoryDataError() : super(ratingHistoryData: []);
+  RatingHistoryDataError({Exception? error}) : super(ratingHistoryData: [], error: error);
 }

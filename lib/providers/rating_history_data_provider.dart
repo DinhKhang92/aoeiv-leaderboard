@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aoeiv_leaderboard/config/config.dart';
+import 'package:aoeiv_leaderboard/exceptions/fetch_data_exception.dart';
 import 'package:aoeiv_leaderboard/models/rating.dart';
 import 'package:http/http.dart';
 
@@ -26,6 +27,6 @@ class RatingHistoryDataProvider {
       return ratingList;
     }
 
-    throw Exception('Failed to fetch rating history data with url: $url');
+    throw FetchDataException('Error ${response.statusCode}. Failed to fetch rating history data with url: $url');
   }
 }

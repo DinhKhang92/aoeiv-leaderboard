@@ -63,5 +63,13 @@
     "@sectionTitleMmrHistory": {
         "description": "section title for mmr history"
     },
-    "sectionTitleMmrHistory": "MMR History"
+    "sectionTitleMmrHistory": "MMR History",
+    "@errorMessageNoDataFound": {
+        "description": "error message when data not found"
+    },
+    "errorMessageNoDataFound": "No data found for this game mode.",
+    "@errorMessageFetchData": {
+        "description": "error message when fetching data failed"
+    },
+    "errorMessageFetchData": "Server Error, please try again."
 }

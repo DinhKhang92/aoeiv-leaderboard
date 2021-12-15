@@ -1,8 +1,8 @@
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
-import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
+import 'package:aoeiv_leaderboard/exceptions/no_data_exception.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_leaderboard_id_to_index.dart';
@@ -31,7 +31,7 @@ class _PlayerPageState extends State<PlayerPage> {
   void initState() {
     _clearRatingHistoryGameMode();
     _initGameMode();
-    _fetchData();
+    _fetchData(widget.leaderboardId);
     super.initState();
   }
 
@@ -43,9 +43,8 @@ class _PlayerPageState extends State<PlayerPage> {
     BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(mapLeaderboardIdToIndex(widget.leaderboardId));
   }
 
-  Future<void> _fetchData() async {
-    BlocProvider.of<RatingHistoryDataCubit>(context).fetchPlayerData(widget.leaderboardId, widget.player.profileId);
-    BlocProvider.of<MatchHistoryDataCubit>(context).fetchMatchHistoryData(widget.player.profileId);
+  Future<void> _fetchData(int leaderboardId) async {
+    BlocProvider.of<RatingHistoryDataCubit>(context).fetchPlayerData(leaderboardId, widget.player.profileId);
   }
 
   @override
@@ -71,7 +70,7 @@ class _PlayerPageState extends State<PlayerPage> {
                 SizedBox(height: Spacing.l.spacing),
                 _buildStats(),
                 SizedBox(height: Spacing.xl.spacing),
-                SectionTitle(title: AppLocalizations.of(context)!.sectionTitleMmrHistory),
+                _buildSectionTitle(),
                 _buildRatingHistoryLineChart(),
                 SizedBox(height: Spacing.m.spacing),
               ],
@@ -79,6 +78,18 @@ class _PlayerPageState extends State<PlayerPage> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildSectionTitle() {
+    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
+      builder: (context, state) {
+        if (state is RatingHistoryDataLoaded) {
+          return SectionTitle(title: AppLocalizations.of(context)!.sectionTitleMmrHistory);
+        }
+
+        return const SizedBox.shrink();
+      },
     );
   }
 
@@ -98,13 +109,13 @@ class _PlayerPageState extends State<PlayerPage> {
             children: [
               Text("#${state.player?.rank} | $mmr "),
               Icon(
-                mmrDifference >= 0 ? Icons.arrow_upward : Icons.arrow_downward,
+                mmrDifference < 0 ? Icons.arrow_downward : Icons.arrow_upward,
                 size: 14,
-                color: mmrDifference >= 0 ? Colors.green : Colors.red,
+                color: mmrDifference < 0 ? Colors.red : Colors.green,
               ),
               Text(
                 "${mmrDifference.abs()}",
-                style: TextStyle(color: mmrDifference >= 0 ? Colors.green : Colors.red),
+                style: TextStyle(color: mmrDifference < 0 ? Colors.red : Colors.green),
               ),
               Text(" | $winRate% - "),
               Text(
@@ -144,10 +155,25 @@ class _PlayerPageState extends State<PlayerPage> {
             return RatingLineChart(ratingHistoryData: state.ratingHistoryData);
           }
           if (state is RatingHistoryDataError) {
-            return const RatingLineChart(ratingHistoryData: []);
+            final String errorMessage =
+                state.error is NoDataException ? AppLocalizations.of(context)!.errorMessageNoDataFound : AppLocalizations.of(context)!.errorMessageFetchData;
+            return _buildRatingHistoryDataError(errorMessage);
           }
           return const SizedBox.shrink();
         },
+      ),
+    );
+  }
+
+  Widget _buildRatingHistoryDataError(String errorMessage) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.warning, size: 30),
+          SizedBox(height: Spacing.xs.spacing),
+          Text(errorMessage),
+        ],
       ),
     );
   }
@@ -172,7 +198,7 @@ class _PlayerPageState extends State<PlayerPage> {
                       BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(index);
 
                       final int leaderboardId = mapIndexToLeaderboardId(index);
-                      BlocProvider.of<RatingHistoryDataCubit>(context).fetchPlayerData(leaderboardId, widget.player.profileId);
+                      _fetchData(leaderboardId);
                     }
                   },
                   child: RatingHistoryModeSelector(

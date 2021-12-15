@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aoeiv_leaderboard/config/config.dart';
+import 'package:aoeiv_leaderboard/exceptions/fetch_data_exception.dart';
 import 'package:aoeiv_leaderboard/models/match.dart';
 import 'package:aoeiv_leaderboard/models/match_player.dart';
 import 'package:http/http.dart';
@@ -34,6 +35,6 @@ class MatchHistoryDataProvider {
       return matchList;
     }
 
-    throw Exception('Failed to fetch match history data with url: $url');
+    throw FetchDataException('Error ${response.statusCode}. Failed to fetch match history data with url: $url');
   }
 }

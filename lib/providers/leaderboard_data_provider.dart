@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:aoeiv_leaderboard/config/config.dart';
+import 'package:aoeiv_leaderboard/exceptions/fetch_data_exception.dart';
+import 'package:aoeiv_leaderboard/exceptions/no_data_exception.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:http/http.dart';
 
@@ -20,7 +22,7 @@ class LeaderboardDataProvider {
       return playerList;
     }
 
-    throw Exception("Failed to fetch leaderboard data with url: $url");
+    throw FetchDataException("Error ${response.statusCode}. Failed to fetch leaderboard data with url: $url");
   }
 
   List<Player> _parsePlayers(List leaderboardData) {
@@ -46,7 +48,7 @@ class LeaderboardDataProvider {
       return playerList;
     }
 
-    throw Exception("Failed to fetch searched player with url: $url");
+    throw FetchDataException("Error ${response.statusCode}. Failed to fetch searched player with url: $url");
   }
 
   Future<Player> fetchPlayerDataByProfileId(int leaderboardId, int profileId) async {
@@ -59,12 +61,12 @@ class LeaderboardDataProvider {
       final List<Player> playerList = _parsePlayers(leaderboardData);
 
       if (playerList.isEmpty) {
-        throw Exception("Failed to fetch player data by profileId: $profileId with url :$url");
+        throw NoDataException("No player data found for profileId: $profileId with url :$url");
       }
 
       return playerList.first;
     }
 
-    throw Exception("Failed to fetch searched player with url: $url");
+    throw FetchDataException("Error ${response.statusCode}. Failed to fetch searched player with url: $url");
   }
 }
