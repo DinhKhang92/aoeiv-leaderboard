@@ -9,17 +9,17 @@ abstract class MatchHistoryDataState extends Equatable {
 }
 
 class MatchHistoryDataInitial extends MatchHistoryDataState {
-  const MatchHistoryDataInitial({matches}) : super(matches: matches);
+  const MatchHistoryDataInitial({required List<Match> matches}) : super(matches: matches);
 }
 
 class MatchHistoryDataLoading extends MatchHistoryDataState {
-  const MatchHistoryDataLoading({matches}) : super(matches: matches);
+  const MatchHistoryDataLoading({required List<Match> matches}) : super(matches: matches);
 }
 
 class MatchHistoryDataLoaded extends MatchHistoryDataState {
-  const MatchHistoryDataLoaded({matches}) : super(matches: matches);
+  const MatchHistoryDataLoaded({required List<Match> matches}) : super(matches: matches);
 }
 
 class MatchHistoryDataError extends MatchHistoryDataState {
-  const MatchHistoryDataError({matches}) : super(matches: matches);
+  MatchHistoryDataError() : super(matches: []);
 }

@@ -35,12 +35,12 @@ class _PlayerPageState extends State<PlayerPage> {
     super.initState();
   }
 
-  void _initGameMode() {
-    BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(mapLeaderboardIdToIndex(widget.leaderboardId));
-  }
-
   void _clearRatingHistoryGameMode() {
     BlocProvider.of<GameModeSelectorCubit>(context).clearRatingHistoryGameMode();
+  }
+
+  void _initGameMode() {
+    BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(mapLeaderboardIdToIndex(widget.leaderboardId));
   }
 
   Future<void> _fetchData() async {

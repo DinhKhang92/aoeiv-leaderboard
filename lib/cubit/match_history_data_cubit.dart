@@ -7,7 +7,7 @@ part 'match_history_data_state.dart';
 
 class MatchHistoryDataCubit extends Cubit<MatchHistoryDataState> {
   final MatchHistoryDataRepository matchHistoryDataRepository;
-  MatchHistoryDataCubit({required this.matchHistoryDataRepository}) : super(MatchHistoryDataInitial(matches: const []));
+  MatchHistoryDataCubit({required this.matchHistoryDataRepository}) : super(const MatchHistoryDataInitial(matches: []));
 
   Future<void> fetchMatchHistoryData(int profileId) async {
     emit(MatchHistoryDataLoading(matches: state.matches));
