@@ -4,7 +4,7 @@ class Rating {
   final int totalWins;
   final int totalLosses;
   final int streak;
-  late final int winRate;
+  final int winRate;
 
   Rating({
     required this.timestamp,
@@ -12,6 +12,7 @@ class Rating {
     required this.totalWins,
     required this.totalLosses,
     required this.streak,
+    required this.winRate,
   });
 
   factory Rating.fromJSON(Map json) => Rating(
@@ -20,7 +21,6 @@ class Rating {
         totalWins: json['num_wins'],
         totalLosses: json['num_losses'],
         streak: json['streak'],
+        winRate: (json['num_wins'] / (json['num_wins'] + json['num_losses']) * 100).round(),
       );
-
-  set setWinRate(int rate) => winRate = rate;
 }

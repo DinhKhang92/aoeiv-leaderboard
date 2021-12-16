@@ -6,8 +6,8 @@ class Player {
   final int totalLosses;
   final int mmr;
   final int profileId;
-  final int? previousRating;
   final int winRate;
+  final int? previousRating;
 
   Player({
     required this.rank,
@@ -32,6 +32,4 @@ class Player {
         previousRating: json['previous_rating'],
         winRate: (json['wins'] / json['games'] * 100).round(),
       );
-
-  // set setWinRate(int rate) => winRate = rate;
 }
