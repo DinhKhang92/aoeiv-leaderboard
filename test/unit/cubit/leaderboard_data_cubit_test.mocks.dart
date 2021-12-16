@@ -7,6 +7,7 @@ import 'dart:async' as _i3;
 import 'package:aoeiv_leaderboard/models/player.dart' as _i4;
 import 'package:aoeiv_leaderboard/repositories/leaderboard_data_repository.dart'
     as _i2;
+import 'package:http/http.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -28,18 +29,20 @@ class MockLeaderboardDataRepository extends _i1.Mock
   }
 
   @override
-  _i3.Future<List<_i4.Player>> fetchLeaderboardData(int? leaderboardId) =>
+  _i3.Future<List<_i4.Player>> fetchLeaderboardData(
+          _i5.Client? client, int? leaderboardId) =>
       (super.noSuchMethod(
-              Invocation.method(#fetchLeaderboardData, [leaderboardId]),
+              Invocation.method(#fetchLeaderboardData, [client, leaderboardId]),
               returnValue: Future<List<_i4.Player>>.value(<_i4.Player>[]))
           as _i3.Future<List<_i4.Player>>);
   @override
   _i3.Future<List<_i4.Player>> searchPlayer(
-          int? leaderboardId, String? playerName) =>
+          _i5.Client? client, int? leaderboardId, String? playerName) =>
       (super.noSuchMethod(
-              Invocation.method(#searchPlayer, [leaderboardId, playerName]),
-              returnValue: Future<List<_i4.Player>>.value(<_i4.Player>[]))
-          as _i3.Future<List<_i4.Player>>);
+          Invocation.method(#searchPlayer, [client, leaderboardId, playerName]),
+          returnValue:
+              Future<List<_i4.Player>>.value(<_i4.Player>[])) as _i3
+          .Future<List<_i4.Player>>);
   @override
   String toString() => super.toString();
 }

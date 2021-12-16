@@ -18,7 +18,7 @@ class RatingHistoryDataCubit extends Cubit<RatingHistoryDataState> {
     try {
       emit(RatingHistoryDataLoading(ratingHistoryData: state.ratingHistoryData, player: state.player));
       final List<Rating> ratingHistoryData = await ratingHistoryDataRepository.fetchRatingHistoryData(_client, leaderboardId, profileId);
-      final Player player = await ratingHistoryDataRepository.fetchPlayerDataByProfileId(leaderboardId, profileId);
+      final Player player = await ratingHistoryDataRepository.fetchPlayerDataByProfileId(_client, leaderboardId, profileId);
       emit(RatingHistoryDataLoaded(ratingHistoryData: ratingHistoryData, player: player));
     } on Exception catch (error, _) {
       emit(RatingHistoryDataError(error: error));

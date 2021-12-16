@@ -11,5 +11,6 @@ class RatingHistoryDataRepository {
   Future<List<Rating>> fetchRatingHistoryData(Client client, int leaderboardId, int profileId) =>
       _ratingHistoryDataProvider.fetchRatingHistoryData(client, leaderboardId, profileId);
 
-  Future<Player> fetchPlayerDataByProfileId(int leaderboardId, int profileId) => _leaderboardDataProvider.fetchPlayerDataByProfileId(leaderboardId, profileId);
+  Future<Player> fetchPlayerDataByProfileId(Client client, int leaderboardId, int profileId) =>
+      _leaderboardDataProvider.fetchPlayerDataByProfileId(client, leaderboardId, profileId);
 }

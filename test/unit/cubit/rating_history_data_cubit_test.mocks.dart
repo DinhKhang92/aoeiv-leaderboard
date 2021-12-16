@@ -41,10 +41,10 @@ class MockRatingHistoryDataRepository extends _i1.Mock
           as _i4.Future<List<_i5.Rating>>);
   @override
   _i4.Future<_i2.Player> fetchPlayerDataByProfileId(
-          int? leaderboardId, int? profileId) =>
+          _i6.Client? client, int? leaderboardId, int? profileId) =>
       (super.noSuchMethod(
-              Invocation.method(
-                  #fetchPlayerDataByProfileId, [leaderboardId, profileId]),
+              Invocation.method(#fetchPlayerDataByProfileId,
+                  [client, leaderboardId, profileId]),
               returnValue: Future<_i2.Player>.value(_FakePlayer_0()))
           as _i4.Future<_i2.Player>);
   @override

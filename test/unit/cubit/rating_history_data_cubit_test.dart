@@ -33,7 +33,7 @@ void main() {
         'emits RatingHistoryDataLoading and RatingHistoryDataLoaded when fetching rating history data succeeded',
         build: () {
           when(_mockRatingHistoryDataRepository.fetchRatingHistoryData(any, any, any)).thenAnswer((_) async => [exampleRating]);
-          when(_mockRatingHistoryDataRepository.fetchPlayerDataByProfileId(any, any)).thenAnswer((_) async => examplePlayer);
+          when(_mockRatingHistoryDataRepository.fetchPlayerDataByProfileId(any, any, any)).thenAnswer((_) async => examplePlayer);
 
           return _ratingHistoryDataCubit;
         },
@@ -44,7 +44,7 @@ void main() {
         'emits RatingHistoryDataLoading and RatingHistoryDataLoaded with rating history data when fetching data succeeded',
         build: () {
           when(_mockRatingHistoryDataRepository.fetchRatingHistoryData(any, any, any)).thenAnswer((_) async => [exampleRating]);
-          when(_mockRatingHistoryDataRepository.fetchPlayerDataByProfileId(any, any)).thenAnswer((_) async => examplePlayer);
+          when(_mockRatingHistoryDataRepository.fetchPlayerDataByProfileId(any, any, any)).thenAnswer((_) async => examplePlayer);
 
           return _ratingHistoryDataCubit;
         },
@@ -68,7 +68,7 @@ void main() {
         'emits RatingHistoryDataLoading and RatingHistoryDataError when fetching player data failed',
         build: () {
           when(_mockRatingHistoryDataRepository.fetchRatingHistoryData(any, any, any)).thenAnswer((_) async => [exampleRating]);
-          when(_mockRatingHistoryDataRepository.fetchPlayerDataByProfileId(any, any)).thenThrow(Exception());
+          when(_mockRatingHistoryDataRepository.fetchPlayerDataByProfileId(any, any, any)).thenThrow(Exception());
 
           return _ratingHistoryDataCubit;
         },
@@ -80,7 +80,7 @@ void main() {
       'emits RatingHistoryDataLoading and RatingHistoryDataError with FetchDataException when fetching data failed',
       build: () {
         when(_mockRatingHistoryDataRepository.fetchRatingHistoryData(any, any, any)).thenAnswer((_) async => [exampleRating]);
-        when(_mockRatingHistoryDataRepository.fetchPlayerDataByProfileId(any, any)).thenThrow(FetchDataException("fetching failed"));
+        when(_mockRatingHistoryDataRepository.fetchPlayerDataByProfileId(any, any, any)).thenThrow(FetchDataException("fetching failed"));
         return _ratingHistoryDataCubit;
       },
       act: (cubit) => cubit.fetchPlayerData(leaderboardId, profileId),
@@ -90,7 +90,7 @@ void main() {
       'emits RatingHistoryDataLoading and RatingHistoryDataError with NoDataException when no data found for selected game mode',
       build: () {
         when(_mockRatingHistoryDataRepository.fetchRatingHistoryData(any, any, any)).thenAnswer((_) async => [exampleRating]);
-        when(_mockRatingHistoryDataRepository.fetchPlayerDataByProfileId(any, any)).thenThrow(NoDataException("no data found"));
+        when(_mockRatingHistoryDataRepository.fetchPlayerDataByProfileId(any, any, any)).thenThrow(NoDataException("no data found"));
 
         return _ratingHistoryDataCubit;
       },

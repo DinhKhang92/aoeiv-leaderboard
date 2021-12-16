@@ -7,12 +7,11 @@ import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:http/http.dart';
 
 class LeaderboardDataProvider {
-  final Client _client = Client();
   final Config _config = Config();
 
-  Future<List<Player>> fetchLeaderboardData(int leaderboardId) async {
+  Future<List<Player>> fetchLeaderboardData(Client client, int leaderboardId) async {
     final String url = "${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId&start=1&count=${_config.maxCount}";
-    final response = await _client.get(Uri.parse(url));
+    final response = await client.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final Map jsonData = jsonDecode(response.body);
       final List leaderboardData = jsonData['leaderboard'];
@@ -36,9 +35,9 @@ class LeaderboardDataProvider {
     return playerList;
   }
 
-  Future<List<Player>> searchPlayer(int leaderboardId, String playerName) async {
+  Future<List<Player>> searchPlayer(Client client, int leaderboardId, String playerName) async {
     final String url = "${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId&search=$playerName&count=${_config.maxCount}";
-    final response = await _client.get(Uri.parse(url));
+    final response = await client.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final Map jsonData = jsonDecode(response.body);
       final List leaderboardData = jsonData['leaderboard'];
@@ -51,9 +50,9 @@ class LeaderboardDataProvider {
     throw FetchDataException("Error ${response.statusCode}. Failed to fetch searched player with url: $url");
   }
 
-  Future<Player> fetchPlayerDataByProfileId(int leaderboardId, int profileId) async {
+  Future<Player> fetchPlayerDataByProfileId(Client client, int leaderboardId, int profileId) async {
     final String url = "${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId&profile_id=$profileId";
-    final response = await _client.get(Uri.parse(url));
+    final response = await client.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final Map jsonData = jsonDecode(response.body);
       final List leaderboardData = jsonData['leaderboard'];
