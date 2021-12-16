@@ -21,7 +21,7 @@ void main() {
     const int leaderboardId = 17;
     const int profileId = 1412;
 
-    final Rating exampleRating = Rating(rating: 1412, streak: 2, timestamp: 123, totalLosses: 2, totalWins: 8);
+    final Rating exampleRating = Rating(rating: 1412, streak: 2, timestamp: 123, totalLosses: 2, totalWins: 8, winRate: 70);
     final Player examplePlayer = Player(rank: 1412, name: "T0nb3rry", totalGames: 100, totalWins: 71, totalLosses: 29, mmr: 1412, profileId: 1412, winRate: 40);
 
     setUp(() {
