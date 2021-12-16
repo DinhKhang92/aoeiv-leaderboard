@@ -8,6 +8,7 @@ import 'package:aoeiv_leaderboard/models/player.dart' as _i2;
 import 'package:aoeiv_leaderboard/models/rating.dart' as _i5;
 import 'package:aoeiv_leaderboard/repositories/rating_history_data_repository.dart'
     as _i3;
+import 'package:http/http.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -32,10 +33,10 @@ class MockRatingHistoryDataRepository extends _i1.Mock
 
   @override
   _i4.Future<List<_i5.Rating>> fetchRatingHistoryData(
-          int? leaderboardId, int? profileId) =>
+          _i6.Client? client, int? leaderboardId, int? profileId) =>
       (super.noSuchMethod(
               Invocation.method(
-                  #fetchRatingHistoryData, [leaderboardId, profileId]),
+                  #fetchRatingHistoryData, [client, leaderboardId, profileId]),
               returnValue: Future<List<_i5.Rating>>.value(<_i5.Rating>[]))
           as _i4.Future<List<_i5.Rating>>);
   @override

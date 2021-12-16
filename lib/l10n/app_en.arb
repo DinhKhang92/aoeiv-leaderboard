@@ -67,9 +67,9 @@
     "@errorMessageNoDataFound": {
         "description": "error message when data not found"
     },
-    "errorMessageNoDataFound": "No data found for this game mode.",
+    "errorMessageNoDataFound": "No data found for this game mode",
     "@errorMessageFetchData": {
         "description": "error message when fetching data failed"
     },
-    "errorMessageFetchData": "Server Error, please try again."
+    "errorMessageFetchData": "Server Error, please try again"
 }
