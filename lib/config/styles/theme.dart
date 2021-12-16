@@ -14,6 +14,7 @@ final ThemeData ktTheme = ThemeData(
 
 const TextSelectionThemeData ktTextSelectionTheme = TextSelectionThemeData(
   cursorColor: kcTertiaryColor,
+  selectionHandleColor: kcTertiaryColor,
 );
 
 InputDecorationTheme ktInputDecorationTheme = InputDecorationTheme(
