@@ -20,7 +20,7 @@ class MatchHistoryDataProvider {
       final List jsonData = jsonDecode(response.body);
 
       for (Map matchHistory in jsonData) {
-        final List<MatchPlayer> matchPlayers = matchHistory['players'].map((matchHistoryPlayer) => MatchPlayer.fromJSON(matchHistoryPlayer)).toList();
+        final List<MatchPlayer> matchPlayers = (matchHistory['players'] as List).map((matchHistoryPlayer) => MatchPlayer.fromJSON(matchHistoryPlayer)).toList();
 
         final Match match = Match.fromJSON(matchHistory);
         match.setMatchPlayers = matchPlayers;
