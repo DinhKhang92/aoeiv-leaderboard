@@ -8,6 +8,7 @@ import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_leaderboard_id_to_index.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
+import 'package:aoeiv_leaderboard/widgets/error_display.dart';
 import 'package:aoeiv_leaderboard/widgets/header.dart';
 import 'package:aoeiv_leaderboard/widgets/line_chart.dart';
 import 'package:aoeiv_leaderboard/widgets/rating_history_mode_selector.dart';
@@ -157,23 +158,10 @@ class _PlayerPageState extends State<PlayerPage> {
           if (state is RatingHistoryDataError) {
             final String errorMessage =
                 state.error is NoDataException ? AppLocalizations.of(context)!.errorMessageNoDataFound : AppLocalizations.of(context)!.errorMessageFetchData;
-            return _buildRatingHistoryDataError(errorMessage);
+            return ErrorDisplay(errorMessage: errorMessage);
           }
           return const SizedBox.shrink();
         },
-      ),
-    );
-  }
-
-  Widget _buildRatingHistoryDataError(String errorMessage) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.warning, size: 30),
-          SizedBox(height: Spacing.xs.spacing),
-          Text(errorMessage),
-        ],
       ),
     );
   }

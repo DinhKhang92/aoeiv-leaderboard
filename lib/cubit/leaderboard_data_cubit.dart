@@ -17,8 +17,8 @@ class LeaderboardDataCubit extends Cubit<LeaderboardDataState> {
       emit(LeaderboardDataLoading(leaderboardData: state.leaderboardData, searchedPlayers: state.searchedPlayers));
       final List<Player> leaderboardData = await leaderboardDataRepository.fetchLeaderboardData(_client, leaderboardId);
       emit(LeaderboardDataLoaded(leaderboardData: leaderboardData, searchedPlayers: state.searchedPlayers));
-    } catch (e) {
-      emit(LeaderboardDataError());
+    } on Exception catch (error, _) {
+      emit(LeaderboardDataError(error: error));
     }
   }
 

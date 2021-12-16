@@ -24,16 +24,7 @@ class LeaderboardDataProvider {
     throw FetchDataException("Error ${response.statusCode}. Failed to fetch leaderboard data with url: $url");
   }
 
-  List<Player> _parsePlayers(List leaderboardData) {
-    final List<Player> playerList = [];
-    for (Map leaderboard in leaderboardData) {
-      Player player = Player.fromJson(leaderboard);
-      player.setWinRate = (player.totalWins / player.totalGames * 100).round();
-
-      playerList.add(player);
-    }
-    return playerList;
-  }
+  List<Player> _parsePlayers(List leaderboardData) => leaderboardData.map((leaderboard) => Player.fromJson(leaderboard)).toList();
 
   Future<List<Player>> searchPlayer(Client client, int leaderboardId, String playerName) async {
     final String url = "${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId&search=$playerName&count=${_config.maxCount}";

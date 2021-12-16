@@ -33,21 +33,29 @@ class MyApp extends StatelessWidget {
         BlocProvider<GameModeSelectorCubit>(create: (_) => _gameModeSelectorCubit),
         BlocProvider<MatchHistoryDataCubit>(create: (_) => _matchHistoryDataCubit),
       ],
-      child: MaterialApp(
-        title: 'AoE4-Leaderboard',
-        debugShowCheckedModeBanner: false,
-        theme: ktTheme,
-        initialRoute: '/',
-        onGenerateRoute: RouteGenerator.generateRoute,
-        supportedLocales: const [
-          Locale('en', ''),
-        ],
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
+      child: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+            FocusManager.instance.primaryFocus?.unfocus();
+          }
+        },
+        child: MaterialApp(
+          title: 'AoE4-Leaderboard',
+          debugShowCheckedModeBanner: false,
+          theme: ktTheme,
+          initialRoute: '/',
+          onGenerateRoute: RouteGenerator.generateRoute,
+          supportedLocales: const [
+            Locale('en', ''),
+          ],
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+        ),
       ),
     );
   }

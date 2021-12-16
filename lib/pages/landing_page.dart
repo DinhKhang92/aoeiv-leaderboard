@@ -14,6 +14,7 @@ import 'package:aoeiv_leaderboard/utils/map_index_to_game_mode.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
 import 'package:aoeiv_leaderboard/widgets/custom_bottom_navigation_bar.dart';
+import 'package:aoeiv_leaderboard/widgets/error_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -31,7 +32,7 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   void initState() {
-    fetchLeaderboardData();
+    _fetchLeaderboardData();
     super.initState();
   }
 
@@ -41,7 +42,7 @@ class _LandingPageState extends State<LandingPage> {
     super.dispose();
   }
 
-  Future<void> fetchLeaderboardData() async {
+  Future<void> _fetchLeaderboardData() async {
     await BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.oneVOne.id);
   }
 
@@ -58,35 +59,42 @@ class _LandingPageState extends State<LandingPage> {
       children: [
         const Background(),
         SafeArea(
-          bottom: false,
           child: Container(
             padding: EdgeInsets.all(Spacing.m.spacing),
             child: Column(
               children: [
                 _buildHeader(),
-                SizedBox(height: Spacing.xl.spacing),
+                SizedBox(height: Spacing.l.spacing),
                 _buildSearchbar(),
                 SizedBox(height: Spacing.l.spacing),
                 _buildLeaderboardHeader(),
                 SizedBox(height: Spacing.m.spacing),
-                BlocBuilder<LeaderboardDataCubit, LeaderboardDataState>(
-                  builder: (context, state) {
-                    if (state is LeaderboardDataLoading) {
-                      return const Expanded(child: CenteredCircularProgressIndicator());
-                    }
-                    if (state is LeaderboardDataLoaded) {
-                      final List data = _searchFieldController.text.isEmpty ? state.leaderboardData : state.searchedPlayers;
-
-                      return _buildLeaderboard(data);
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
+                _buildLeaderboard(),
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildLeaderboard() {
+    return BlocBuilder<LeaderboardDataCubit, LeaderboardDataState>(
+      builder: (context, state) {
+        if (state is LeaderboardDataLoading) {
+          return const Expanded(child: CenteredCircularProgressIndicator());
+        }
+
+        if (state is LeaderboardDataLoaded) {
+          final List data = _searchFieldController.text.isEmpty ? state.leaderboardData : state.searchedPlayers;
+
+          return _buildLeaderboardDataLoaded(data);
+        }
+        if (state is LeaderboardDataError) {
+          return Expanded(child: ErrorDisplay(errorMessage: AppLocalizations.of(context)!.errorMessageFetchData));
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 
@@ -102,7 +110,7 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  Widget _buildLeaderboard(List leaderboardData) {
+  Widget _buildLeaderboardDataLoaded(List leaderboardData) {
     return Expanded(
       child: ListView.separated(
         padding: EdgeInsets.symmetric(vertical: Spacing.m.spacing),

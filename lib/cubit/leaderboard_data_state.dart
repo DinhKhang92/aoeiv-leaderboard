@@ -4,8 +4,9 @@ part of 'leaderboard_data_cubit.dart';
 abstract class LeaderboardDataState extends Equatable {
   final List leaderboardData;
   final List searchedPlayers;
+  final Exception? error;
 
-  const LeaderboardDataState({required this.leaderboardData, required this.searchedPlayers});
+  const LeaderboardDataState({required this.leaderboardData, required this.searchedPlayers, this.error});
 
   @override
   List<Object> get props => [leaderboardData, searchedPlayers];
@@ -24,5 +25,5 @@ class LeaderboardDataLoaded extends LeaderboardDataState {
 }
 
 class LeaderboardDataError extends LeaderboardDataState {
-  LeaderboardDataError() : super(leaderboardData: [], searchedPlayers: []);
+  LeaderboardDataError({Exception? error}) : super(leaderboardData: [], searchedPlayers: [], error: error);
 }
