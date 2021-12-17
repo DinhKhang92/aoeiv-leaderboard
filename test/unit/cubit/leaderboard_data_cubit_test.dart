@@ -100,7 +100,7 @@ void main() {
       blocTest<LeaderboardDataCubit, LeaderboardDataState>(
         'emits LeaderboardDataLoading and LeaderboardDataError when searching player failed',
         build: () {
-          when(_mockLeaderboardDataRepository.searchPlayer(any, any, any)).thenThrow(Error);
+          when(_mockLeaderboardDataRepository.searchPlayer(any, any, any)).thenThrow(FetchDataException("failed"));
 
           return _leaderboardDataCubit;
         },
