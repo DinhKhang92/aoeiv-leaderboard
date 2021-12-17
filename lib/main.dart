@@ -11,6 +11,5 @@ void main() {
       statusBarBrightness: Brightness.dark,
     ),
   );
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) => runApp(MyApp()));
+  runApp(MyApp());
 }
