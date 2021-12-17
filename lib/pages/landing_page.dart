@@ -112,36 +112,46 @@ class _LandingPageState extends State<LandingPage> {
 
   Widget _buildLeaderboardDataLoaded(List leaderboardData) {
     return Expanded(
-      child: ListView.separated(
-        padding: EdgeInsets.symmetric(vertical: Spacing.m.spacing),
-        separatorBuilder: (context, index) => SizedBox(height: Spacing.xl.spacing),
-        itemCount: leaderboardData.length,
-        itemBuilder: (context, index) {
-          final Player player = leaderboardData[index];
-          return BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
-            builder: (context, state) {
-              return InkWell(
-                onTap: () => Navigator.of(context).pushNamed(
-                  '/player',
-                  arguments: RatingHistoryScreenArgs(leaderboardId: mapIndexToLeaderboardId(state.leaderboardGameModeIndex), player: player),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(constraints: BoxConstraints(minWidth: Spacing.xxxl.spacing), child: Text("${player.rank}")),
-                    Container(constraints: BoxConstraints(minWidth: Spacing.xxl.spacing), child: Text("${player.mmr}")),
-                    Expanded(child: Text(player.name)),
-                    Container(
-                      constraints: BoxConstraints(minWidth: Spacing.xl.spacing),
-                      margin: EdgeInsets.only(left: Spacing.m.spacing),
-                      child: Text("${player.winRate} %", textAlign: TextAlign.end),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
+      child: ShaderMask(
+        shaderCallback: (Rect rect) {
+          return const LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [Colors.transparent, kcColorWhite],
+            stops: [0.0, 0.04],
+          ).createShader(rect);
         },
+        child: ListView.separated(
+          padding: EdgeInsets.symmetric(vertical: Spacing.m.spacing),
+          separatorBuilder: (context, index) => SizedBox(height: Spacing.xl.spacing),
+          itemCount: leaderboardData.length,
+          itemBuilder: (context, index) {
+            final Player player = leaderboardData[index];
+            return BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
+              builder: (context, state) {
+                return InkWell(
+                  onTap: () => Navigator.of(context).pushNamed(
+                    '/player',
+                    arguments: RatingHistoryScreenArgs(leaderboardId: mapIndexToLeaderboardId(state.leaderboardGameModeIndex), player: player),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(constraints: BoxConstraints(minWidth: Spacing.xxxl.spacing), child: Text("${player.rank}")),
+                      Container(constraints: BoxConstraints(minWidth: Spacing.xxl.spacing), child: Text("${player.mmr}")),
+                      Expanded(child: Text(player.name)),
+                      Container(
+                        constraints: BoxConstraints(minWidth: Spacing.xl.spacing),
+                        margin: EdgeInsets.only(left: Spacing.m.spacing),
+                        child: Text("${player.winRate} %", textAlign: TextAlign.end),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
