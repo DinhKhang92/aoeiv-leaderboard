@@ -1,4 +1,4 @@
-package com.example.aoeiv_leaderboard
+package com.kdinh.aoeiv.leaderboard
 
 import io.flutter.embedding.android.FlutterActivity
 
