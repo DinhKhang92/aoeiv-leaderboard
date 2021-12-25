@@ -4,18 +4,14 @@ import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
-import 'package:aoeiv_leaderboard/utils/map_id_to_civilization.dart';
-import 'package:aoeiv_leaderboard/utils/map_id_to_civilization_color.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_leaderboard_id_to_index.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
-import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
+import 'package:aoeiv_leaderboard/widgets/civ_pick_section.dart';
 import 'package:aoeiv_leaderboard/widgets/header.dart';
 import 'package:aoeiv_leaderboard/widgets/mmr_history_section.dart';
-import 'package:aoeiv_leaderboard/widgets/pie_chart.dart';
 import 'package:aoeiv_leaderboard/widgets/player_stats.dart';
 import 'package:aoeiv_leaderboard/widgets/rating_history_mode_selector.dart';
-import 'package:aoeiv_leaderboard/widgets/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -80,7 +76,7 @@ class _PlayerPageState extends State<PlayerPage> {
                     children: [
                       const MmrHistorySection(),
                       SizedBox(height: Spacing.xxl.spacing),
-                      _buildCivPicksSection(),
+                      const CivPickSection(),
                     ],
                   ),
                 ),
@@ -92,65 +88,17 @@ class _PlayerPageState extends State<PlayerPage> {
     );
   }
 
-  Widget _buildSectionTitle(String title) => SectionTitle(title: title);
-
-  Widget _buildCivPicksSection() {
+  Widget _buildRatingHistoryModeSelectors() {
     return BlocBuilder<MatchHistoryDataCubit, MatchHistoryDataState>(
       builder: (context, state) {
-        if (state is MatchHistoryDataLoading) {
-          return const CenteredCircularProgressIndicator();
-        }
-
-        if (state is MatchHistoryDataLoaded && state.filteredMatches.isNotEmpty) {
-          return Column(
-            children: [
-              _buildSectionTitle(AppLocalizations.of(context)!.sectionTitleCivilizationDistribution),
-              SizedBox(height: Spacing.l.spacing),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: Spacing.m.spacing),
-                height: MediaQuery.of(context).size.width - 4 * Spacing.m.spacing,
-                width: MediaQuery.of(context).size.width,
-                child: SimplePieChart(
-                  civDistribution: state.civilizationDistribution,
-                  totalCount: state.totalCount,
-                ),
-              ),
-              SizedBox(height: Spacing.l.spacing),
-              _buildLegend(state.civilizationDistribution),
-              SizedBox(height: Spacing.l.spacing),
-            ],
-          );
-        }
-        return const SizedBox.shrink();
-      },
-    );
-  }
-
-  Wrap _buildLegend(Map civDistribution) {
-    civDistribution.removeWhere((key, value) => value > 0 ? false : true);
-
-    return Wrap(
-      spacing: Spacing.s.spacing,
-      runSpacing: Spacing.xxs.spacing,
-      children: civDistribution.entries.map((entry) {
-        return Wrap(
-          spacing: Spacing.xs.spacing,
-          children: [
-            CircleAvatar(
-              backgroundColor: mapIdToCivilizationColor(int.parse(entry.key)),
-              radius: 7,
-            ),
-            Text(mapIdToCivilization(context, int.parse(entry.key))),
-          ],
+        return AbsorbPointer(
+          absorbing: state is MatchHistoryDataLoading,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: _getRatingHistoryModeSelectors(),
+          ),
         );
-      }).toList(),
-    );
-  }
-
-  Row _buildRatingHistoryModeSelectors() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: _getRatingHistoryModeSelectors(),
+      },
     );
   }
 
