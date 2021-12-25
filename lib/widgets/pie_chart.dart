@@ -22,7 +22,7 @@ class SimplePieChart extends StatelessWidget {
         topMarginSpec: MarginSpec.fixedPixel(0),
       ),
       defaultRenderer: ArcRendererConfig(
-        arcRatio: 0.5,
+        arcRatio: 0.4,
         arcRendererDecorators: [
           ArcLabelDecorator(
             labelPosition: ArcLabelPosition.inside,
@@ -53,6 +53,7 @@ class SimplePieChart extends StatelessWidget {
         data: data,
         labelAccessorFn: (SeriesCivilization seriesCivilization, _) => "${seriesCivilization.percentage}%",
         insideLabelStyleAccessorFn: (SeriesCivilization seriesCivilization, _) => TextStyleSpec(
+          fontSize: 12,
           color: seriesCivilization.id == CivilizationId.english.id || seriesCivilization.id == CivilizationId.holyRomanEmpire.id
               ? ColorUtil.fromDartColor(kcColorBlack)
               : ColorUtil.fromDartColor(kcColorWhite),

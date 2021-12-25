@@ -4,6 +4,8 @@ import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
+import 'package:aoeiv_leaderboard/utils/map_id_to_civilization.dart';
+import 'package:aoeiv_leaderboard/utils/map_id_to_civilization_color.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_leaderboard_id_to_index.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
@@ -113,11 +115,35 @@ class _PlayerPageState extends State<PlayerPage> {
                   totalCount: state.totalCount,
                 ),
               ),
+              SizedBox(height: Spacing.l.spacing),
+              _buildLegend(state.civilizationDistribution),
+              SizedBox(height: Spacing.l.spacing),
             ],
           );
         }
         return const SizedBox.shrink();
       },
+    );
+  }
+
+  Wrap _buildLegend(Map civDistribution) {
+    civDistribution.removeWhere((key, value) => value > 0 ? false : true);
+
+    return Wrap(
+      spacing: Spacing.s.spacing,
+      runSpacing: Spacing.xxs.spacing,
+      children: civDistribution.entries.map((entry) {
+        return Wrap(
+          spacing: Spacing.xs.spacing,
+          children: [
+            CircleAvatar(
+              backgroundColor: mapIdToCivilizationColor(int.parse(entry.key)),
+              radius: 7,
+            ),
+            Text(mapIdToCivilization(context, int.parse(entry.key))),
+          ],
+        );
+      }).toList(),
     );
   }
 
