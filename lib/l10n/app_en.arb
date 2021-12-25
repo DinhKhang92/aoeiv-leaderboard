@@ -71,5 +71,41 @@
     "@errorMessageFetchData": {
         "description": "error message when fetching data failed"
     },
-    "errorMessageFetchData": "Server Error, please try again"
+    "errorMessageFetchData": "Server Error, please try again",
+    "@sectionTitleCivilizationDistribution": {
+        "description": "section title for civilization distribution"
+    },
+    "sectionTitleCivilizationDistribution": "Civ Picks",
+    "@pieChardLabelAbbasidDynasty": {
+        "description": "Pie chart label Abbasid Dynasty"
+    },
+    "pieChardLabelAbbasidDynasty": "Abbasid",
+    "@pieChardLabelChinese": {
+        "description": "Pie chart label Chinese"
+    },
+    "pieChardLabelChinese": "Chinese",
+    "@pieChardLabelDelhiSultanate": {
+        "description": "Pie chart label Delhi Sultanate"
+    },
+    "pieChardLabelDelhiSultanate": "Delhi",
+    "@pieChardLabelEnglish": {
+        "description": "Pie chart label English"
+    },
+    "pieChardLabelEnglish": "English",
+    "@pieChardLabelFrench": {
+        "description": "Pie chart label French"
+    },
+    "pieChardLabelFrench": "French",
+    "@pieChardLabelHolyRomanEmpire": {
+        "description": "Pie chart label Holy Roman Empire"
+    },
+    "pieChardLabelHolyRomanEmpire": "HRE",
+    "@pieChardLabelMongols": {
+        "description": "Pie chart label Mongols"
+    },
+    "pieChardLabelMongols": "Mongols",
+    "@pieChardLabelRus": {
+        "description": "Pie chart label Rus"
+    },
+    "pieChardLabelRus": "Rus"
 }
