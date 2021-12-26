@@ -94,7 +94,6 @@ class _PlayerPageState extends State<PlayerPage> {
         return AbsorbPointer(
           absorbing: state is MatchHistoryDataLoading,
           child: Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: _getRatingHistoryModeSelectors(),
           ),
         );
