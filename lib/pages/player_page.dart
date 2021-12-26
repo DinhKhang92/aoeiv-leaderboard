@@ -75,7 +75,7 @@ class _PlayerPageState extends State<PlayerPage> {
                   child: ListView(
                     children: [
                       const MmrHistorySection(),
-                      SizedBox(height: Spacing.xxl.spacing),
+                      SizedBox(height: Spacing.xl.spacing),
                       const CivPickSection(),
                     ],
                   ),
@@ -94,7 +94,7 @@ class _PlayerPageState extends State<PlayerPage> {
         return AbsorbPointer(
           absorbing: state is MatchHistoryDataLoading,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: _getRatingHistoryModeSelectors(),
           ),
         );
@@ -116,19 +116,23 @@ class _PlayerPageState extends State<PlayerPage> {
             index,
             BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
               builder: (context, state) {
-                return InkWell(
-                  onTap: () {
-                    if (state.ratingHistoryGameModeIndex != index) {
-                      BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(index);
+                return Flexible(
+                  flex: 1,
+                  fit: FlexFit.tight,
+                  child: InkWell(
+                    onTap: () {
+                      if (state.ratingHistoryGameModeIndex != index) {
+                        BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(index);
 
-                      final int leaderboardId = mapIndexToLeaderboardId(index);
-                      _fetchData(leaderboardId);
-                    }
-                  },
-                  child: RatingHistoryModeSelector(
-                    label: label,
-                    labelColor: kcSecondaryColor,
-                    backgroundColor: state.ratingHistoryGameModeIndex == index ? kcPrimaryColor : kcUnselectedColor,
+                        final int leaderboardId = mapIndexToLeaderboardId(index);
+                        _fetchData(leaderboardId);
+                      }
+                    },
+                    child: RatingHistoryModeSelector(
+                      label: label,
+                      labelColor: kcSecondaryColor,
+                      backgroundColor: state.ratingHistoryGameModeIndex == index ? kcPrimaryColor : kcUnselectedColor,
+                    ),
                   ),
                 );
               },

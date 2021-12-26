@@ -7,7 +7,9 @@ import 'package:aoeiv_leaderboard/models/time_series_rating.dart';
 import 'package:aoeiv_leaderboard/utils/create_series_data.dart';
 import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
+// ignore: implementation_imports
 import 'package:charts_flutter/src/text_element.dart' as text;
+// ignore: implementation_imports
 import 'package:charts_flutter/src/text_style.dart' as style;
 
 class RatingLineChart extends StatefulWidget {
@@ -24,13 +26,12 @@ class _RatingLineChartState extends State<RatingLineChart> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return TimeSeriesChart(
       createSeriesDataRating(widget.ratingHistoryData),
       animate: false,
       behaviors: [
         SelectNearest(eventTrigger: SelectionTrigger.tapAndDrag),
-        LinePointHighlighter(symbolRenderer: CustomCircleSymbolRenderer(size: size)),
+        LinePointHighlighter(symbolRenderer: CustomCircleSymbolRenderer(size: MediaQuery.of(context).size)),
       ],
       selectionModels: [
         SelectionModelConfig(
@@ -38,11 +39,11 @@ class _RatingLineChartState extends State<RatingLineChart> {
           changedListener: (SelectionModel model) {
             if (model.hasDatumSelection) {
               selectedDatum = [];
-              model.selectedDatum.forEach((SeriesDatum datumPair) {
+              for (SeriesDatum datumPair in model.selectedDatum) {
                 final TimeSeriesRating dataPair = datumPair.datum;
                 selectedDatum
                     .add({'color': ColorUtil.fromDartColor(kcPrimaryColor), 'text': "${dataPair.time.year}-${dataPair.time.month}-${dataPair.time.day}: ${dataPair.rating}"});
-              });
+              }
             }
           },
         )
