@@ -31,7 +31,7 @@ class _CivPickSectionState extends State<CivPickSection> {
               SectionTitle(title: AppLocalizations.of(context)!.sectionTitleCivilizationDistribution),
               SizedBox(height: Spacing.l.spacing),
               SizedBox(
-                height: MediaQuery.of(context).size.width - 4 * Spacing.m.spacing,
+                height: MediaQuery.of(context).size.width - 2 * Spacing.m.spacing,
                 width: MediaQuery.of(context).size.width,
                 child: SimplePieChart(
                   civDistribution: state.civilizationDistribution,

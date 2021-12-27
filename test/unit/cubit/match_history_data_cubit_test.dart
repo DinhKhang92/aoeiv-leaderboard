@@ -1,7 +1,6 @@
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/exceptions/fetch_data_exception.dart';
 import 'package:aoeiv_leaderboard/models/match.dart';
-import 'package:aoeiv_leaderboard/providers/match_history_data_provider.dart';
 import 'package:aoeiv_leaderboard/repositories/match_history_data_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
