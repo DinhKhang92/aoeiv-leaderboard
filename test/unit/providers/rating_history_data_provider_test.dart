@@ -1,4 +1,3 @@
-import 'package:aoeiv_leaderboard/models/rating.dart';
 import 'package:aoeiv_leaderboard/providers/rating_history_data_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
@@ -24,12 +23,12 @@ void main() {
       test("it returns a future list of rating if request succeeded", () {
         when(_mockClient.get(Uri.parse(url))).thenAnswer((_) async => Response(exampleRatingHistoryData, 200));
 
-        expect(_ratingHistoryDataProvider.fetchRatingHistoryData(_mockClient, 17, 123123), isA<Future<List<Rating>>>());
+        expect(_ratingHistoryDataProvider.fetchRatingHistoryData(_mockClient, url), isA<Future<List>>());
       });
       test("it throws an Exception if request failed", () {
         when(_mockClient.get(Uri.parse(url))).thenAnswer((_) async => Response('failed', 500));
 
-        expect(_ratingHistoryDataProvider.fetchRatingHistoryData(_mockClient, 17, 123123), throwsException);
+        expect(_ratingHistoryDataProvider.fetchRatingHistoryData(_mockClient, url), throwsException);
       });
     });
   });

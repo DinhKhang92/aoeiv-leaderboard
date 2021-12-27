@@ -3,6 +3,9 @@ import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
+import 'package:aoeiv_leaderboard/providers/leaderboard_data_provider.dart';
+import 'package:aoeiv_leaderboard/providers/match_history_data_provider.dart';
+import 'package:aoeiv_leaderboard/providers/rating_history_data_provider.dart';
 import 'package:aoeiv_leaderboard/repositories/leaderboard_data_repository.dart';
 import 'package:aoeiv_leaderboard/repositories/match_history_data_repository.dart';
 import 'package:aoeiv_leaderboard/repositories/rating_history_data_repository.dart';
@@ -15,9 +18,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
-  final LeaderboardDataRepository _leaderboardDataRepository = LeaderboardDataRepository();
-  final RatingHistoryDataRepository _ratingHistoryDataRepository = RatingHistoryDataRepository();
-  final MatchHistoryDataRepository _matchHistoryDataRepository = MatchHistoryDataRepository();
+  final MatchHistoryDataProvider _matchHistoryDataProvider = MatchHistoryDataProvider();
+  final LeaderboardDataProvider _leaderboardDataProvider = LeaderboardDataProvider();
+  final RatingHistoryDataProvider _ratingHistoryDataProvider = RatingHistoryDataProvider();
+
+  late final LeaderboardDataRepository _leaderboardDataRepository = LeaderboardDataRepository(leaderboardDataProvider: _leaderboardDataProvider);
+  late final RatingHistoryDataRepository _ratingHistoryDataRepository =
+      RatingHistoryDataRepository(leaderboardDataProvider: _leaderboardDataProvider, ratingHistoryDataProvider: _ratingHistoryDataProvider);
+  late final MatchHistoryDataRepository _matchHistoryDataRepository = MatchHistoryDataRepository(matchHistoryDataProvider: _matchHistoryDataProvider);
 
   late final LeaderboardDataCubit _leaderboardDataCubit = LeaderboardDataCubit(leaderboardDataRepository: _leaderboardDataRepository);
   late final RatingHistoryDataCubit _ratingHistoryDataCubit = RatingHistoryDataCubit(ratingHistoryDataRepository: _ratingHistoryDataRepository);

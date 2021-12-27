@@ -1,18 +1,17 @@
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
+import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
-import 'package:aoeiv_leaderboard/exceptions/no_data_exception.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_leaderboard_id_to_index.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
-import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
-import 'package:aoeiv_leaderboard/widgets/error_display.dart';
+import 'package:aoeiv_leaderboard/widgets/civ_pick_section.dart';
 import 'package:aoeiv_leaderboard/widgets/header.dart';
-import 'package:aoeiv_leaderboard/widgets/line_chart.dart';
+import 'package:aoeiv_leaderboard/widgets/mmr_history_section.dart';
+import 'package:aoeiv_leaderboard/widgets/player_stats.dart';
 import 'package:aoeiv_leaderboard/widgets/rating_history_mode_selector.dart';
-import 'package:aoeiv_leaderboard/widgets/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -46,6 +45,7 @@ class _PlayerPageState extends State<PlayerPage> {
 
   Future<void> _fetchData(int leaderboardId) async {
     BlocProvider.of<RatingHistoryDataCubit>(context).fetchPlayerData(leaderboardId, widget.player.profileId);
+    BlocProvider.of<MatchHistoryDataCubit>(context).fetchMatchHistoryData(leaderboardId, widget.player.profileId);
   }
 
   @override
@@ -69,11 +69,17 @@ class _PlayerPageState extends State<PlayerPage> {
                 SizedBox(height: Spacing.xl.spacing),
                 _buildRatingHistoryModeSelectors(),
                 SizedBox(height: Spacing.l.spacing),
-                _buildStats(),
+                const PlayerStats(),
                 SizedBox(height: Spacing.xl.spacing),
-                _buildSectionTitle(),
-                _buildRatingHistoryLineChart(),
-                SizedBox(height: Spacing.m.spacing),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      const MmrHistorySection(),
+                      SizedBox(height: Spacing.xl.spacing),
+                      const CivPickSection(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -82,87 +88,16 @@ class _PlayerPageState extends State<PlayerPage> {
     );
   }
 
-  Widget _buildSectionTitle() {
-    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
+  Widget _buildRatingHistoryModeSelectors() {
+    return BlocBuilder<MatchHistoryDataCubit, MatchHistoryDataState>(
       builder: (context, state) {
-        if (state is RatingHistoryDataLoaded) {
-          return SectionTitle(title: AppLocalizations.of(context)!.sectionTitleMmrHistory);
-        }
-
-        return const SizedBox.shrink();
+        return AbsorbPointer(
+          absorbing: state is MatchHistoryDataLoading,
+          child: Row(
+            children: _getRatingHistoryModeSelectors(),
+          ),
+        );
       },
-    );
-  }
-
-  Widget _buildStats() {
-    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
-      builder: (context, state) {
-        if (state is RatingHistoryDataLoaded) {
-          final int mmr = state.ratingHistoryData.first.rating;
-          final int wins = state.ratingHistoryData.first.totalWins;
-          final int losses = state.ratingHistoryData.first.totalLosses;
-          final int winRate = state.ratingHistoryData.first.winRate;
-          final int previousRating = state.player?.previousRating ?? 0;
-          final int mmrDifference = mmr - previousRating;
-
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("#${state.player?.rank} | $mmr "),
-              Icon(
-                mmrDifference < 0 ? Icons.arrow_downward : Icons.arrow_upward,
-                size: 14,
-                color: mmrDifference < 0 ? Colors.red : Colors.green,
-              ),
-              Text(
-                "${mmrDifference.abs()}",
-                style: TextStyle(color: mmrDifference < 0 ? Colors.red : Colors.green),
-              ),
-              Text(" | $winRate% - "),
-              Text(
-                "${wins}W ",
-                style: const TextStyle(color: Colors.green),
-              ),
-              Text(
-                "${losses}L",
-                style: const TextStyle(color: Colors.red),
-              ),
-            ],
-          );
-        }
-        return const SizedBox.shrink();
-      },
-    );
-  }
-
-  void getDiff(RatingHistoryDataState state, Player player) {}
-
-  Row _buildRatingHistoryModeSelectors() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: _getRatingHistoryModeSelectors(),
-    );
-  }
-
-  Widget _buildRatingHistoryLineChart() {
-    return Container(
-      constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.width - 50),
-      child: BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
-        builder: (context, state) {
-          if (state is RatingHistoryDataLoading) {
-            return const CenteredCircularProgressIndicator();
-          }
-          if (state is RatingHistoryDataLoaded) {
-            return RatingLineChart(ratingHistoryData: state.ratingHistoryData);
-          }
-          if (state is RatingHistoryDataError) {
-            final String errorMessage =
-                state.error is NoDataException ? AppLocalizations.of(context)!.errorMessageNoDataFound : AppLocalizations.of(context)!.errorMessageFetchData;
-            return ErrorDisplay(errorMessage: errorMessage);
-          }
-          return const SizedBox.shrink();
-        },
-      ),
     );
   }
 
@@ -180,19 +115,23 @@ class _PlayerPageState extends State<PlayerPage> {
             index,
             BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
               builder: (context, state) {
-                return InkWell(
-                  onTap: () {
-                    if (state.ratingHistoryGameModeIndex != index) {
-                      BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(index);
+                return Flexible(
+                  flex: 1,
+                  fit: FlexFit.tight,
+                  child: InkWell(
+                    onTap: () {
+                      if (state.ratingHistoryGameModeIndex != index) {
+                        BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(index);
 
-                      final int leaderboardId = mapIndexToLeaderboardId(index);
-                      _fetchData(leaderboardId);
-                    }
-                  },
-                  child: RatingHistoryModeSelector(
-                    label: label,
-                    labelColor: kcSecondaryColor,
-                    backgroundColor: state.ratingHistoryGameModeIndex == index ? kcPrimaryColor : kcUnselectedColor,
+                        final int leaderboardId = mapIndexToLeaderboardId(index);
+                        _fetchData(leaderboardId);
+                      }
+                    },
+                    child: RatingHistoryModeSelector(
+                      label: label,
+                      labelColor: kcSecondaryColor,
+                      backgroundColor: state.ratingHistoryGameModeIndex == index ? kcPrimaryColor : kcUnselectedColor,
+                    ),
                   ),
                 );
               },

@@ -11,8 +11,13 @@ class RatingHistoryModeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 25, vertical: Spacing.xs.spacing),
-      child: Text(label, style: TextStyle(color: labelColor)),
+      padding: EdgeInsets.symmetric(vertical: Spacing.xs.spacing),
+      margin: EdgeInsets.symmetric(horizontal: Spacing.xxs.spacing),
+      child: Text(
+        label,
+        style: TextStyle(color: labelColor),
+        textAlign: TextAlign.center,
+      ),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: const BorderRadius.all(Radius.circular(kbBorderRadius)),
