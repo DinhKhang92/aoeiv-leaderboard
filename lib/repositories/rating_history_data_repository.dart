@@ -1,3 +1,5 @@
+import 'package:aoeiv_leaderboard/config/config.dart';
+import 'package:aoeiv_leaderboard/exceptions/no_data_exception.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/models/rating.dart';
 import 'package:aoeiv_leaderboard/providers/leaderboard_data_provider.dart';
@@ -5,12 +7,32 @@ import 'package:aoeiv_leaderboard/providers/rating_history_data_provider.dart';
 import 'package:http/http.dart';
 
 class RatingHistoryDataRepository {
-  final RatingHistoryDataProvider _ratingHistoryDataProvider = RatingHistoryDataProvider();
-  final LeaderboardDataProvider _leaderboardDataProvider = LeaderboardDataProvider();
+  final Client _client = Client();
+  final Config _config = Config();
+  final RatingHistoryDataProvider ratingHistoryDataProvider;
+  final LeaderboardDataProvider leaderboardDataProvider;
 
-  Future<List<Rating>> fetchRatingHistoryData(Client client, int leaderboardId, int profileId) =>
-      _ratingHistoryDataProvider.fetchRatingHistoryData(client, leaderboardId, profileId);
+  RatingHistoryDataRepository({required this.ratingHistoryDataProvider, required this.leaderboardDataProvider});
 
-  Future<Player> fetchPlayerDataByProfileId(Client client, int leaderboardId, int profileId) =>
-      _leaderboardDataProvider.fetchPlayerDataByProfileId(client, leaderboardId, profileId);
+  Future<List<Rating>> fetchRatingHistoryData(int leaderboardId, int profileId) async {
+    final String url = "${_config.ratingHistoryBaseUrl}&leaderboard_id=$leaderboardId&profile_id=$profileId&count=${_config.leaderboardCount}";
+    final List jsonData = await ratingHistoryDataProvider.fetchRatingHistoryData(_client, url);
+
+    return jsonData.map((ratingHistory) => Rating.fromJSON(ratingHistory)).toList();
+  }
+
+  Future<Player> fetchPlayerDataByProfileId(int leaderboardId, int profileId) async {
+    final String url = "${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId&profile_id=$profileId";
+    final Map jsonData = await leaderboardDataProvider.fetchLeaderboardData(_client, url);
+
+    final List leaderboardData = jsonData['leaderboard'];
+    leaderboardData.map((leaderboard) => Player.fromJson(leaderboard)).toList();
+    final List<Player> playerList = leaderboardData.map((leaderboard) => Player.fromJson(leaderboard)).toList();
+
+    if (playerList.isEmpty) {
+      throw NoDataException("No player data found for profileId: $profileId with url :$url");
+    }
+
+    return playerList.first;
+  }
 }

@@ -1,4 +1,6 @@
-class MatchPlayer {
+import 'package:equatable/equatable.dart';
+
+class MatchPlayer extends Equatable {
   final int profileId;
   final String? name;
   final int team;
@@ -12,6 +14,9 @@ class MatchPlayer {
     required this.civilizationId,
     required this.rating,
   });
+
+  @override
+  List<Object?> get props => [profileId, name, team, civilizationId, rating];
 
   factory MatchPlayer.fromJSON(Map json) => MatchPlayer(
         profileId: json['profile_id'],

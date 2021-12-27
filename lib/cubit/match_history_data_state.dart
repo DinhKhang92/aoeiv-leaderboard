@@ -12,7 +12,7 @@ abstract class MatchHistoryDataState extends Equatable {
   });
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [filteredMatches, civilizationDistribution, totalCount];
 }
 
 class MatchHistoryDataInitial extends MatchHistoryDataState {

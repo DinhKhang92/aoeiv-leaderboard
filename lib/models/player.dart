@@ -1,4 +1,6 @@
-class Player {
+import 'package:equatable/equatable.dart';
+
+class Player extends Equatable {
   final int rank;
   final String name;
   final int totalGames;
@@ -9,7 +11,7 @@ class Player {
   final int winRate;
   final int? previousRating;
 
-  Player({
+  const Player({
     required this.rank,
     required this.name,
     required this.totalGames,
@@ -20,6 +22,9 @@ class Player {
     required this.winRate,
     this.previousRating,
   });
+
+  @override
+  List<Object?> get props => [rank, name, totalGames, totalWins, totalLosses, mmr, profileId, winRate, previousRating];
 
   factory Player.fromJson(Map json) => Player(
         rank: json['rank'],

@@ -1,4 +1,6 @@
-class Rating {
+import 'package:equatable/equatable.dart';
+
+class Rating extends Equatable {
   final int timestamp;
   final int rating;
   final int totalWins;
@@ -6,7 +8,7 @@ class Rating {
   final int streak;
   final int winRate;
 
-  Rating({
+  const Rating({
     required this.timestamp,
     required this.rating,
     required this.totalWins,
@@ -14,6 +16,9 @@ class Rating {
     required this.streak,
     required this.winRate,
   });
+
+  @override
+  List<Object?> get props => [timestamp, rating, totalWins, totalLosses, streak, winRate];
 
   factory Rating.fromJSON(Map json) => Rating(
         timestamp: json['timestamp'],
