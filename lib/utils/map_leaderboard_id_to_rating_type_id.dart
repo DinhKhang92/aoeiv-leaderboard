@@ -1,15 +1,15 @@
 import 'package:aoeiv_leaderboard/config/config.dart';
 
-int mapLeaderboardIdToNumPlayers(int leaderboardId) {
+int mapLeaderboardIdToRatingTypeId(int leaderboardId) {
   if (leaderboardId == LeaderboardId.oneVOne.id) {
-    return 2;
+    return 15;
   } else if (leaderboardId == LeaderboardId.twoVTwo.id) {
-    return 4;
+    return 16;
   } else if (leaderboardId == LeaderboardId.threeVThree.id) {
-    return 6;
+    return 17;
   } else if (leaderboardId == LeaderboardId.fourVFour.id) {
-    return 8;
+    return 18;
   } else {
-    return 2;
+    return 22;
   }
 }

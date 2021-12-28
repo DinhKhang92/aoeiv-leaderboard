@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class MatchPlayer extends Equatable {
   final int profileId;
   final String? name;
-  final int team;
+  final int? team;
   final int civilizationId;
   final int? rating;
 
