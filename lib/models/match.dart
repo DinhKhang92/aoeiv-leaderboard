@@ -3,21 +3,21 @@ import 'package:equatable/equatable.dart';
 
 class Match extends Equatable {
   final String? name;
-  final int numPlayers;
   final int mapType;
   final bool isRanked;
+  final int ratingTypeId;
   final List<MatchPlayer> matchPlayers;
 
-  const Match({this.name, required this.numPlayers, required this.mapType, required this.isRanked, required this.matchPlayers});
+  const Match({this.name, required this.mapType, required this.isRanked, required this.ratingTypeId, required this.matchPlayers});
 
   @override
-  List<Object?> get props => [name, numPlayers, mapType, isRanked, matchPlayers];
+  List<Object?> get props => [name, mapType, isRanked, ratingTypeId, matchPlayers];
 
   factory Match.fromJSON(Map json) => Match(
         name: json['name'],
-        numPlayers: json['num_players'],
         mapType: json['map_type'],
         isRanked: json['ranked'],
+        ratingTypeId: json['rating_type_id'],
         matchPlayers: (json['players'] as List).map((matchHistoryPlayer) => MatchPlayer.fromJSON(matchHistoryPlayer)).toList(),
       );
 }

@@ -2,7 +2,7 @@ import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/models/match.dart';
 import 'package:aoeiv_leaderboard/models/match_player.dart';
 import 'package:aoeiv_leaderboard/providers/match_history_data_provider.dart';
-import 'package:aoeiv_leaderboard/utils/map_leaderboard_id_to_num_players.dart';
+import 'package:aoeiv_leaderboard/utils/map_leaderboard_id_to_rating_type_id.dart';
 import 'package:http/http.dart';
 
 class MatchHistoryDataRepository {
@@ -18,7 +18,7 @@ class MatchHistoryDataRepository {
     return jsonData.map((matchHistory) => Match.fromJSON(matchHistory)).toList();
   }
 
-  List<Match> filterMatches(int leaderboardId, List<Match> matches) => matches.where((Match match) => match.numPlayers == mapLeaderboardIdToNumPlayers(leaderboardId)).toList();
+  List<Match> filterMatches(int leaderboardId, List<Match> matches) => matches.where((Match match) => match.ratingTypeId == mapLeaderboardIdToRatingTypeId(leaderboardId)).toList();
 
   Map<String, int> getCivDistributionByProfileId(List<Match> matches, int profileId) {
     final List<MatchPlayer> playerInMatches = matches.map((Match match) => match.matchPlayers.firstWhere((MatchPlayer player) => player.profileId == profileId)).toList();
