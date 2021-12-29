@@ -3,9 +3,11 @@ import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
+import 'package:aoeiv_leaderboard/models/match.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_leaderboard_id_to_index.dart';
+import 'package:aoeiv_leaderboard/utils/map_map_type_to_map_name.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/civ_pick_section.dart';
 import 'package:aoeiv_leaderboard/widgets/header.dart';
@@ -77,6 +79,47 @@ class _PlayerPageState extends State<PlayerPage> {
                       const MmrHistorySection(),
                       SizedBox(height: Spacing.xl.spacing),
                       const CivPickSection(),
+                      BlocBuilder<MatchHistoryDataCubit, MatchHistoryDataState>(
+                        builder: (context, state) {
+                          if (state is MatchHistoryDataLoaded) {
+                            return Column(
+                              children: state.filteredMatches
+                                  .map(
+                                    (Match match) => ExpansionTile(
+                                      tilePadding: const EdgeInsets.symmetric(horizontal: 0),
+                                      iconColor: kcPrimaryColor,
+                                      collapsedIconColor: kcPrimaryColor,
+                                      title: Text(
+                                        mapMapTypeToMapName(context, match.mapType),
+                                        style: Theme.of(context).textTheme.bodyText1,
+                                      ),
+                                      childrenPadding: EdgeInsets.only(bottom: 10),
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text("abc"),
+                                            Text("def"),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text("abc"),
+                                            Text("def"),
+                                          ],
+                                        ),
+                                      ],
+                                      leading: Icon(Icons.ac_unit_outlined),
+                                    ),
+                                  )
+                                  .toList(),
+                            );
+                          }
+
+                          return const SizedBox.shrink();
+                        },
+                      ),
                     ],
                   ),
                 ),
