@@ -25,13 +25,13 @@ class AoeDatabase {
   AoeDatabase._internal();
 
   Future<void> init() async {
-    await _resetDb();
-    // await _createDb();
+    // await _resetDb();
+    await _createDb();
   }
 
   Future<void> _createDb() async {
     database = await openDatabase(
-      join(await getDatabasesPath(), 'leaderboard_database.db'),
+      join(await getDatabasesPath(), 'aoe_database.db'),
       onCreate: (Database db, int version) async {
         for (String table in tables) {
           await db.execute(
