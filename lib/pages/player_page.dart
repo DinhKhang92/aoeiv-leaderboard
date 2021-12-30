@@ -4,6 +4,7 @@ import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/match.dart';
+import 'package:aoeiv_leaderboard/models/match_player.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_leaderboard_id_to_index.dart';
@@ -82,39 +83,44 @@ class _PlayerPageState extends State<PlayerPage> {
                       BlocBuilder<MatchHistoryDataCubit, MatchHistoryDataState>(
                         builder: (context, state) {
                           if (state is MatchHistoryDataLoaded) {
+                            print(state.filteredMatches.length);
                             return Column(
-                              children: state.filteredMatches
-                                  .map(
-                                    (Match match) => ExpansionTile(
-                                      tilePadding: const EdgeInsets.symmetric(horizontal: 0),
-                                      iconColor: kcPrimaryColor,
-                                      collapsedIconColor: kcPrimaryColor,
-                                      title: Text(
-                                        mapMapTypeToMapName(context, match.mapType),
-                                        style: Theme.of(context).textTheme.bodyText1,
-                                      ),
-                                      childrenPadding: EdgeInsets.only(bottom: 10),
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text("abc"),
-                                            Text("def"),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text("abc"),
-                                            Text("def"),
-                                          ],
-                                        ),
-                                      ],
-                                      leading: Icon(Icons.ac_unit_outlined),
+                                children: state.filteredMatches.map(
+                              (Match match) {
+                                String map = mapMapTypeToMapName(context, match.mapType);
+                                String mapAssetName = map.toLowerCase().replaceAll(' ', '_');
+                                final List<MatchPlayer> players = match.matchPlayers;
+                                final myself = players.where((MatchPlayer player) => player.profileId == widget.player.profileId);
+                                print(myself.first.rating);
+
+                                return Container(
+                                  margin: EdgeInsets.only(bottom: Spacing.xxs.spacing),
+                                  child: ExpansionTile(
+                                    tilePadding: const EdgeInsets.symmetric(horizontal: 0),
+                                    iconColor: kcPrimaryColor,
+                                    collapsedIconColor: kcPrimaryColor,
+                                    title: Text(
+                                      map,
+                                      style: Theme.of(context).textTheme.bodyText1,
                                     ),
-                                  )
-                                  .toList(),
-                            );
+                                    childrenPadding: EdgeInsets.only(bottom: Spacing.s.spacing),
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(players.first.name),
+                                          Text(players.last.name),
+                                        ],
+                                      ),
+                                    ],
+                                    leading: Container(
+                                      decoration: BoxDecoration(border: Border.all(color: kcHintColor)),
+                                      child: Image.asset("assets/maps/$mapAssetName.png"),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ).toList());
                           }
 
                           return const SizedBox.shrink();

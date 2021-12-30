@@ -37,7 +37,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   intl: ^0.17.0
-  flutter_bloc: ^8.0.0
+  flutter_bloc: ^8.0.1
   http: ^0.13.4
   charts_flutter: ^0.12.0
   equatable: ^2.0.3
@@ -53,7 +53,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
   flutter_launcher_icons: ^0.9.2
-  bloc_test: ^9.0.1
+  bloc_test: ^9.0.2
   mockito: ^5.0.16
   build_runner: ^2.1.5
 
@@ -75,8 +75,8 @@ flutter:
   generate: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/maps/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

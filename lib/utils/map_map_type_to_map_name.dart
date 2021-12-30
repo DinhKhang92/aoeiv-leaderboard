@@ -20,7 +20,7 @@ String mapMapTypeToMapName(BuildContext context, int mapType) {
     case 7:
       return AppLocalizations.of(context)!.mapNameMongolianHeights;
     case 8:
-      return AppLocalizations.of(context)!.mapNameAltai;
+      return AppLocalizations.of(context)!.mapNameAltari;
     case 9:
       return AppLocalizations.of(context)!.mapNameConfluence;
     case 10:
@@ -28,7 +28,7 @@ String mapMapTypeToMapName(BuildContext context, int mapType) {
     case 11:
       return AppLocalizations.of(context)!.mapNameHillAndDale;
     case 12:
-      return AppLocalizations.of(context)!.mapNameKingOfHill;
+      return AppLocalizations.of(context)!.mapNameKingOfTheHill;
     case 13:
       return AppLocalizations.of(context)!.mapNameWarringIslands;
     case 14:

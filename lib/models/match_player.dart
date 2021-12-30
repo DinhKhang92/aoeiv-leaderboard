@@ -2,14 +2,14 @@ import 'package:equatable/equatable.dart';
 
 class MatchPlayer extends Equatable {
   final int profileId;
-  final String? name;
+  final String name;
   final int? team;
   final int civilizationId;
   final int? rating;
 
   const MatchPlayer({
     required this.profileId,
-    this.name,
+    required this.name,
     required this.team,
     required this.civilizationId,
     required this.rating,
@@ -20,7 +20,7 @@ class MatchPlayer extends Equatable {
 
   factory MatchPlayer.fromJSON(Map json) => MatchPlayer(
         profileId: json['profile_id'],
-        name: json['name'],
+        name: json['name'] ?? "Unknown",
         rating: json['rating'],
         team: json['team'],
         civilizationId: json['civ'],
