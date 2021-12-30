@@ -1,4 +1,5 @@
 import 'package:aoeiv_leaderboard/config/styles/theme.dart';
+import 'package:aoeiv_leaderboard/cubit/aoe_database_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
@@ -10,6 +11,7 @@ import 'package:aoeiv_leaderboard/repositories/leaderboard_data_repository.dart'
 import 'package:aoeiv_leaderboard/repositories/match_history_data_repository.dart';
 import 'package:aoeiv_leaderboard/repositories/rating_history_data_repository.dart';
 import 'package:aoeiv_leaderboard/routes/route_generator.dart';
+import 'package:aoeiv_leaderboard/utils/aoe_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
   late final RatingHistoryDataCubit _ratingHistoryDataCubit = RatingHistoryDataCubit(ratingHistoryDataRepository: _ratingHistoryDataRepository);
   late final MatchHistoryDataCubit _matchHistoryDataCubit = MatchHistoryDataCubit(matchHistoryDataRepository: _matchHistoryDataRepository);
   final GameModeSelectorCubit _gameModeSelectorCubit = GameModeSelectorCubit();
-
+  final AoeDatabaseCubit _aoeDatabaseCubit = AoeDatabaseCubit();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<RatingHistoryDataCubit>(create: (_) => _ratingHistoryDataCubit),
         BlocProvider<GameModeSelectorCubit>(create: (_) => _gameModeSelectorCubit),
         BlocProvider<MatchHistoryDataCubit>(create: (_) => _matchHistoryDataCubit),
+        BlocProvider<AoeDatabaseCubit>(create: (_) => _aoeDatabaseCubit),
       ],
       child: GestureDetector(
         onTap: () {

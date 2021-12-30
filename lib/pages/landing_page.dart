@@ -32,7 +32,7 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   void initState() {
-    _fetchLeaderboardData();
+    _init();
     super.initState();
   }
 
@@ -42,7 +42,7 @@ class _LandingPageState extends State<LandingPage> {
     super.dispose();
   }
 
-  Future<void> _fetchLeaderboardData() async {
+  Future<void> _init() async {
     await BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.oneVOne.id);
   }
 
