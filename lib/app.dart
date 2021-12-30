@@ -11,7 +11,6 @@ import 'package:aoeiv_leaderboard/repositories/leaderboard_data_repository.dart'
 import 'package:aoeiv_leaderboard/repositories/match_history_data_repository.dart';
 import 'package:aoeiv_leaderboard/repositories/rating_history_data_repository.dart';
 import 'package:aoeiv_leaderboard/routes/route_generator.dart';
-import 'package:aoeiv_leaderboard/utils/aoe_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -34,6 +33,7 @@ class MyApp extends StatelessWidget {
   late final MatchHistoryDataCubit _matchHistoryDataCubit = MatchHistoryDataCubit(matchHistoryDataRepository: _matchHistoryDataRepository);
   final GameModeSelectorCubit _gameModeSelectorCubit = GameModeSelectorCubit();
   final AoeDatabaseCubit _aoeDatabaseCubit = AoeDatabaseCubit();
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
