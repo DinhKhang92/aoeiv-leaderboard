@@ -187,5 +187,41 @@
     "@playerDetailBottomNavigationBarLabelMatches": {
         "description": "player detail bottom navigation bar label matches"
     },
-    "playerDetailBottomNavigationBarLabelMatches": "Matches"
+    "playerDetailBottomNavigationBarLabelMatches": "Matches",
+    "@playerDetailMatchHistoryTimeInHours": {
+        "description": "player detail match history time in hours",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            }
+        }
+    },
+    "playerDetailMatchHistoryTimeInHours": "{hours,plural, =1{{hours} hour ago} other{{hours} hours ago}}",
+    "@playerDetailMatchHistoryTimeInDays": {
+        "description": "player detail match history time in days",
+        "placeholders": {
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "playerDetailMatchHistoryTimeInDays": "{days,plural, =1{{days} day ago} other{{days} days ago}}",
+    "@playerDetailMatchHistoryTimeInWeeks": {
+        "description": "player detail match history time in weeks",
+        "placeholders": {
+            "weeks": {
+                "type": "int"
+            }
+        }
+    },
+    "playerDetailMatchHistoryTimeInWeeks": "{weeks,plural, =1{{weeks} week ago} other{{weeks} weeks ago}}",
+    "@playerDetailMatchHistoryTimeInMonths": {
+        "description": "player detail match history time in months",
+        "placeholders": {
+            "months": {
+                "type": "int"
+            }
+        }
+    },
+    "playerDetailMatchHistoryTimeInMonths": "{months,plural, =1{{months} month ago} other{{months} months ago}}"
 }

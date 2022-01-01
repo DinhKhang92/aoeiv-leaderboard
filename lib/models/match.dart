@@ -7,8 +7,16 @@ class Match extends Equatable {
   final bool isRanked;
   final int ratingTypeId;
   final List<MatchPlayer> matchPlayers;
+  final int timestamp;
 
-  const Match({this.name, required this.mapType, required this.isRanked, required this.ratingTypeId, required this.matchPlayers});
+  const Match({
+    this.name,
+    required this.mapType,
+    required this.isRanked,
+    required this.ratingTypeId,
+    required this.matchPlayers,
+    required this.timestamp,
+  });
 
   @override
   List<Object?> get props => [name, mapType, isRanked, ratingTypeId, matchPlayers];
@@ -19,5 +27,6 @@ class Match extends Equatable {
         isRanked: json['ranked'],
         ratingTypeId: json['rating_type_id'],
         matchPlayers: (json['players'] as List).map((matchHistoryPlayer) => MatchPlayer.fromJSON(matchHistoryPlayer)).toList(),
+        timestamp: json['started'] * 1000,
       );
 }

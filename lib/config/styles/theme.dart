@@ -39,6 +39,10 @@ const TextTheme ktTextTheme = TextTheme(
     fontSize: 16,
     fontWeight: FontWeight.w400,
   ),
+  headline6: TextStyle(
+    color: kcUnselectedColor,
+    fontSize: 13,
+  ),
   bodyText1: TextStyle(
     color: kcColorWhite,
     fontSize: 14,

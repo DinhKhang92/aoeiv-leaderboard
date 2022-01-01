@@ -66,7 +66,6 @@ class _PlayerPageState extends State<PlayerPage> {
           child: Container(
             padding: EdgeInsets.all(Spacing.m.spacing),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Header(headerTitle: widget.player.name),
                 SizedBox(height: Spacing.xl.spacing),
@@ -74,27 +73,7 @@ class _PlayerPageState extends State<PlayerPage> {
                 SizedBox(height: Spacing.l.spacing),
                 const PlayerStats(),
                 SizedBox(height: Spacing.xl.spacing),
-                Expanded(
-                  child: ListView(
-                    physics: const ClampingScrollPhysics(),
-                    children: [
-                      BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
-                        builder: (context, state) {
-                          switch (state.playerDetailModeIndex) {
-                            case (0):
-                              return const MmrHistorySection();
-                            case (1):
-                              return const CivPickSection();
-                            case (2):
-                              return MatchHistorySection(player: widget.player);
-                            default:
-                              return const SizedBox.shrink();
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                _buildContent(),
               ],
             ),
           ),
@@ -108,9 +87,7 @@ class _PlayerPageState extends State<PlayerPage> {
       builder: (context, state) {
         return AbsorbPointer(
           absorbing: state is MatchHistoryDataLoading,
-          child: Row(
-            children: _getRatingHistoryModeSelectors(),
-          ),
+          child: Row(children: _getRatingHistoryModeSelectors()),
         );
       },
     );
@@ -131,7 +108,6 @@ class _PlayerPageState extends State<PlayerPage> {
             BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
               builder: (context, state) {
                 return Flexible(
-                  flex: 1,
                   fit: FlexFit.tight,
                   child: InkWell(
                     onTap: () {
@@ -155,5 +131,22 @@ class _PlayerPageState extends State<PlayerPage> {
         })
         .values
         .toList();
+  }
+
+  Widget _buildContent() {
+    return BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
+      builder: (context, state) {
+        switch (state.playerDetailModeIndex) {
+          case (0):
+            return const MmrHistorySection();
+          case (1):
+            return const CivPickSection();
+          case (2):
+            return MatchHistorySection(player: widget.player);
+          default:
+            return const SizedBox.shrink();
+        }
+      },
+    );
   }
 }
