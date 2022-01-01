@@ -7,7 +7,7 @@ class LeaderboardDataProvider {
   Future<Map> fetchLeaderboardData(Client client, String url) async {
     final response = await client.get(Uri.parse(url));
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      return jsonDecode(utf8.decode(response.bodyBytes));
     }
 
     throw FetchDataException("Error ${response.statusCode}. Failed to fetch leaderboard data with url: $url");
