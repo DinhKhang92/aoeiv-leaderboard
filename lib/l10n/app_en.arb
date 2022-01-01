@@ -175,5 +175,17 @@
     "@mapNameBoulderBay": {
         "description": "Map name Boulder Bay"
     },
-    "mapNameBoulderBay": "Boulder Bay"
+    "mapNameBoulderBay": "Boulder Bay",
+    "@playerDetailBottomNavigationBarLabelMmr": {
+        "description": "player detail bottom navigation bar label mmr"
+    },
+    "playerDetailBottomNavigationBarLabelMmr": "Mmr",
+    "@playerDetailBottomNavigationBarLabelCivs": {
+        "description": "player detail bottom navigation bar label civs"
+    },
+    "playerDetailBottomNavigationBarLabelCivs": "Civs",
+    "@playerDetailBottomNavigationBarLabelMatches": {
+        "description": "player detail bottom navigation bar label matches"
+    },
+    "playerDetailBottomNavigationBarLabelMatches": "Matches"
 }
