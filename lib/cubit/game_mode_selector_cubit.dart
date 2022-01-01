@@ -18,15 +18,15 @@ class GameModeSelectorCubit extends Cubit<GameModeSelectorState> {
         playerDetailModeIndex: state.playerDetailModeIndex,
       ));
 
-  void setPlayerDetailModeMode(int index) => emit(GameModeSelectorState(
+  void setPlayerDetailGameMode(int index) => emit(GameModeSelectorState(
         leaderboardGameModeIndex: state.leaderboardGameModeIndex,
         ratingHistoryGameModeIndex: state.ratingHistoryGameModeIndex,
         playerDetailModeIndex: index,
       ));
 
-  void clearRatingHistoryGameMode() => emit(GameModeSelectorState(
+  void clearPlayerDetailNavigation() => emit(GameModeSelectorState(
         leaderboardGameModeIndex: state.leaderboardGameModeIndex,
         ratingHistoryGameModeIndex: 0,
-        playerDetailModeIndex: state.playerDetailModeIndex,
+        playerDetailModeIndex: 0,
       ));
 }

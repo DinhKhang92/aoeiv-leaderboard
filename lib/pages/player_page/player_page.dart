@@ -31,14 +31,14 @@ class PlayerPage extends StatefulWidget {
 class _PlayerPageState extends State<PlayerPage> {
   @override
   void initState() {
-    _clearRatingHistoryGameMode();
+    _clearPlayerDetailNavigation();
     _initGameMode();
     _fetchData(widget.leaderboardId);
     super.initState();
   }
 
-  void _clearRatingHistoryGameMode() {
-    BlocProvider.of<GameModeSelectorCubit>(context).clearRatingHistoryGameMode();
+  void _clearPlayerDetailNavigation() {
+    BlocProvider.of<GameModeSelectorCubit>(context).clearPlayerDetailNavigation();
   }
 
   void _initGameMode() {

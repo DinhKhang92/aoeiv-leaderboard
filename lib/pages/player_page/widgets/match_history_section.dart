@@ -1,13 +1,18 @@
+import 'dart:math';
+
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
+import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/exceptions/no_data_exception.dart';
 import 'package:aoeiv_leaderboard/models/match.dart';
 import 'package:aoeiv_leaderboard/models/match_player.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
+import 'package:aoeiv_leaderboard/models/rating.dart';
 import 'package:aoeiv_leaderboard/utils/map_id_to_civ_asset_name.dart';
 import 'package:aoeiv_leaderboard/utils/map_map_type_to_map_name.dart';
 import 'package:aoeiv_leaderboard/utils/map_timestamp_to_match_date_label.dart';
+import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
 import 'package:aoeiv_leaderboard/widgets/error_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,13 +31,18 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: BlocBuilder<MatchHistoryDataCubit, MatchHistoryDataState>(
+      child: BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
         builder: (context, state) {
-          if (state is MatchHistoryDataLoaded) {
-            return _buildMatchHistoryLoaded(state.filteredMatches);
+          final List<Rating> ratinghistoryData = state.ratingHistoryData;
+          if (state is RatingHistoryDataLoading) {
+            return const CenteredCircularProgressIndicator();
           }
 
-          if (state is MatchHistoryDataError) {
+          if (state is RatingHistoryDataLoaded) {
+            return _buildRatingHistoryDataLoaded(ratinghistoryData);
+          }
+
+          if (state is RatingHistoryDataError) {
             final String errorMessage =
                 state.error is NoDataException ? AppLocalizations.of(context)!.errorMessageNoDataFound : AppLocalizations.of(context)!.errorMessageFetchData;
             return ErrorDisplay(errorMessage: errorMessage);
@@ -44,11 +54,34 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
     );
   }
 
-  Widget _buildMatchHistoryLoaded(List<Match> matches) {
+  Widget _buildRatingHistoryDataLoaded(List<Rating> ratinghistoryData) {
+    return BlocBuilder<MatchHistoryDataCubit, MatchHistoryDataState>(
+      builder: (context, state) {
+        if (state is MatchHistoryDataLoading) {
+          return const CenteredCircularProgressIndicator();
+        }
+
+        if (state is MatchHistoryDataLoaded && ratinghistoryData.isNotEmpty) {
+          return _buildMatchHistoryLoaded(state.filteredMatches, ratinghistoryData);
+        }
+
+        if (state is MatchHistoryDataError) {
+          final String errorMessage = state.error is NoDataException ? AppLocalizations.of(context)!.errorMessageNoDataFound : AppLocalizations.of(context)!.errorMessageFetchData;
+          return ErrorDisplay(errorMessage: errorMessage);
+        }
+
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildMatchHistoryLoaded(List<Match> matches, List<Rating> ratinghistoryData) {
     return ListView.builder(
       physics: const ClampingScrollPhysics(),
-      itemCount: matches.length,
+      itemCount: min(matches.length, ratinghistoryData.length) - 1,
       itemBuilder: (context, index) {
+        final bool wonGame = ratinghistoryData[index].rating > ratinghistoryData[index + 1].rating;
+        final int rating = ratinghistoryData[index].rating - ratinghistoryData[index + 1].rating;
         final Match match = matches[index];
         final String map = mapMapTypeToMapName(context, match.mapType);
         final String mapAssetName = map.toLowerCase().replaceAll(' ', '_');
@@ -57,10 +90,6 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
         final int myTeamId = myself.first.team ?? -1;
         final List<MatchPlayer> mates = players.where((MatchPlayer player) => player.team == myTeamId).toList();
         final List<MatchPlayer> opponents = players.where((MatchPlayer player) => player.team != myTeamId).toList();
-        final DateTime now = DateTime.now();
-        final DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(match.timestamp);
-        int hours = (now.difference(timestamp).inHours);
-
         return ExpansionTile(
           tilePadding: const EdgeInsets.symmetric(horizontal: 0),
           iconColor: kcPrimaryColor,
@@ -69,9 +98,29 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
             map,
             style: Theme.of(context).textTheme.bodyText1,
           ),
-          subtitle: Text(
-            mapTimestampToMatchDateLabel(context, match.timestamp),
-            style: Theme.of(context).textTheme.headline6,
+          subtitle: Wrap(
+            spacing: 2,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Text(
+                mapTimestampToMatchDateLabel(context, match.timestamp),
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              wonGame
+                  ? const Icon(Icons.arrow_upward, size: 13, color: Colors.green)
+                  : const Icon(
+                      Icons.arrow_downward,
+                      size: 13,
+                      color: Colors.red,
+                    ),
+              Text(
+                "${rating.abs()}",
+                style: TextStyle(
+                  color: wonGame ? Colors.green : Colors.red,
+                  fontSize: 13,
+                ),
+              ),
+            ],
           ),
           childrenPadding: EdgeInsets.symmetric(vertical: Spacing.xxs.spacing),
           children: _buildMatchDetails(mates, opponents, index),
@@ -95,7 +144,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
             children: [
               Container(
                 constraints: const BoxConstraints(maxWidth: 28),
-                child: Image.asset("assets/civs/${mapIdToCivAssetName(mates[index].civilizationId)}.png"),
+                child: Image.asset("assets/civs/${mapIdToCivAssetName(mates[index].civilizationId)}"),
               ),
               SizedBox(width: Spacing.s.spacing),
               Expanded(child: Text(mates[index].name)),
@@ -104,7 +153,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
               SizedBox(width: Spacing.s.spacing),
               Container(
                 constraints: const BoxConstraints(maxWidth: 28),
-                child: Image.asset("assets/civs/${mapIdToCivAssetName(opponents[index].civilizationId)}.png"),
+                child: Image.asset("assets/civs/${mapIdToCivAssetName(opponents[index].civilizationId)}"),
               ),
             ],
           ),

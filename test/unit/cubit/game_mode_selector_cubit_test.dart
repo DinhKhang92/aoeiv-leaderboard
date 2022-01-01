@@ -28,10 +28,16 @@ void main() {
       expect: () => [const GameModeSelectorState(leaderboardGameModeIndex: 0, ratingHistoryGameModeIndex: 2, playerDetailModeIndex: 0)],
     );
     blocTest<GameModeSelectorCubit, GameModeSelectorState>(
-      'emits state with rating history game mode of 0 after clearing it',
+      'emits state with player detail game mode of 2 after setting it to 2',
       build: () => _gameModeSelectorCubit,
-      seed: () => const GameModeSelectorState(leaderboardGameModeIndex: 0, ratingHistoryGameModeIndex: 2, playerDetailModeIndex: 0),
-      act: (cubit) => cubit.clearRatingHistoryGameMode(),
+      act: (cubit) => cubit.setPlayerDetailGameMode(2),
+      expect: () => [const GameModeSelectorState(leaderboardGameModeIndex: 0, ratingHistoryGameModeIndex: 0, playerDetailModeIndex: 2)],
+    );
+    blocTest<GameModeSelectorCubit, GameModeSelectorState>(
+      'emits state with rating history and player detail game mode of 0 after clearing it',
+      build: () => _gameModeSelectorCubit,
+      seed: () => const GameModeSelectorState(leaderboardGameModeIndex: 0, ratingHistoryGameModeIndex: 2, playerDetailModeIndex: 2),
+      act: (cubit) => cubit.clearPlayerDetailNavigation(),
       expect: () => [const GameModeSelectorState(leaderboardGameModeIndex: 0, ratingHistoryGameModeIndex: 0, playerDetailModeIndex: 0)],
     );
   });

@@ -10,6 +10,7 @@ final ThemeData ktTheme = ThemeData(
   textTheme: ktTextTheme,
   iconTheme: ktIconThemeData,
   bottomNavigationBarTheme: ktBottomNavigationBarTheme,
+  dividerColor: kcColorTransparent,
 );
 
 const TextSelectionThemeData ktTextSelectionTheme = TextSelectionThemeData(

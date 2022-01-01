@@ -16,7 +16,7 @@ class PlayerDetailBottomNavigationBar extends StatelessWidget {
         return BottomNavigationBar(
           backgroundColor: kcSecondaryColor,
           currentIndex: state.playerDetailModeIndex,
-          onTap: (int index) => BlocProvider.of<GameModeSelectorCubit>(context).setPlayerDetailModeMode(index),
+          onTap: (int index) => BlocProvider.of<GameModeSelectorCubit>(context).setPlayerDetailGameMode(index),
           items: [
             BottomNavigationBarItem(
               icon: const Icon(MdiIcons.chartLine),
