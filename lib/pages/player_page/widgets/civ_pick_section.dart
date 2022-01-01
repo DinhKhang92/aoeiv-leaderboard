@@ -1,10 +1,12 @@
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
+import 'package:aoeiv_leaderboard/exceptions/no_data_exception.dart';
 import 'package:aoeiv_leaderboard/utils/map_id_to_civilization.dart';
 import 'package:aoeiv_leaderboard/utils/map_id_to_civilization_color.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
+import 'package:aoeiv_leaderboard/widgets/error_display.dart';
 import 'package:aoeiv_leaderboard/widgets/pie_chart.dart';
-import 'package:aoeiv_leaderboard/widgets/section_title.dart';
+import 'package:aoeiv_leaderboard/pages/player_page/widgets/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -44,6 +46,12 @@ class _CivPickSectionState extends State<CivPickSection> {
             ],
           );
         }
+
+        if (state is MatchHistoryDataError) {
+          final String errorMessage = state.error is NoDataException ? AppLocalizations.of(context)!.errorMessageNoDataFound : AppLocalizations.of(context)!.errorMessageFetchData;
+          return ErrorDisplay(errorMessage: errorMessage);
+        }
+
         return const SizedBox.shrink();
       },
     );

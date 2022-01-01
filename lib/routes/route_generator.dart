@@ -1,7 +1,7 @@
 import 'package:aoeiv_leaderboard/models/rating_history_screen_args.dart';
-import 'package:aoeiv_leaderboard/pages/disclaimer_page.dart';
-import 'package:aoeiv_leaderboard/pages/landing_page.dart';
-import 'package:aoeiv_leaderboard/pages/player_page.dart';
+import 'package:aoeiv_leaderboard/pages/disclaimer_page/disclaimer_page.dart';
+import 'package:aoeiv_leaderboard/pages/landing_page/landing_page.dart';
+import 'package:aoeiv_leaderboard/pages/player_page/player_page.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
