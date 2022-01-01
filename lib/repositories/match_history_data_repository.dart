@@ -1,4 +1,5 @@
 import 'package:aoeiv_leaderboard/config/config.dart';
+import 'package:aoeiv_leaderboard/exceptions/no_data_exception.dart';
 import 'package:aoeiv_leaderboard/models/match.dart';
 import 'package:aoeiv_leaderboard/models/match_player.dart';
 import 'package:aoeiv_leaderboard/providers/match_history_data_provider.dart';
@@ -18,7 +19,13 @@ class MatchHistoryDataRepository {
     return jsonData.map((matchHistory) => Match.fromJSON(matchHistory)).toList();
   }
 
-  List<Match> filterMatches(int leaderboardId, List<Match> matches) => matches.where((Match match) => match.ratingTypeId == mapLeaderboardIdToRatingTypeId(leaderboardId)).toList();
+  List<Match> filterMatches(int leaderboardId, List<Match> matches) {
+    final List<Match> filteredMatches = matches.where((Match match) => match.ratingTypeId == mapLeaderboardIdToRatingTypeId(leaderboardId)).toList();
+    if (filteredMatches.isEmpty) {
+      throw NoDataException("No matches found");
+    }
+    return filteredMatches;
+  }
 
   Map<String, int> getCivDistributionByProfileId(List<Match> matches, int profileId) {
     final List<MatchPlayer> playerInMatches = matches.map((Match match) => match.matchPlayers.firstWhere((MatchPlayer player) => player.profileId == profileId)).toList();
@@ -41,6 +48,10 @@ class MatchHistoryDataRepository {
       "${CivilizationId.mongols.id}": mongolsCount,
       "${CivilizationId.rus.id}": rusCount,
     };
+
+    if (civilizationDistribution.isEmpty) {
+      throw NoDataException("No civs found");
+    }
 
     return civilizationDistribution;
   }
