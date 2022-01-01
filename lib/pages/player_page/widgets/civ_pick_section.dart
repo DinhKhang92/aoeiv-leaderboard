@@ -21,60 +21,65 @@ class CivPickSection extends StatefulWidget {
 class _CivPickSectionState extends State<CivPickSection> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MatchHistoryDataCubit, MatchHistoryDataState>(
-      builder: (context, state) {
-        if (state is MatchHistoryDataLoading) {
-          return const CenteredCircularProgressIndicator();
-        }
+    return Expanded(
+      child: BlocBuilder<MatchHistoryDataCubit, MatchHistoryDataState>(
+        builder: (context, state) {
+          if (state is MatchHistoryDataLoading) {
+            return const CenteredCircularProgressIndicator();
+          }
 
-        if (state is MatchHistoryDataLoaded && state.filteredMatches.isNotEmpty) {
-          return Column(
-            children: [
-              SectionTitle(title: AppLocalizations.of(context)!.sectionTitleCivilizationDistribution),
-              SizedBox(height: Spacing.l.spacing),
-              SizedBox(
-                height: MediaQuery.of(context).size.width - 2 * Spacing.m.spacing,
-                width: MediaQuery.of(context).size.width,
-                child: SimplePieChart(
-                  civDistribution: state.civilizationDistribution,
-                  totalCount: state.totalCount,
+          if (state is MatchHistoryDataLoaded && state.filteredMatches.isNotEmpty) {
+            return ListView(
+              physics: const ClampingScrollPhysics(),
+              children: [
+                SectionTitle(title: AppLocalizations.of(context)!.sectionTitleCivilizationDistribution),
+                SizedBox(height: Spacing.l.spacing),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width - 6 * Spacing.m.spacing,
+                  child: SimplePieChart(
+                    civDistribution: state.civilizationDistribution,
+                    totalCount: state.totalCount,
+                  ),
                 ),
-              ),
-              SizedBox(height: Spacing.l.spacing),
-              _buildLegend(state.civilizationDistribution),
-              SizedBox(height: Spacing.l.spacing),
-            ],
-          );
-        }
+                SizedBox(height: Spacing.l.spacing),
+                _buildLegend(state.civilizationDistribution),
+                SizedBox(height: Spacing.l.spacing),
+              ],
+            );
+          }
 
-        if (state is MatchHistoryDataError) {
-          final String errorMessage = state.error is NoDataException ? AppLocalizations.of(context)!.errorMessageNoDataFound : AppLocalizations.of(context)!.errorMessageFetchData;
-          return ErrorDisplay(errorMessage: errorMessage);
-        }
+          if (state is MatchHistoryDataError) {
+            final String errorMessage =
+                state.error is NoDataException ? AppLocalizations.of(context)!.errorMessageNoDataFound : AppLocalizations.of(context)!.errorMessageFetchData;
+            return ErrorDisplay(errorMessage: errorMessage);
+          }
 
-        return const SizedBox.shrink();
-      },
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 
   Widget _buildLegend(Map civDistribution) {
     civDistribution.removeWhere((key, value) => value > 0 ? false : true);
 
-    return Wrap(
-      spacing: Spacing.s.spacing,
-      runSpacing: Spacing.xxs.spacing,
-      children: civDistribution.entries.map((entry) {
-        return Wrap(
-          spacing: Spacing.xs.spacing,
-          children: [
-            CircleAvatar(
-              backgroundColor: mapIdToCivilizationColor(int.parse(entry.key)),
-              radius: 7,
-            ),
-            Text(mapIdToCivilization(context, int.parse(entry.key))),
-          ],
-        );
-      }).toList(),
+    return Center(
+      child: Wrap(
+        spacing: Spacing.s.spacing,
+        runSpacing: Spacing.xxs.spacing,
+        children: civDistribution.entries.map((entry) {
+          return Wrap(
+            spacing: Spacing.xs.spacing,
+            children: [
+              CircleAvatar(
+                backgroundColor: mapIdToCivilizationColor(int.parse(entry.key)),
+                radius: 7,
+              ),
+              Text(mapIdToCivilization(context, int.parse(entry.key))),
+            ],
+          );
+        }).toList(),
+      ),
     );
   }
 }

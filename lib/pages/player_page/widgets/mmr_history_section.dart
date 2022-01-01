@@ -19,28 +19,32 @@ class MmrHistorySection extends StatefulWidget {
 class _MmrHistorySectionState extends State<MmrHistorySection> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
-      builder: (context, state) {
-        if (state is RatingHistoryDataLoading) {
-          return const CenteredCircularProgressIndicator();
-        }
+    return Expanded(
+      child: BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
+        builder: (context, state) {
+          if (state is RatingHistoryDataLoading) {
+            return const CenteredCircularProgressIndicator();
+          }
 
-        if (state is RatingHistoryDataLoaded) {
-          return Column(
-            children: [
-              SectionTitle(title: AppLocalizations.of(context)!.sectionTitleMmrHistory),
-              _buildRatingHistoryLineChart(state.ratingHistoryData),
-            ],
-          );
-        }
+          if (state is RatingHistoryDataLoaded) {
+            return ListView(
+              physics: const ClampingScrollPhysics(),
+              children: [
+                SectionTitle(title: AppLocalizations.of(context)!.sectionTitleMmrHistory),
+                _buildRatingHistoryLineChart(state.ratingHistoryData),
+              ],
+            );
+          }
 
-        if (state is RatingHistoryDataError) {
-          final String errorMessage = state.error is NoDataException ? AppLocalizations.of(context)!.errorMessageNoDataFound : AppLocalizations.of(context)!.errorMessageFetchData;
-          return ErrorDisplay(errorMessage: errorMessage);
-        }
+          if (state is RatingHistoryDataError) {
+            final String errorMessage =
+                state.error is NoDataException ? AppLocalizations.of(context)!.errorMessageNoDataFound : AppLocalizations.of(context)!.errorMessageFetchData;
+            return ErrorDisplay(errorMessage: errorMessage);
+          }
 
-        return const SizedBox.shrink();
-      },
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 
