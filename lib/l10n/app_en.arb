@@ -188,6 +188,15 @@
         "description": "player detail bottom navigation bar label matches"
     },
     "playerDetailBottomNavigationBarLabelMatches": "Matches",
+    "@playerDetailMatchHistoryTimeInMinutes": {
+        "description": "player detail match history time in minutes",
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "playerDetailMatchHistoryTimeInMinutes": "{minutes,plural, =1{{minutes} minute ago} other{{minutes} minutes ago}}",
     "@playerDetailMatchHistoryTimeInHours": {
         "description": "player detail match history time in hours",
         "placeholders": {
