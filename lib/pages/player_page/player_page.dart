@@ -13,7 +13,7 @@ import 'package:aoeiv_leaderboard/pages/player_page/widgets/civ_pick_section.dar
 import 'package:aoeiv_leaderboard/widgets/header.dart';
 import 'package:aoeiv_leaderboard/pages/player_page/widgets/mmr_history_section.dart';
 import 'package:aoeiv_leaderboard/pages/player_page/widgets/player_stats.dart';
-import 'package:aoeiv_leaderboard/widgets/rating_history_mode_selector.dart';
+import 'package:aoeiv_leaderboard/pages/player_page/widgets/player_detail_game_mode_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -118,7 +118,7 @@ class _PlayerPageState extends State<PlayerPage> {
                         _fetchData(leaderboardId);
                       }
                     },
-                    child: RatingHistoryModeSelector(
+                    child: PlayerDetailGameModeSelector(
                       label: label,
                       labelColor: kcSecondaryColor,
                       backgroundColor: state.ratingHistoryGameModeIndex == index ? kcPrimaryColor : kcUnselectedColor,

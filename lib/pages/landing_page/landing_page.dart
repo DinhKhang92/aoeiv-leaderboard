@@ -14,7 +14,7 @@ import 'package:aoeiv_leaderboard/utils/map_index_to_game_mode.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/bottom_shader.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
-import 'package:aoeiv_leaderboard/widgets/custom_bottom_navigation_bar.dart';
+import 'package:aoeiv_leaderboard/pages/landing_page/widgets/custom_bottom_navigation_bar.dart';
 import 'package:aoeiv_leaderboard/widgets/error_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
