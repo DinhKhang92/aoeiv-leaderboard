@@ -12,6 +12,7 @@ import 'package:aoeiv_leaderboard/utils/debouncer.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_game_mode.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
+import 'package:aoeiv_leaderboard/widgets/bottom_shader.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
 import 'package:aoeiv_leaderboard/widgets/custom_bottom_navigation_bar.dart';
 import 'package:aoeiv_leaderboard/widgets/error_display.dart';
@@ -112,15 +113,7 @@ class _LandingPageState extends State<LandingPage> {
 
   Widget _buildLeaderboardDataLoaded(List leaderboardData) {
     return Expanded(
-      child: ShaderMask(
-        shaderCallback: (Rect rect) {
-          return const LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [Colors.transparent, kcColorWhite],
-            stops: [0.0, 0.04],
-          ).createShader(rect);
-        },
+      child: BottomShader(
         child: ListView.separated(
           padding: EdgeInsets.symmetric(vertical: Spacing.m.spacing),
           separatorBuilder: (context, index) => SizedBox(height: Spacing.xl.spacing),

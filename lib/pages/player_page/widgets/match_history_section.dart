@@ -12,6 +12,7 @@ import 'package:aoeiv_leaderboard/models/rating.dart';
 import 'package:aoeiv_leaderboard/utils/map_id_to_civ_asset_name.dart';
 import 'package:aoeiv_leaderboard/utils/map_map_type_to_map_name.dart';
 import 'package:aoeiv_leaderboard/utils/map_timestamp_to_match_date_label.dart';
+import 'package:aoeiv_leaderboard/widgets/bottom_shader.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
 import 'package:aoeiv_leaderboard/widgets/error_display.dart';
 import 'package:flutter/material.dart';
@@ -76,60 +77,63 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
   }
 
   Widget _buildMatchHistoryLoaded(List<Match> matches, List<Rating> ratinghistoryData) {
-    return ListView.builder(
-      physics: const ClampingScrollPhysics(),
-      itemCount: min(matches.length, ratinghistoryData.length) - 1,
-      itemBuilder: (context, index) {
-        final bool wonGame = ratinghistoryData[index].rating > ratinghistoryData[index + 1].rating;
-        final int rating = ratinghistoryData[index].rating - ratinghistoryData[index + 1].rating;
-        final Match match = matches[index];
-        final String map = mapMapTypeToMapName(context, match.mapType);
-        final String mapAssetName = map.toLowerCase().replaceAll(' ', '_');
-        final List<MatchPlayer> players = match.matchPlayers;
-        final List<MatchPlayer> myself = players.where((MatchPlayer player) => player.profileId == widget.player.profileId).toList();
-        final int myTeamId = myself.first.team ?? -1;
-        final List<MatchPlayer> mates = players.where((MatchPlayer player) => player.team == myTeamId).toList();
-        final List<MatchPlayer> opponents = players.where((MatchPlayer player) => player.team != myTeamId).toList();
-        return ExpansionTile(
-          tilePadding: const EdgeInsets.symmetric(horizontal: 0),
-          iconColor: kcPrimaryColor,
-          collapsedIconColor: kcPrimaryColor,
-          title: Text(
-            map,
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          subtitle: Wrap(
-            spacing: 2,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              Text(
-                mapTimestampToMatchDateLabel(context, match.timestamp),
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              wonGame
-                  ? const Icon(Icons.arrow_upward, size: 13, color: Colors.green)
-                  : const Icon(
-                      Icons.arrow_downward,
-                      size: 13,
-                      color: Colors.red,
-                    ),
-              Text(
-                "${rating.abs()}",
-                style: TextStyle(
-                  color: wonGame ? Colors.green : Colors.red,
-                  fontSize: 13,
+    return BottomShader(
+      child: ListView.builder(
+        physics: const ClampingScrollPhysics(),
+        padding: EdgeInsets.only(bottom: Spacing.m.spacing),
+        itemCount: min(matches.length, ratinghistoryData.length) - 1,
+        itemBuilder: (context, index) {
+          final bool wonGame = ratinghistoryData[index].rating > ratinghistoryData[index + 1].rating;
+          final int rating = ratinghistoryData[index].rating - ratinghistoryData[index + 1].rating;
+          final Match match = matches[index];
+          final String map = mapMapTypeToMapName(context, match.mapType);
+          final String mapAssetName = map.toLowerCase().replaceAll(' ', '_');
+          final List<MatchPlayer> players = match.matchPlayers;
+          final List<MatchPlayer> myself = players.where((MatchPlayer player) => player.profileId == widget.player.profileId).toList();
+          final int myTeamId = myself.first.team ?? -1;
+          final List<MatchPlayer> mates = players.where((MatchPlayer player) => player.team == myTeamId).toList();
+          final List<MatchPlayer> opponents = players.where((MatchPlayer player) => player.team != myTeamId).toList();
+          return ExpansionTile(
+            tilePadding: const EdgeInsets.symmetric(horizontal: 0),
+            iconColor: kcPrimaryColor,
+            collapsedIconColor: kcPrimaryColor,
+            title: Text(
+              map,
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            subtitle: Wrap(
+              spacing: 2,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Text(
+                  mapTimestampToMatchDateLabel(context, match.timestamp),
+                  style: Theme.of(context).textTheme.headline6,
                 ),
-              ),
-            ],
-          ),
-          childrenPadding: EdgeInsets.symmetric(vertical: Spacing.xxs.spacing),
-          children: _buildMatchDetails(mates, opponents, index),
-          leading: Container(
-            decoration: BoxDecoration(border: Border.all(color: kcHintColor)),
-            child: Image.asset("assets/maps/$mapAssetName.png"),
-          ),
-        );
-      },
+                wonGame
+                    ? const Icon(Icons.arrow_upward, size: 13, color: Colors.green)
+                    : const Icon(
+                        Icons.arrow_downward,
+                        size: 13,
+                        color: Colors.red,
+                      ),
+                Text(
+                  "${rating.abs()}",
+                  style: TextStyle(
+                    color: wonGame ? Colors.green : Colors.red,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+            childrenPadding: EdgeInsets.symmetric(vertical: Spacing.xxs.spacing),
+            children: _buildMatchDetails(mates, opponents, index),
+            leading: Container(
+              decoration: BoxDecoration(border: Border.all(color: kcHintColor)),
+              child: Image.asset("assets/maps/$mapAssetName.png"),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -147,7 +151,14 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
                 child: Image.asset("assets/civs/${mapIdToCivAssetName(mates[index].civilizationId)}"),
               ),
               SizedBox(width: Spacing.s.spacing),
-              Expanded(child: Text(mates[index].name)),
+              Expanded(
+                child: Text(
+                  mates[index].name,
+                  style: mates[index].profileId == widget.player.profileId
+                      ? Theme.of(context).textTheme.bodyText2?.copyWith(color: kcPrimaryColor)
+                      : Theme.of(context).textTheme.bodyText2,
+                ),
+              ),
               SizedBox(width: Spacing.m.spacing),
               Expanded(child: Text(opponents[index].name, textAlign: TextAlign.end)),
               SizedBox(width: Spacing.s.spacing),
