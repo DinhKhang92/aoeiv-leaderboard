@@ -126,7 +126,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
               ],
             ),
             childrenPadding: EdgeInsets.symmetric(vertical: Spacing.xxs.spacing),
-            children: _buildMatchDetails(mates, opponents, index),
+            children: _buildMatchDetails(mates, opponents),
             leading: Container(
               decoration: BoxDecoration(border: Border.all(color: kcHintColor)),
               child: Image.asset("assets/maps/$mapAssetName.png"),
@@ -137,7 +137,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
     );
   }
 
-  List<Widget> _buildMatchDetails(List<MatchPlayer> mates, List<MatchPlayer> opponents, int i) {
+  List<Widget> _buildMatchDetails(List<MatchPlayer> mates, List<MatchPlayer> opponents) {
     return List.generate(
       mates.length,
       (int index) {
