@@ -1,3 +1,4 @@
+import 'package:aoeiv_leaderboard/exceptions/no_data_exception.dart';
 import 'package:aoeiv_leaderboard/models/match.dart';
 import 'package:aoeiv_leaderboard/providers/match_history_data_provider.dart';
 import 'package:aoeiv_leaderboard/repositories/match_history_data_repository.dart';
@@ -24,13 +25,20 @@ void main() {
       List<Match> matchHistoryData = await _matchHistoryDataRepository.fetchMatchHistoryData(123123);
       expect(matchHistoryData, [matchOne, matchTwo]);
     });
-    test("should filter matches by the game mode", () async {
+    test("should filter matches by the game mode", () {
       final Match matchOneVOne = Match.fromJSON(exampleOneVOneMatch);
       final Match matchTwoVTwo = Match.fromJSON(exampleTwoVTwoMatch);
       final List<Match> matches = [matchOneVOne, matchTwoVTwo];
 
       List<Match> filteredMatches = _matchHistoryDataRepository.filterMatches(17, matches);
       expect(filteredMatches, [matchOneVOne]);
+    });
+    test("should throw a no data exception if no matches found after filtering", () {
+      final Match matchOneVOne = Match.fromJSON(exampleOneVOneMatch);
+      final Match matchTwoVTwo = Match.fromJSON(exampleTwoVTwoMatch);
+      final List<Match> matches = [matchOneVOne, matchTwoVTwo];
+
+      expect(() => _matchHistoryDataRepository.filterMatches(-1, matches), throwsA(isA<NoDataException>()));
     });
     test("should get civ distribution based on played matches", () async {
       final Match matchOneVOne = Match.fromJSON(exampleOneVOneMatch);

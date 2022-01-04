@@ -107,5 +107,130 @@
     "@pieChardLabelRus": {
         "description": "Pie chart label Rus"
     },
-    "pieChardLabelRus": "Rus"
+    "pieChardLabelRus": "Rus",
+    "@mapNameDryArabia": {
+        "description": "Map name Dry Arabia"
+    },
+    "mapNameDryArabia": "Dry Arabia",
+    "@mapNameLipany": {
+        "description": "Map name Lipany"
+    },
+    "mapNameLipany": "Lipany",
+    "@mapNameHighView": {
+        "description": "Map name High View"
+    },
+    "mapNameHighView": "High View",
+    "@mapNameMountainPass": {
+        "description": "Map name Mountain Pass"
+    },
+    "mapNameMountainPass": "Mountain Pass",
+    "@mapNameAncientSpires": {
+        "description": "Map name Ancient Spires"
+    },
+    "mapNameAncientSpires": "Ancient Spires",
+    "@mapNameDanubeRiver": {
+        "description": "Map name Danube River"
+    },
+    "mapNameDanubeRiver": "Danube River",
+    "@mapNameBlackForest": {
+        "description": "Map name Black Forest"
+    },
+    "mapNameBlackForest": "Black Forest",
+    "@mapNameMongolianHeights": {
+        "description": "Map name Mongolian Heights"
+    },
+    "mapNameMongolianHeights": "Mongolian Heights",
+    "@mapNameAltari": {
+        "description": "Map name Altari"
+    },
+    "mapNameAltari": "Altari",
+    "@mapNameConfluence": {
+        "description": "Map name Confluence"
+    },
+    "mapNameConfluence": "Confluence",
+    "@mapNameFrenchPass": {
+        "description": "Map name French Pass"
+    },
+    "mapNameFrenchPass": "French Pass",
+    "@mapNameHillAndDale": {
+        "description": "Map name Hill and Dale"
+    },
+    "mapNameHillAndDale": "Hill and Dale",
+    "@mapNameKingOfTheHill": {
+        "description": "Map name King of the Hill"
+    },
+    "mapNameKingOfTheHill": "King of the Hill",
+    "@mapNameWarringIslands": {
+        "description": "Map name Warring Islands"
+    },
+    "mapNameWarringIslands": "Warring Islands",
+    "@mapNameArchipelago": {
+        "description": "Map name Archipelago"
+    },
+    "mapNameArchipelago": "Archipelago",
+    "@mapNameNagari": {
+        "description": "Map name Nagari"
+    },
+    "mapNameNagari": "Nagari",
+    "@mapNameBoulderBay": {
+        "description": "Map name Boulder Bay"
+    },
+    "mapNameBoulderBay": "Boulder Bay",
+    "@playerDetailBottomNavigationBarLabelMmr": {
+        "description": "player detail bottom navigation bar label mmr"
+    },
+    "playerDetailBottomNavigationBarLabelMmr": "Mmr",
+    "@playerDetailBottomNavigationBarLabelCivs": {
+        "description": "player detail bottom navigation bar label civs"
+    },
+    "playerDetailBottomNavigationBarLabelCivs": "Civs",
+    "@playerDetailBottomNavigationBarLabelMatches": {
+        "description": "player detail bottom navigation bar label matches"
+    },
+    "playerDetailBottomNavigationBarLabelMatches": "Matches",
+    "@playerDetailMatchHistoryTimeInMinutes": {
+        "description": "player detail match history time in minutes",
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "playerDetailMatchHistoryTimeInMinutes": "{minutes,plural, =1{{minutes} minute ago} other{{minutes} minutes ago}}",
+    "@playerDetailMatchHistoryTimeInHours": {
+        "description": "player detail match history time in hours",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            }
+        }
+    },
+    "playerDetailMatchHistoryTimeInHours": "{hours,plural, =1{{hours} hour ago} other{{hours} hours ago}}",
+    "@playerDetailMatchHistoryTimeInDays": {
+        "description": "player detail match history time in days",
+        "placeholders": {
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "playerDetailMatchHistoryTimeInDays": "{days,plural, =1{{days} day ago} other{{days} days ago}}",
+    "@playerDetailMatchHistoryTimeInWeeks": {
+        "description": "player detail match history time in weeks",
+        "placeholders": {
+            "weeks": {
+                "type": "int"
+            }
+        }
+    },
+    "playerDetailMatchHistoryTimeInWeeks": "{weeks,plural, =1{{weeks} week ago} other{{weeks} weeks ago}}",
+    "@playerDetailMatchHistoryTimeInMonths": {
+        "description": "player detail match history time in months",
+        "placeholders": {
+            "months": {
+                "type": "int"
+            }
+        }
+    },
+    "playerDetailMatchHistoryTimeInMonths": "{months,plural, =1{{months} month ago} other{{months} months ago}}"
 }

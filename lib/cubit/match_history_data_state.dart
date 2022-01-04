@@ -4,11 +4,13 @@ abstract class MatchHistoryDataState extends Equatable {
   final List<Match> filteredMatches;
   final Map civilizationDistribution;
   final int totalCount;
+  final Exception? error;
 
   const MatchHistoryDataState({
     required this.filteredMatches,
     required this.civilizationDistribution,
     required this.totalCount,
+    this.error,
   });
 
   @override
@@ -31,5 +33,5 @@ class MatchHistoryDataLoaded extends MatchHistoryDataState {
 }
 
 class MatchHistoryDataError extends MatchHistoryDataState {
-  MatchHistoryDataError() : super(filteredMatches: [], civilizationDistribution: {}, totalCount: 1);
+  MatchHistoryDataError({Exception? error}) : super(filteredMatches: [], civilizationDistribution: {}, totalCount: 1, error: error);
 }

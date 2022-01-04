@@ -16,8 +16,8 @@ class MatchHistoryDataCubit extends Cubit<MatchHistoryDataState> {
       final List<Match> filteredMatches = matchHistoryDataRepository.filterMatches(leaderboardId, matches);
       final Map<String, int> civilizationDistribution = matchHistoryDataRepository.getCivDistributionByProfileId(filteredMatches, profileId);
       emit(MatchHistoryDataLoaded(matches: filteredMatches, civilizationDistribution: civilizationDistribution, totalCount: filteredMatches.length));
-    } catch (e) {
-      emit(MatchHistoryDataError());
+    } on Exception catch (error, _) {
+      emit(MatchHistoryDataError(error: error));
     }
   }
 }
