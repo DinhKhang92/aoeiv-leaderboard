@@ -4,14 +4,16 @@ import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
+import 'package:aoeiv_leaderboard/pages/player_page/widgets/match_history_section.dart';
+import 'package:aoeiv_leaderboard/pages/player_page/widgets/player_detail_bottom_navigation_bar.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_leaderboard_id_to_index.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
-import 'package:aoeiv_leaderboard/widgets/civ_pick_section.dart';
+import 'package:aoeiv_leaderboard/pages/player_page/widgets/civ_pick_section.dart';
 import 'package:aoeiv_leaderboard/widgets/header.dart';
-import 'package:aoeiv_leaderboard/widgets/mmr_history_section.dart';
-import 'package:aoeiv_leaderboard/widgets/player_stats.dart';
-import 'package:aoeiv_leaderboard/widgets/rating_history_mode_selector.dart';
+import 'package:aoeiv_leaderboard/pages/player_page/widgets/mmr_history_section.dart';
+import 'package:aoeiv_leaderboard/pages/player_page/widgets/player_stats.dart';
+import 'package:aoeiv_leaderboard/pages/player_page/widgets/player_detail_game_mode_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -29,14 +31,14 @@ class PlayerPage extends StatefulWidget {
 class _PlayerPageState extends State<PlayerPage> {
   @override
   void initState() {
-    _clearRatingHistoryGameMode();
+    _clearPlayerDetailNavigation();
     _initGameMode();
     _fetchData(widget.leaderboardId);
     super.initState();
   }
 
-  void _clearRatingHistoryGameMode() {
-    BlocProvider.of<GameModeSelectorCubit>(context).clearRatingHistoryGameMode();
+  void _clearPlayerDetailNavigation() {
+    BlocProvider.of<GameModeSelectorCubit>(context).clearPlayerDetailNavigation();
   }
 
   void _initGameMode() {
@@ -52,6 +54,7 @@ class _PlayerPageState extends State<PlayerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildBody(),
+      bottomNavigationBar: const PlayerDetailBottomNavigationBar(),
     );
   }
 
@@ -63,7 +66,6 @@ class _PlayerPageState extends State<PlayerPage> {
           child: Container(
             padding: EdgeInsets.all(Spacing.m.spacing),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Header(headerTitle: widget.player.name),
                 SizedBox(height: Spacing.xl.spacing),
@@ -71,15 +73,7 @@ class _PlayerPageState extends State<PlayerPage> {
                 SizedBox(height: Spacing.l.spacing),
                 const PlayerStats(),
                 SizedBox(height: Spacing.xl.spacing),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      const MmrHistorySection(),
-                      SizedBox(height: Spacing.xl.spacing),
-                      const CivPickSection(),
-                    ],
-                  ),
-                ),
+                _buildContent(),
               ],
             ),
           ),
@@ -93,9 +87,7 @@ class _PlayerPageState extends State<PlayerPage> {
       builder: (context, state) {
         return AbsorbPointer(
           absorbing: state is MatchHistoryDataLoading,
-          child: Row(
-            children: _getRatingHistoryModeSelectors(),
-          ),
+          child: Row(children: _getRatingHistoryModeSelectors()),
         );
       },
     );
@@ -116,7 +108,6 @@ class _PlayerPageState extends State<PlayerPage> {
             BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
               builder: (context, state) {
                 return Flexible(
-                  flex: 1,
                   fit: FlexFit.tight,
                   child: InkWell(
                     onTap: () {
@@ -127,7 +118,7 @@ class _PlayerPageState extends State<PlayerPage> {
                         _fetchData(leaderboardId);
                       }
                     },
-                    child: RatingHistoryModeSelector(
+                    child: PlayerDetailGameModeSelector(
                       label: label,
                       labelColor: kcSecondaryColor,
                       backgroundColor: state.ratingHistoryGameModeIndex == index ? kcPrimaryColor : kcUnselectedColor,
@@ -140,5 +131,22 @@ class _PlayerPageState extends State<PlayerPage> {
         })
         .values
         .toList();
+  }
+
+  Widget _buildContent() {
+    return BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
+      builder: (context, state) {
+        switch (state.playerDetailModeIndex) {
+          case (0):
+            return const MmrHistorySection();
+          case (1):
+            return const CivPickSection();
+          case (2):
+            return MatchHistorySection(player: widget.player);
+          default:
+            return const SizedBox.shrink();
+        }
+      },
+    );
   }
 }

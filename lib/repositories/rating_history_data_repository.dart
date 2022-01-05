@@ -18,7 +18,13 @@ class RatingHistoryDataRepository {
     final String url = "${_config.ratingHistoryBaseUrl}&leaderboard_id=$leaderboardId&profile_id=$profileId&count=${_config.leaderboardCount}";
     final List jsonData = await ratingHistoryDataProvider.fetchRatingHistoryData(_client, url);
 
-    return jsonData.map((ratingHistory) => Rating.fromJSON(ratingHistory)).toList();
+    final List<Rating> ratingHistoryData = jsonData.map((ratingHistory) => Rating.fromJSON(ratingHistory)).toList();
+
+    if (ratingHistoryData.isEmpty) {
+      throw (NoDataException("No data found"));
+    }
+
+    return ratingHistoryData;
   }
 
   Future<Player> fetchPlayerDataByProfileId(int leaderboardId, int profileId) async {

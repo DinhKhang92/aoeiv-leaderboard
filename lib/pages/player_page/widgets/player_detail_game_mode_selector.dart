@@ -2,11 +2,11 @@ import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/config/styles/theme.dart';
 import 'package:flutter/material.dart';
 
-class RatingHistoryModeSelector extends StatelessWidget {
+class PlayerDetailGameModeSelector extends StatelessWidget {
   final String label;
   final Color labelColor;
   final Color backgroundColor;
-  const RatingHistoryModeSelector({required this.label, required this.labelColor, required this.backgroundColor, Key? key}) : super(key: key);
+  const PlayerDetailGameModeSelector({required this.label, required this.labelColor, required this.backgroundColor, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
