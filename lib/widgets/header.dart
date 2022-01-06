@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class Header extends StatelessWidget {
   final String headerTitle;
-
-  const Header({required this.headerTitle, Key? key}) : super(key: key);
+  final Widget? trailing;
+  const Header({required this.headerTitle, this.trailing, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class Header extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 24),
+        trailing ?? const SizedBox(width: 24),
       ],
     );
   }

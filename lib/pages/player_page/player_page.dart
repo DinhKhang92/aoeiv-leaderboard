@@ -1,8 +1,10 @@
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
+import 'package:aoeiv_leaderboard/cubit/favorites_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
+import 'package:aoeiv_leaderboard/models/favorite.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/pages/player_page/widgets/match_history_section.dart';
 import 'package:aoeiv_leaderboard/pages/player_page/widgets/player_detail_bottom_navigation_bar.dart';
@@ -67,7 +69,35 @@ class _PlayerPageState extends State<PlayerPage> {
             padding: EdgeInsets.all(Spacing.m.spacing),
             child: Column(
               children: [
-                Header(headerTitle: widget.player.name),
+                Header(
+                  headerTitle: widget.player.name,
+                  trailing: BlocListener<FavoritesCubit, FavoritesState>(
+                    listener: (context, state) {
+                      if (state is FavoritesLoaded) {
+                        final bool couldAddFavorite = state.favorites.where((Favorite favorite) => favorite.profileId == widget.player.profileId).toList().isEmpty;
+                        if (!couldAddFavorite) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              duration: const Duration(milliseconds: 900),
+                              backgroundColor: kcTertiaryColor,
+                              content: Text("${widget.player.name} was favored"),
+                            ),
+                          );
+                        }
+                      }
+                    },
+                    child: BlocBuilder<FavoritesCubit, FavoritesState>(
+                      builder: (context, state) {
+                        final bool couldAddFavorite = state.favorites.where((Favorite favorite) => favorite.profileId == widget.player.profileId).toList().isEmpty;
+
+                        return InkWell(
+                          onTap: () => BlocProvider.of<FavoritesCubit>(context).updateFavorites(widget.leaderboardId, widget.player.profileId, widget.player.name),
+                          child: couldAddFavorite ? const Icon(Icons.star_border) : const Icon(Icons.star),
+                        );
+                      },
+                    ),
+                  ),
+                ),
                 SizedBox(height: Spacing.xl.spacing),
                 _buildRatingHistoryModeSelectors(),
                 SizedBox(height: Spacing.l.spacing),

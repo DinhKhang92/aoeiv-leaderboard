@@ -4,6 +4,7 @@ import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
 import 'package:aoeiv_leaderboard/config/styles/theme.dart';
+import 'package:aoeiv_leaderboard/cubit/favorites_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
@@ -33,6 +34,7 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   void initState() {
+    _initDb();
     _fetchLeaderboardData();
     super.initState();
   }
@@ -47,6 +49,10 @@ class _LandingPageState extends State<LandingPage> {
     await BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.oneVOne.id);
   }
 
+  Future<void> _initDb() async {
+    await BlocProvider.of<FavoritesCubit>(context).initDb();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,21 +65,28 @@ class _LandingPageState extends State<LandingPage> {
     return Stack(
       children: [
         const Background(),
-        SafeArea(
-          child: Container(
-            padding: EdgeInsets.all(Spacing.m.spacing),
-            child: Column(
-              children: [
-                _buildHeader(),
-                SizedBox(height: Spacing.l.spacing),
-                _buildSearchbar(),
-                SizedBox(height: Spacing.l.spacing),
-                _buildLeaderboardHeader(),
-                SizedBox(height: Spacing.m.spacing),
-                _buildLeaderboard(),
-              ],
-            ),
-          ),
+        BlocBuilder<FavoritesCubit, FavoritesState>(
+          builder: (context, state) {
+            if (state is FavoritesLoaded) {
+              return SafeArea(
+                child: Container(
+                  padding: EdgeInsets.all(Spacing.m.spacing),
+                  child: Column(
+                    children: [
+                      _buildHeader(),
+                      SizedBox(height: Spacing.l.spacing),
+                      _buildSearchbar(),
+                      SizedBox(height: Spacing.l.spacing),
+                      _buildLeaderboardHeader(),
+                      SizedBox(height: Spacing.m.spacing),
+                      _buildLeaderboard(),
+                    ],
+                  ),
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          },
         ),
       ],
     );
