@@ -18,7 +18,6 @@ class AoeDatabase {
   }
 
   Future<void> _createDb() async {
-    print("database created");
     developer.log("database created");
     final String dbPath = await getDatabasesPath();
     database = await openDatabase(

@@ -78,9 +78,9 @@ class _PlayerPageState extends State<PlayerPage> {
                         if (!couldAddFavorite) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              duration: const Duration(milliseconds: 900),
+                              duration: const Duration(milliseconds: 1200),
                               backgroundColor: kcTertiaryColor,
-                              content: Text("${widget.player.name} was favored"),
+                              content: Text(AppLocalizations.of(context)!.playerDetailSnackbarMessageFavoriteAdded(widget.player.name)),
                             ),
                           );
                         }

@@ -232,5 +232,14 @@
             }
         }
     },
-    "playerDetailMatchHistoryTimeInMonths": "{months,plural, =1{{months} month ago} other{{months} months ago}}"
+    "playerDetailMatchHistoryTimeInMonths": "{months,plural, =1{{months} month ago} other{{months} months ago}}",
+    "@playerDetailSnackbarMessageFavoriteAdded": {
+        "description": "player detail snackbar message when player was added to favorites",
+        "placeholders": {
+            "playerName": {
+                "type": "String"
+            }
+        }
+    },
+    "playerDetailSnackbarMessageFavoriteAdded": "Added {playerName}"
 }
