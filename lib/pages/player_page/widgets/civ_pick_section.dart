@@ -33,17 +33,17 @@ class _CivPickSectionState extends State<CivPickSection> {
               physics: const ClampingScrollPhysics(),
               children: [
                 SectionTitle(title: AppLocalizations.of(context)!.sectionTitleCivilizationDistribution),
-                SizedBox(height: Spacing.l.spacing),
+                SizedBox(height: Spacing.l.value),
                 SizedBox(
-                  height: MediaQuery.of(context).size.width - 6 * Spacing.m.spacing,
+                  height: MediaQuery.of(context).size.width - 6 * Spacing.m.value,
                   child: SimplePieChart(
                     civDistribution: state.civilizationDistribution,
                     totalCount: state.totalCount,
                   ),
                 ),
-                SizedBox(height: Spacing.l.spacing),
+                SizedBox(height: Spacing.l.value),
                 _buildLegend(state.civilizationDistribution),
-                SizedBox(height: Spacing.l.spacing),
+                SizedBox(height: Spacing.l.value),
               ],
             );
           }
@@ -65,11 +65,11 @@ class _CivPickSectionState extends State<CivPickSection> {
 
     return Center(
       child: Wrap(
-        spacing: Spacing.s.spacing,
-        runSpacing: Spacing.xxs.spacing,
+        spacing: Spacing.s.value,
+        runSpacing: Spacing.xxs.value,
         children: civDistribution.entries.map((entry) {
           return Wrap(
-            spacing: Spacing.xs.spacing,
+            spacing: Spacing.xs.value,
             children: [
               CircleAvatar(
                 backgroundColor: mapIdToCivilizationColor(int.parse(entry.key)),

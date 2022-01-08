@@ -17,7 +17,7 @@ class Header extends StatelessWidget {
         ),
         Flexible(
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: Spacing.l.spacing),
+            margin: EdgeInsets.symmetric(horizontal: Spacing.l.value),
             child: Text(
               headerTitle,
               style: Theme.of(context).textTheme.headline1,

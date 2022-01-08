@@ -66,49 +66,51 @@ class _PlayerPageState extends State<PlayerPage> {
         const Background(),
         SafeArea(
           child: Container(
-            padding: EdgeInsets.all(Spacing.m.spacing),
+            padding: EdgeInsets.all(Spacing.m.value),
             child: Column(
               children: [
-                Header(
-                  headerTitle: widget.player.name,
-                  trailing: BlocListener<FavoritesCubit, FavoritesState>(
-                    listener: (context, state) {
-                      if (state is FavoritesLoaded) {
-                        final bool couldAddFavorite = state.favorites.where((Favorite favorite) => favorite.profileId == widget.player.profileId).toList().isEmpty;
-                        if (!couldAddFavorite) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              duration: const Duration(milliseconds: 1200),
-                              backgroundColor: kcTertiaryColor,
-                              content: Text(AppLocalizations.of(context)!.playerDetailSnackbarMessageFavoriteAdded(widget.player.name)),
-                            ),
-                          );
-                        }
-                      }
-                    },
-                    child: BlocBuilder<FavoritesCubit, FavoritesState>(
-                      builder: (context, state) {
-                        final bool couldAddFavorite = state.favorites.where((Favorite favorite) => favorite.profileId == widget.player.profileId).toList().isEmpty;
-
-                        return InkWell(
-                          onTap: () => BlocProvider.of<FavoritesCubit>(context).updateFavorites(widget.leaderboardId, widget.player.profileId, widget.player.name),
-                          child: couldAddFavorite ? const Icon(Icons.star_border) : const Icon(Icons.star),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                SizedBox(height: Spacing.xl.spacing),
+                _buildHeader(),
+                SizedBox(height: Spacing.xl.value),
                 _buildRatingHistoryModeSelectors(),
-                SizedBox(height: Spacing.l.spacing),
+                SizedBox(height: Spacing.l.value),
                 const PlayerStats(),
-                SizedBox(height: Spacing.xl.spacing),
+                SizedBox(height: Spacing.xl.value),
                 _buildContent(),
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildHeader() {
+    return Header(
+      headerTitle: widget.player.name,
+      trailing: BlocConsumer<FavoritesCubit, FavoritesState>(
+        listener: (context, state) {
+          if (state is FavoritesLoaded) {
+            final bool couldAddFavorite = state.favorites.where((Favorite favorite) => favorite.profileId == widget.player.profileId).toList().isEmpty;
+            if (!couldAddFavorite) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  duration: const Duration(milliseconds: 1200),
+                  backgroundColor: kcTertiaryColor,
+                  content: Text(AppLocalizations.of(context)!.playerDetailSnackbarMessageFavoriteAdded(widget.player.name)),
+                ),
+              );
+            }
+          }
+        },
+        builder: (context, state) {
+          final bool couldAddFavorite = state.favorites.where((Favorite favorite) => favorite.profileId == widget.player.profileId).toList().isEmpty;
+
+          return InkWell(
+            onTap: () => BlocProvider.of<FavoritesCubit>(context).updateFavorites(widget.leaderboardId, widget.player.profileId, widget.player.name),
+            child: couldAddFavorite ? const Icon(Icons.star_border) : const Icon(Icons.star),
+          );
+        },
+      ),
     );
   }
 
@@ -131,6 +133,7 @@ class _PlayerPageState extends State<PlayerPage> {
       AppLocalizations.of(context)!.bottomNavigationBarLabel4v4,
     ];
     final Map buttonLabelsMap = buttonLabels.asMap();
+
     return buttonLabelsMap
         .map((index, label) {
           return MapEntry(

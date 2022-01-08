@@ -80,7 +80,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
     return BottomShader(
       child: ListView.builder(
         physics: const ClampingScrollPhysics(),
-        padding: EdgeInsets.only(bottom: Spacing.m.spacing),
+        padding: EdgeInsets.only(bottom: Spacing.m.value),
         itemCount: min(matches.length, ratinghistoryData.length) - 1,
         itemBuilder: (context, index) {
           final bool wonGame = ratinghistoryData[index].rating > ratinghistoryData[index + 1].rating;
@@ -125,7 +125,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
                 ),
               ],
             ),
-            childrenPadding: EdgeInsets.symmetric(vertical: Spacing.xxs.spacing),
+            childrenPadding: EdgeInsets.symmetric(vertical: Spacing.xxs.value),
             children: _buildMatchDetails(mates, opponents),
             leading: Container(
               decoration: BoxDecoration(border: Border.all(color: kcHintColor)),
@@ -142,7 +142,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
       mates.length,
       (int index) {
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: Spacing.xs.spacing, vertical: Spacing.xxs.spacing),
+          padding: EdgeInsets.symmetric(horizontal: Spacing.xs.value, vertical: Spacing.xxs.value),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -150,7 +150,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
                 constraints: const BoxConstraints(maxWidth: 28),
                 child: Image.asset("assets/civs/${mapIdToCivAssetName(mates[index].civilizationId)}"),
               ),
-              SizedBox(width: Spacing.s.spacing),
+              SizedBox(width: Spacing.s.value),
               Expanded(
                 child: Text(
                   mates[index].name,
@@ -159,9 +159,9 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
                       : Theme.of(context).textTheme.bodyText2,
                 ),
               ),
-              SizedBox(width: Spacing.m.spacing),
+              SizedBox(width: Spacing.m.value),
               Expanded(child: Text(opponents[index].name, textAlign: TextAlign.end)),
-              SizedBox(width: Spacing.s.spacing),
+              SizedBox(width: Spacing.s.value),
               Container(
                 constraints: const BoxConstraints(maxWidth: 28),
                 child: Image.asset("assets/civs/${mapIdToCivAssetName(opponents[index].civilizationId)}"),
