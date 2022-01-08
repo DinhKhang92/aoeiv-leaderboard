@@ -6,13 +6,13 @@ import 'package:aoeiv_leaderboard/providers/leaderboard_data_provider.dart';
 import 'package:aoeiv_leaderboard/database/aoe_database.dart';
 import 'package:http/http.dart';
 
-class FavoritesDataRepository {
+class FavoritesRepository {
   final LeaderboardDataProvider leaderboardDataProvider;
   final AoeDatabase _aoeDatabase = AoeDatabase();
   final Config _config = Config();
   final Client _client = Client();
 
-  FavoritesDataRepository({required this.leaderboardDataProvider});
+  FavoritesRepository({required this.leaderboardDataProvider});
 
   Future<void> initDb() async => await _aoeDatabase.initDb();
 

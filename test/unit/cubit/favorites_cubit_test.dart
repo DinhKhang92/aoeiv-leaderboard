@@ -1,7 +1,7 @@
 import 'package:aoeiv_leaderboard/cubit/favorites_cubit.dart';
 import 'package:aoeiv_leaderboard/exceptions/fetch_data_exception.dart';
 import 'package:aoeiv_leaderboard/models/favorite.dart';
-import 'package:aoeiv_leaderboard/repositories/favorites_data_repository.dart';
+import 'package:aoeiv_leaderboard/repositories/favorites_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -9,7 +9,7 @@ import 'package:mockito/mockito.dart';
 
 import 'favorites_cubit_test.mocks.dart';
 
-@GenerateMocks([FavoritesDataRepository])
+@GenerateMocks([FavoritesRepository])
 void main() {
   final MockFavoritesDataRepository _mockFavoritesDataRepository = MockFavoritesDataRepository();
 
