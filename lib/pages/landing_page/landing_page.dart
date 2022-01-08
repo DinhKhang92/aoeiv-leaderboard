@@ -74,7 +74,7 @@ class _LandingPageState extends State<LandingPage> {
               children: [
                 _buildHeader(),
                 SizedBox(height: Spacing.l.spacing),
-                _buildSearchbar(),
+                _buildSearchbarSection(),
                 SizedBox(height: Spacing.l.spacing),
                 _buildLeaderboardHeader(),
                 SizedBox(height: Spacing.m.spacing),
@@ -179,76 +179,84 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  Widget _buildSearchbar() {
+  Widget _buildSearchbarSection() {
     return IntrinsicHeight(
       child: Row(
         children: [
-          Expanded(
-            child: Container(
-              decoration: const BoxDecoration(
-                color: kcSearchbarColor,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(kbBorderRadius),
-                ),
-              ),
-              child: BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
-                builder: (context, state) {
-                  final int leaderboardId = mapIndexToLeaderboardId(state.leaderboardGameModeIndex);
-
-                  return TextField(
-                    controller: _searchFieldController,
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.searchbarHintText,
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.clear),
-                        color: kcTertiaryColor,
-                        onPressed: () {
-                          if (_searchFieldController.text.isNotEmpty) {
-                            _searchFieldController.clear();
-                            BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, _searchFieldController.text);
-                          }
-                        },
-                      ),
-                    ),
-                    onChanged: (playerName) {
-                      _debouncer.run(() {
-                        BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, playerName.toLowerCase());
-                      });
-                    },
-                  );
-                },
-              ),
-            ),
-          ),
+          _buildSearchBar(),
           SizedBox(width: Spacing.s.spacing),
-          Container(
-            width: 50,
-            height: double.infinity,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  kcTertiaryColor,
-                  kcFavoritesButtonColor,
-                ],
-              ),
-              borderRadius: BorderRadius.circular(kbBorderRadius),
-              boxShadow: const [
-                BoxShadow(
-                  color: kcSecondaryColor,
-                  offset: Offset(3.0, 3.0),
-                  blurRadius: 6.0,
-                ),
-              ],
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.star),
-              onPressed: () => _showModalBottomSheet(),
-            ),
+          _buildFavoritesButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFavoritesButton() {
+    return Container(
+      width: 50,
+      height: double.infinity,
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            kcTertiaryColor,
+            kcFavoritesButtonColor,
+          ],
+        ),
+        borderRadius: BorderRadius.circular(kbBorderRadius),
+        boxShadow: const [
+          BoxShadow(
+            color: kcSecondaryColor,
+            offset: Offset(3.0, 3.0),
+            blurRadius: 6.0,
           ),
         ],
+      ),
+      child: IconButton(
+        icon: const Icon(Icons.star),
+        onPressed: () => _showModalBottomSheet(),
+      ),
+    );
+  }
+
+  Widget _buildSearchBar() {
+    return Expanded(
+      child: Container(
+        decoration: const BoxDecoration(
+          color: kcSearchbarColor,
+          borderRadius: BorderRadius.all(
+            Radius.circular(kbBorderRadius),
+          ),
+        ),
+        child: BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
+          builder: (context, state) {
+            final int leaderboardId = mapIndexToLeaderboardId(state.leaderboardGameModeIndex);
+
+            return TextField(
+              controller: _searchFieldController,
+              textAlignVertical: TextAlignVertical.center,
+              decoration: InputDecoration(
+                hintText: AppLocalizations.of(context)!.searchbarHintText,
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.clear),
+                  color: kcTertiaryColor,
+                  onPressed: () {
+                    if (_searchFieldController.text.isNotEmpty) {
+                      _searchFieldController.clear();
+                      BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, _searchFieldController.text);
+                    }
+                  },
+                ),
+              ),
+              onChanged: (playerName) {
+                _debouncer.run(() {
+                  BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, playerName.toLowerCase());
+                });
+              },
+            );
+          },
+        ),
       ),
     );
   }
