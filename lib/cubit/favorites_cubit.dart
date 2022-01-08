@@ -1,13 +1,13 @@
 import 'package:aoeiv_leaderboard/models/favorite.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
-import 'package:aoeiv_leaderboard/repositories/favorites_data_repository.dart';
+import 'package:aoeiv_leaderboard/repositories/favorites_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'favorites_state.dart';
 
 class FavoritesCubit extends Cubit<FavoritesState> {
-  final FavoritesDataRepository favoritesDataRepository;
+  final FavoritesRepository favoritesDataRepository;
   FavoritesCubit({required this.favoritesDataRepository}) : super(const FavoritesInitial(favorites: []));
 
   Future<void> init() async {

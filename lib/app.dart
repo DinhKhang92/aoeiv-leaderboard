@@ -7,7 +7,7 @@ import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/providers/leaderboard_data_provider.dart';
 import 'package:aoeiv_leaderboard/providers/match_history_data_provider.dart';
 import 'package:aoeiv_leaderboard/providers/rating_history_data_provider.dart';
-import 'package:aoeiv_leaderboard/repositories/favorites_data_repository.dart';
+import 'package:aoeiv_leaderboard/repositories/favorites_repository.dart';
 import 'package:aoeiv_leaderboard/repositories/leaderboard_data_repository.dart';
 import 'package:aoeiv_leaderboard/repositories/match_history_data_repository.dart';
 import 'package:aoeiv_leaderboard/repositories/rating_history_data_repository.dart';
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   late final RatingHistoryDataRepository _ratingHistoryDataRepository =
       RatingHistoryDataRepository(leaderboardDataProvider: _leaderboardDataProvider, ratingHistoryDataProvider: _ratingHistoryDataProvider);
   late final MatchHistoryDataRepository _matchHistoryDataRepository = MatchHistoryDataRepository(matchHistoryDataProvider: _matchHistoryDataProvider);
-  late final FavoritesDataRepository _favoritesDataRepository = FavoritesDataRepository(leaderboardDataProvider: _leaderboardDataProvider);
+  late final FavoritesRepository _favoritesDataRepository = FavoritesRepository(leaderboardDataProvider: _leaderboardDataProvider);
 
   late final LeaderboardDataCubit _leaderboardDataCubit = LeaderboardDataCubit(leaderboardDataRepository: _leaderboardDataRepository);
   late final RatingHistoryDataCubit _ratingHistoryDataCubit = RatingHistoryDataCubit(ratingHistoryDataRepository: _ratingHistoryDataRepository);

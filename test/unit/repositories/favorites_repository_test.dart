@@ -1,7 +1,7 @@
 import 'package:aoeiv_leaderboard/exceptions/no_data_exception.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/providers/leaderboard_data_provider.dart';
-import 'package:aoeiv_leaderboard/repositories/favorites_data_repository.dart';
+import 'package:aoeiv_leaderboard/repositories/favorites_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -12,7 +12,7 @@ import 'favorites_repository_test.mocks.dart';
 @GenerateMocks([LeaderboardDataProvider])
 void main() {
   final MockLeaderboardDataProvider _mockLeaderboardDataProvider = MockLeaderboardDataProvider();
-  final FavoritesDataRepository _favoritesDataRepository = FavoritesDataRepository(leaderboardDataProvider: _mockLeaderboardDataProvider);
+  final FavoritesRepository _favoritesDataRepository = FavoritesRepository(leaderboardDataProvider: _mockLeaderboardDataProvider);
 
   group("FavoritesDataRepository", () {
     test("should fetch leaderboard data of a single player using the profile id", () async {
