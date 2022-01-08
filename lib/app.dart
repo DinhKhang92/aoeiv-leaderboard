@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   late final RatingHistoryDataRepository _ratingHistoryDataRepository =
       RatingHistoryDataRepository(leaderboardDataProvider: _leaderboardDataProvider, ratingHistoryDataProvider: _ratingHistoryDataProvider);
   late final MatchHistoryDataRepository _matchHistoryDataRepository = MatchHistoryDataRepository(matchHistoryDataProvider: _matchHistoryDataProvider);
-  final FavoritesDataRepository _favoritesDataRepository = FavoritesDataRepository();
+  late final FavoritesDataRepository _favoritesDataRepository = FavoritesDataRepository(leaderboardDataProvider: _leaderboardDataProvider);
 
   late final LeaderboardDataCubit _leaderboardDataCubit = LeaderboardDataCubit(leaderboardDataRepository: _leaderboardDataRepository);
   late final RatingHistoryDataCubit _ratingHistoryDataCubit = RatingHistoryDataCubit(ratingHistoryDataRepository: _ratingHistoryDataRepository);

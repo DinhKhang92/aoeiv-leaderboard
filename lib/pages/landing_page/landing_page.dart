@@ -7,6 +7,8 @@ import 'package:aoeiv_leaderboard/config/styles/theme.dart';
 import 'package:aoeiv_leaderboard/cubit/favorites_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
+import 'package:aoeiv_leaderboard/exceptions/no_data_exception.dart';
+import 'package:aoeiv_leaderboard/models/favorite.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/models/rating_history_screen_args.dart';
 import 'package:aoeiv_leaderboard/utils/debouncer.dart';
@@ -34,7 +36,7 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   void initState() {
-    _initDb();
+    _initFavorites();
     _fetchLeaderboardData();
     super.initState();
   }
@@ -45,12 +47,12 @@ class _LandingPageState extends State<LandingPage> {
     super.dispose();
   }
 
-  Future<void> _fetchLeaderboardData() async {
-    await BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.oneVOne.id);
+  Future<void> _initFavorites() async {
+    await BlocProvider.of<FavoritesCubit>(context).init();
   }
 
-  Future<void> _initDb() async {
-    await BlocProvider.of<FavoritesCubit>(context).initDb();
+  Future<void> _fetchLeaderboardData() async {
+    await BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.oneVOne.id);
   }
 
   @override
@@ -65,28 +67,21 @@ class _LandingPageState extends State<LandingPage> {
     return Stack(
       children: [
         const Background(),
-        BlocBuilder<FavoritesCubit, FavoritesState>(
-          builder: (context, state) {
-            if (state is FavoritesLoaded) {
-              return SafeArea(
-                child: Container(
-                  padding: EdgeInsets.all(Spacing.m.spacing),
-                  child: Column(
-                    children: [
-                      _buildHeader(),
-                      SizedBox(height: Spacing.l.spacing),
-                      _buildSearchbar(),
-                      SizedBox(height: Spacing.l.spacing),
-                      _buildLeaderboardHeader(),
-                      SizedBox(height: Spacing.m.spacing),
-                      _buildLeaderboard(),
-                    ],
-                  ),
-                ),
-              );
-            }
-            return const SizedBox.shrink();
-          },
+        SafeArea(
+          child: Container(
+            padding: EdgeInsets.all(Spacing.m.spacing),
+            child: Column(
+              children: [
+                _buildHeader(),
+                SizedBox(height: Spacing.l.spacing),
+                _buildSearchbar(),
+                SizedBox(height: Spacing.l.spacing),
+                _buildLeaderboardHeader(),
+                SizedBox(height: Spacing.m.spacing),
+                _buildLeaderboard(),
+              ],
+            ),
+          ),
         ),
       ],
     );
@@ -185,41 +180,187 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Widget _buildSearchbar() {
-    return Container(
-      decoration: const BoxDecoration(
-        color: kcSearchbarColor,
-        borderRadius: BorderRadius.all(
-          Radius.circular(kbBorderRadius),
-        ),
-      ),
-      child: BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
-        builder: (context, state) {
-          final int leaderboardId = mapIndexToLeaderboardId(state.leaderboardGameModeIndex);
+    return IntrinsicHeight(
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              decoration: const BoxDecoration(
+                color: kcSearchbarColor,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(kbBorderRadius),
+                ),
+              ),
+              child: BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
+                builder: (context, state) {
+                  final int leaderboardId = mapIndexToLeaderboardId(state.leaderboardGameModeIndex);
 
-          return TextField(
-            controller: _searchFieldController,
-            textAlignVertical: TextAlignVertical.center,
-            decoration: InputDecoration(
-              hintText: AppLocalizations.of(context)!.searchbarHintText,
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.clear),
-                color: kcTertiaryColor,
-                onPressed: () {
-                  if (_searchFieldController.text.isNotEmpty) {
-                    _searchFieldController.clear();
-                    BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, _searchFieldController.text);
-                  }
+                  return TextField(
+                    controller: _searchFieldController,
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      hintText: AppLocalizations.of(context)!.searchbarHintText,
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.clear),
+                        color: kcTertiaryColor,
+                        onPressed: () {
+                          if (_searchFieldController.text.isNotEmpty) {
+                            _searchFieldController.clear();
+                            BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, _searchFieldController.text);
+                          }
+                        },
+                      ),
+                    ),
+                    onChanged: (playerName) {
+                      _debouncer.run(() {
+                        BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, playerName.toLowerCase());
+                      });
+                    },
+                  );
                 },
               ),
             ),
-            onChanged: (playerName) {
-              _debouncer.run(() {
-                BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, playerName.toLowerCase());
-              });
-            },
-          );
-        },
+          ),
+          SizedBox(width: Spacing.s.spacing),
+          Container(
+            width: 50,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  kcTertiaryColor,
+                  kcFavoritesButtonColor,
+                ],
+              ),
+              borderRadius: BorderRadius.circular(kbBorderRadius),
+              boxShadow: const [
+                BoxShadow(
+                  color: kcSecondaryColor,
+                  offset: Offset(3.0, 3.0),
+                  blurRadius: 6.0,
+                ),
+              ],
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.star),
+              onPressed: () => _showModalBottomSheet(),
+            ),
+          ),
+        ],
       ),
+    );
+  }
+
+  Future<dynamic> _showModalBottomSheet() {
+    return showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Scaffold(
+          body: Container(
+            padding: EdgeInsets.only(
+              top: Spacing.m.spacing,
+              bottom: MediaQuery.of(context).padding.bottom,
+              left: Spacing.m.spacing,
+              right: Spacing.m.spacing,
+            ),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  kcFavoritesButtonColor,
+                  kcSecondaryColor,
+                ],
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(alignment: Alignment.center, child: Text("Favorites", style: Theme.of(context).textTheme.headline2?.copyWith(color: kcPrimaryColor))),
+                SizedBox(height: Spacing.l.spacing),
+                Expanded(
+                  child: BlocConsumer<FavoritesCubit, FavoritesState>(
+                    listener: (context, state) {
+                      if (state is FavoritesNavigation) {
+                        Navigator.of(context).pushNamed(
+                          '/player',
+                          arguments: RatingHistoryScreenArgs(leaderboardId: state.leaderboardId!, player: state.favorite!),
+                        );
+                      }
+                      if (state is FavoritesError) {
+                        final String errorMessage =
+                            state.error is NoDataException ? AppLocalizations.of(context)!.errorMessageNoDataFound : AppLocalizations.of(context)!.errorMessageFetchData;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            duration: const Duration(milliseconds: 2500),
+                            backgroundColor: kcTertiaryColor,
+                            content: Wrap(
+                              spacing: Spacing.s.spacing,
+                              children: [
+                                const Icon(Icons.warning),
+                                Text(errorMessage),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is FavoritesLoading) {
+                        return const CenteredCircularProgressIndicator();
+                      }
+
+                      return ListView.separated(
+                        separatorBuilder: (context, index) => SizedBox(height: Spacing.xs.spacing),
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: state.favorites.length,
+                        itemBuilder: (context, index) {
+                          final Favorite favorite = state.favorites[index];
+
+                          return Container(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  kcTertiaryColor,
+                                  kcFavoritesButtonColor,
+                                ],
+                              ),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: kcSecondaryColor,
+                                  offset: Offset(3.0, 3.0),
+                                  blurRadius: 6.0,
+                                ),
+                              ],
+                              borderRadius: BorderRadius.circular(kbBorderRadius),
+                            ),
+                            child: ListTile(
+                              onTap: () => BlocProvider.of<FavoritesCubit>(context).fetchFavorite(favorite.leaderboardId, favorite.profileId),
+                              dense: true,
+                              title: Text(
+                                favorite.name,
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                              trailing: const Icon(
+                                Icons.arrow_forward_ios,
+                                color: kcPrimaryColor,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
