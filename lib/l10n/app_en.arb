@@ -140,10 +140,10 @@
         "description": "Map name Mongolian Heights"
     },
     "mapNameMongolianHeights": "Mongolian Heights",
-    "@mapNameAltari": {
-        "description": "Map name Altari"
+    "@mapNameAltai": {
+        "description": "Map name Altai"
     },
-    "mapNameAltari": "Altari",
+    "mapNameAltai": "Altai",
     "@mapNameConfluence": {
         "description": "Map name Confluence"
     },
@@ -232,5 +232,18 @@
             }
         }
     },
-    "playerDetailMatchHistoryTimeInMonths": "{months,plural, =1{{months} month ago} other{{months} months ago}}"
+    "playerDetailMatchHistoryTimeInMonths": "{months,plural, =1{{months} month ago} other{{months} months ago}}",
+    "@playerDetailSnackbarMessageFavoriteAdded": {
+        "description": "player detail snackbar message when player was added to favorites",
+        "placeholders": {
+            "playerName": {
+                "type": "String"
+            }
+        }
+    },
+    "playerDetailSnackbarMessageFavoriteAdded": "Added {playerName} to favorites",
+    "@favoritesModalBottomSheetHeaderTitle": {
+        "description": "favorites modal bottom sheet header title"
+    },
+    "favoritesModalBottomSheetHeaderTitle": "Favorites"
 }

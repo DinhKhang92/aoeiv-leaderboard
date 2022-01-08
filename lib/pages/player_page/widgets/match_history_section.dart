@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
+import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/exceptions/no_data_exception.dart';
@@ -80,7 +81,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
     return BottomShader(
       child: ListView.builder(
         physics: const ClampingScrollPhysics(),
-        padding: EdgeInsets.only(bottom: Spacing.m.spacing),
+        padding: EdgeInsets.only(bottom: Spacing.m.value),
         itemCount: min(matches.length, ratinghistoryData.length) - 1,
         itemBuilder: (context, index) {
           final bool wonGame = ratinghistoryData[index].rating > ratinghistoryData[index + 1].rating;
@@ -93,6 +94,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
           final int myTeamId = myself.first.team ?? -1;
           final List<MatchPlayer> mates = players.where((MatchPlayer player) => player.team == myTeamId).toList();
           final List<MatchPlayer> opponents = players.where((MatchPlayer player) => player.team != myTeamId).toList();
+
           return ExpansionTile(
             tilePadding: const EdgeInsets.symmetric(horizontal: 0),
             iconColor: kcPrimaryColor,
@@ -125,7 +127,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
                 ),
               ],
             ),
-            childrenPadding: EdgeInsets.symmetric(vertical: Spacing.xxs.spacing),
+            childrenPadding: EdgeInsets.symmetric(vertical: Spacing.xxs.value),
             children: _buildMatchDetails(mates, opponents),
             leading: Container(
               decoration: BoxDecoration(border: Border.all(color: kcHintColor)),
@@ -138,38 +140,66 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
   }
 
   List<Widget> _buildMatchDetails(List<MatchPlayer> mates, List<MatchPlayer> opponents) {
+    final int gameModeIndex = BlocProvider.of<GameModeSelectorCubit>(context).state.ratingHistoryGameModeIndex;
+
     return List.generate(
       mates.length,
       (int index) {
+        final MatchPlayer mate = mates[index];
+        final MatchPlayer opponent = opponents[index];
+
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: Spacing.xs.spacing, vertical: Spacing.xxs.spacing),
+          padding: EdgeInsets.symmetric(horizontal: Spacing.xs.value, vertical: Spacing.xxs.value),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                constraints: const BoxConstraints(maxWidth: 28),
-                child: Image.asset("assets/civs/${mapIdToCivAssetName(mates[index].civilizationId)}"),
-              ),
-              SizedBox(width: Spacing.s.spacing),
-              Expanded(
-                child: Text(
-                  mates[index].name,
-                  style: mates[index].profileId == widget.player.profileId
-                      ? Theme.of(context).textTheme.bodyText2?.copyWith(color: kcPrimaryColor)
-                      : Theme.of(context).textTheme.bodyText2,
-                ),
-              ),
-              SizedBox(width: Spacing.m.spacing),
-              Expanded(child: Text(opponents[index].name, textAlign: TextAlign.end)),
-              SizedBox(width: Spacing.s.spacing),
-              Container(
-                constraints: const BoxConstraints(maxWidth: 28),
-                child: Image.asset("assets/civs/${mapIdToCivAssetName(opponents[index].civilizationId)}"),
-              ),
+              _buildMateSection(mate, gameModeIndex),
+              SizedBox(width: Spacing.s.value),
+              _buildOpponentSection(opponent, gameModeIndex),
             ],
           ),
         );
       },
+    );
+  }
+
+  Widget _buildMateSection(MatchPlayer mate, int gameModeIndex) {
+    return Expanded(
+      child: InkWell(
+        onTap: () => {},
+        child: Wrap(
+          spacing: Spacing.s.value,
+          children: [
+            Container(
+              constraints: const BoxConstraints(maxWidth: 30),
+              child: Image.asset("assets/civs/${mapIdToCivAssetName(mate.civilizationId)}"),
+            ),
+            Text(
+              mate.name,
+              style: mate.profileId == widget.player.profileId ? Theme.of(context).textTheme.bodyText2?.copyWith(color: kcPrimaryColor) : Theme.of(context).textTheme.bodyText2,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOpponentSection(MatchPlayer opponent, int gameModeIndex) {
+    return Expanded(
+      child: InkWell(
+        onTap: () => {},
+        child: Wrap(
+          spacing: Spacing.s.value,
+          alignment: WrapAlignment.end,
+          children: [
+            Text(opponent.name),
+            Container(
+              constraints: const BoxConstraints(maxWidth: 30),
+              child: Image.asset("assets/civs/${mapIdToCivAssetName(opponent.civilizationId)}"),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

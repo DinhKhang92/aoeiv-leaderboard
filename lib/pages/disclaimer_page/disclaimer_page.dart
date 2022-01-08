@@ -25,7 +25,7 @@ class DisclaimerPage extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     return SafeArea(
       child: Container(
-        padding: EdgeInsets.all(Spacing.m.spacing),
+        padding: EdgeInsets.all(Spacing.m.value),
         child: Header(headerTitle: AppLocalizations.of(context)!.pageTitleDisclaimer),
       ),
     );
@@ -34,7 +34,7 @@ class DisclaimerPage extends StatelessWidget {
   Widget _buildDisclaimerContent(BuildContext context) {
     return Center(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: Spacing.m.spacing),
+        margin: EdgeInsets.symmetric(horizontal: Spacing.m.value),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -49,7 +49,7 @@ class DisclaimerPage extends StatelessWidget {
   Widget _buildDisclaimerText(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(Spacing.m.spacing),
+        padding: EdgeInsets.all(Spacing.m.value),
         child: RichText(
           textAlign: TextAlign.center,
           text: TextSpan(

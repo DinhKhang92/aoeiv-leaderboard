@@ -1,7 +1,7 @@
 enum Spacing { xxs, xs, s, m, l, xl, xxl, xxxl }
 
 extension SpacingExtension on Spacing {
-  double get spacing {
+  double get value {
     switch (this) {
       case Spacing.xxs:
         return 5.0;
