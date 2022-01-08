@@ -12,7 +12,7 @@ class ErrorDisplay extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.warning, size: 30),
-          SizedBox(height: Spacing.xs.spacing),
+          SizedBox(height: Spacing.xs.value),
           Text(errorMessage),
         ],
       ),

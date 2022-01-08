@@ -7,6 +7,7 @@ const Color kcUnselectedColor = Color(0xffB6B6B6);
 const Color kcHintColor = Color(0xff4E4E4E);
 const Color kcSearchbarColor = Color(0xffECECEC);
 const Color kcFavoritesButtonColor = Color(0xff293341);
+const Color kcFavoritesModalBottomSheetColor = Color(0xff212836);
 const Color kcColorWhite = Color(0xffffffff);
 const Color kcColorBlack = Color(0xff000000);
 const Color kcColorTransparent = Color(0x00000000);

@@ -25,7 +25,7 @@ class FavoritesLoaded extends FavoritesState {
 }
 
 class FavoritesNavigation extends FavoritesState {
-  const FavoritesNavigation({required List<Favorite> favorites, Player? favorite, int? leaderboardId})
+  const FavoritesNavigation({required List<Favorite> favorites, required Player favorite, required int leaderboardId})
       : super(favorites: favorites, favorite: favorite, leaderboardId: leaderboardId);
 }
 
