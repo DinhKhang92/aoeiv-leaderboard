@@ -10,6 +10,7 @@ import 'package:aoeiv_leaderboard/pages/player_page/widgets/match_history_sectio
 import 'package:aoeiv_leaderboard/pages/player_page/widgets/player_detail_bottom_navigation_bar.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_leaderboard_id_to_index.dart';
+import 'package:aoeiv_leaderboard/utils/show_tutorials.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/pages/player_page/widgets/civ_pick_section.dart';
 import 'package:aoeiv_leaderboard/widgets/header.dart';
@@ -33,6 +34,7 @@ class PlayerPage extends StatefulWidget {
 }
 
 class _PlayerPageState extends State<PlayerPage> {
+  final String _tutorialKey = "favorites_tutorial_player";
   final GlobalKey _favoritesButtonKey = GlobalKey();
 
   @override
@@ -40,7 +42,6 @@ class _PlayerPageState extends State<PlayerPage> {
     _clearPlayerDetailNavigation();
     _initGameMode();
     _fetchData(widget.leaderboardId);
-    _showTutorial();
     super.initState();
   }
 
@@ -59,9 +60,18 @@ class _PlayerPageState extends State<PlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildBody(),
-      bottomNavigationBar: const PlayerDetailBottomNavigationBar(),
+    return FutureBuilder(
+      future: getShowTutorial(_tutorialKey),
+      builder: (context, snapshot) {
+        if (snapshot.data == true) {
+          _showTutorial();
+        }
+
+        return Scaffold(
+          body: _buildBody(),
+          bottomNavigationBar: const PlayerDetailBottomNavigationBar(),
+        );
+      },
     );
   }
 
@@ -193,6 +203,7 @@ class _PlayerPageState extends State<PlayerPage> {
     final TutorialCoachMark tutorial = TutorialCoachMark(
       context,
       hideSkip: true,
+      onFinish: () => setShowTutorial(_tutorialKey),
       targets: [
         TargetFocus(
           enableOverlayTab: true,

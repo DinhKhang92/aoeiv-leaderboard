@@ -11,6 +11,7 @@ import 'package:aoeiv_leaderboard/pages/landing_page/widgets/favorites_button.da
 import 'package:aoeiv_leaderboard/pages/landing_page/widgets/search_bar.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_game_mode.dart';
+import 'package:aoeiv_leaderboard/utils/show_tutorials.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/bottom_shader.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
@@ -30,6 +31,7 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  final String _tutorialKey = "favorites_tutorial_landing";
   final GlobalKey _favoritesButtonKey = GlobalKey();
   final TextEditingController _searchFieldController = TextEditingController();
 
@@ -37,7 +39,6 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     _initFavorites();
     _fetchLeaderboardData();
-    _showTutorial();
     super.initState();
   }
 
@@ -57,9 +58,18 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: CustomBottomNavigationBar(searchFieldController: _searchFieldController),
-      body: _buildBody(),
+    return FutureBuilder(
+      future: getShowTutorial(_tutorialKey),
+      builder: (context, snapshot) {
+        if (snapshot.data == true) {
+          _showTutorial();
+        }
+
+        return Scaffold(
+          bottomNavigationBar: CustomBottomNavigationBar(searchFieldController: _searchFieldController),
+          body: _buildBody(),
+        );
+      },
     );
   }
 
@@ -207,6 +217,7 @@ class _LandingPageState extends State<LandingPage> {
     final TutorialCoachMark tutorial = TutorialCoachMark(
       context,
       hideSkip: true,
+      onFinish: () => setShowTutorial(_tutorialKey),
       targets: [
         TargetFocus(
           enableOverlayTab: true,
