@@ -10,6 +10,7 @@ import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/models/rating_history_screen_args.dart';
 import 'package:aoeiv_leaderboard/pages/landing_page/widgets/favorites_button.dart';
 import 'package:aoeiv_leaderboard/pages/landing_page/widgets/search_bar.dart';
+import 'package:aoeiv_leaderboard/routes/route_generator.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_game_mode.dart';
 import 'package:aoeiv_leaderboard/utils/show_tutorials.dart';
@@ -166,7 +167,7 @@ class _LandingPageState extends State<LandingPage> {
               builder: (context, state) {
                 return InkWell(
                   onTap: () => Navigator.of(context).pushNamed(
-                    '/player',
+                    Routes.playerDetailsPage,
                     arguments: RatingHistoryScreenArgs(leaderboardId: mapIndexToLeaderboardId(state.leaderboardGameModeIndex), player: player),
                   ),
                   child: Row(
@@ -206,7 +207,7 @@ class _LandingPageState extends State<LandingPage> {
           },
         ),
         InkWell(
-          onTap: () => Navigator.of(context).pushNamed('/disclaimer'),
+          onTap: () => Navigator.of(context).pushNamed(Routes.disclaimerPage),
           child: const Icon(Icons.info_outline_rounded),
         ),
       ],

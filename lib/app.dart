@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
           title: 'AoE4-Leaderboard',
           debugShowCheckedModeBanner: false,
           theme: ktTheme,
-          initialRoute: '/',
+          initialRoute: Routes.landingPage,
           onGenerateRoute: RouteGenerator.generateRoute,
           supportedLocales: const [
             Locale('en', ''),
