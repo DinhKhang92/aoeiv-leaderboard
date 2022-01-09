@@ -16,9 +16,11 @@ import 'package:aoeiv_leaderboard/widgets/bottom_shader.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
 import 'package:aoeiv_leaderboard/pages/landing_page/widgets/custom_bottom_navigation_bar.dart';
 import 'package:aoeiv_leaderboard/widgets/error_display.dart';
+import 'package:aoeiv_leaderboard/widgets/tutorial_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -28,12 +30,14 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  final GlobalKey _favoritesButtonKey = GlobalKey();
   final TextEditingController _searchFieldController = TextEditingController();
 
   @override
   void initState() {
     _initFavorites();
     _fetchLeaderboardData();
+    _showTutorial();
     super.initState();
   }
 
@@ -89,7 +93,7 @@ class _LandingPageState extends State<LandingPage> {
         children: [
           _buildSearchBar(),
           SizedBox(width: Spacing.s.value),
-          const FavoritesButton(),
+          FavoritesButton(key: _favoritesButtonKey),
         ],
       ),
     );
@@ -197,5 +201,31 @@ class _LandingPageState extends State<LandingPage> {
         ),
       ],
     );
+  }
+
+  void _showTutorial() {
+    final TutorialCoachMark tutorial = TutorialCoachMark(
+      context,
+      hideSkip: true,
+      targets: [
+        TargetFocus(
+          enableOverlayTab: true,
+          keyTarget: _favoritesButtonKey,
+          contents: [
+            TargetContent(
+              align: ContentAlign.bottom,
+              child: Builder(builder: (context) {
+                return TutorialContent(
+                  title: AppLocalizations.of(context)!.tutorialFavoritesListHeader,
+                  description: AppLocalizations.of(context)!.tutorialFavoritesListDescription,
+                );
+              }),
+            )
+          ],
+        ),
+      ],
+    );
+
+    tutorial.show();
   }
 }
