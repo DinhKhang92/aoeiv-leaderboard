@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
+import 'package:aoeiv_leaderboard/cubit/favorites_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/rating_history_data_cubit.dart';
@@ -10,7 +11,10 @@ import 'package:aoeiv_leaderboard/models/match.dart';
 import 'package:aoeiv_leaderboard/models/match_player.dart';
 import 'package:aoeiv_leaderboard/models/player.dart';
 import 'package:aoeiv_leaderboard/models/rating.dart';
+import 'package:aoeiv_leaderboard/models/rating_history_screen_args.dart';
+import 'package:aoeiv_leaderboard/routes/route_generator.dart';
 import 'package:aoeiv_leaderboard/utils/map_id_to_civ_asset_name.dart';
+import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_map_type_to_map_name.dart';
 import 'package:aoeiv_leaderboard/utils/map_timestamp_to_match_date_label.dart';
 import 'package:aoeiv_leaderboard/widgets/bottom_shader.dart';
@@ -33,24 +37,57 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
+      child: BlocConsumer<FavoritesCubit, FavoritesState>(
+        listener: (context, state) {
+          if (state is FavoritesNavigation) {
+            Navigator.of(context).popAndPushNamed(
+              Routes.playerDetailsPage,
+              arguments: RatingHistoryScreenArgs(leaderboardId: state.leaderboardId!, player: state.favorite!),
+            );
+          }
+        },
         builder: (context, state) {
-          final List<Rating> ratinghistoryData = state.ratingHistoryData;
-          if (state is RatingHistoryDataLoading) {
+          if (state is FavoritesLoading) {
             return const CenteredCircularProgressIndicator();
           }
 
-          if (state is RatingHistoryDataLoaded) {
-            return _buildRatingHistoryDataLoaded(ratinghistoryData);
-          }
-
-          if (state is RatingHistoryDataError) {
+          if (state is FavoritesError) {
             final String errorMessage =
                 state.error is NoDataException ? AppLocalizations.of(context)!.errorMessageNoDataFound : AppLocalizations.of(context)!.errorMessageFetchData;
-            return ErrorDisplay(errorMessage: errorMessage);
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: const Duration(milliseconds: 2500),
+                backgroundColor: kcTertiaryColor,
+                content: Wrap(
+                  spacing: Spacing.s.value,
+                  children: [const Icon(Icons.warning), Text(errorMessage)],
+                ),
+              ),
+            );
           }
 
-          return const SizedBox.shrink();
+          return BlocBuilder<RatingHistoryDataCubit, RatingHistoryDataState>(
+            builder: (context, state) {
+              final List<Rating> ratinghistoryData = state.ratingHistoryData;
+
+              if (state is RatingHistoryDataLoading) {
+                return const CenteredCircularProgressIndicator();
+              }
+
+              if (state is RatingHistoryDataLoaded) {
+                return _buildRatingHistoryDataLoaded(ratinghistoryData);
+              }
+
+              if (state is RatingHistoryDataError) {
+                final String errorMessage =
+                    state.error is NoDataException ? AppLocalizations.of(context)!.errorMessageNoDataFound : AppLocalizations.of(context)!.errorMessageFetchData;
+                return ErrorDisplay(errorMessage: errorMessage);
+              }
+
+              return const SizedBox.shrink();
+            },
+          );
         },
       ),
     );
@@ -166,7 +203,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
   Widget _buildMateSection(MatchPlayer mate, int gameModeIndex) {
     return Expanded(
       child: InkWell(
-        onTap: () => {},
+        onTap: () => BlocProvider.of<FavoritesCubit>(context).fetchFavorite(mapIndexToLeaderboardId(gameModeIndex), mate.profileId),
         child: Wrap(
           spacing: Spacing.s.value,
           children: [
@@ -187,7 +224,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
   Widget _buildOpponentSection(MatchPlayer opponent, int gameModeIndex) {
     return Expanded(
       child: InkWell(
-        onTap: () => {},
+        onTap: () => BlocProvider.of<FavoritesCubit>(context).fetchFavorite(mapIndexToLeaderboardId(gameModeIndex), opponent.profileId),
         child: Wrap(
           spacing: Spacing.s.value,
           alignment: WrapAlignment.end,

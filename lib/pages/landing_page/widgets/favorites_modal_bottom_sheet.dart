@@ -5,6 +5,7 @@ import 'package:aoeiv_leaderboard/cubit/favorites_cubit.dart';
 import 'package:aoeiv_leaderboard/exceptions/no_data_exception.dart';
 import 'package:aoeiv_leaderboard/models/favorite.dart';
 import 'package:aoeiv_leaderboard/models/rating_history_screen_args.dart';
+import 'package:aoeiv_leaderboard/routes/route_generator.dart';
 import 'package:aoeiv_leaderboard/widgets/centered_circular_progress_indicator.dart';
 import 'package:aoeiv_leaderboard/widgets/custom_box_shadow.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,7 @@ class _FavoritesModalBottomSheetState extends State<FavoritesModalBottomSheet> {
         listener: (context, state) {
           if (state is FavoritesNavigation) {
             Navigator.of(context).pushNamed(
-              '/player',
+              Routes.playerDetailsPage,
               arguments: RatingHistoryScreenArgs(leaderboardId: state.leaderboardId!, player: state.favorite!),
             );
           }
