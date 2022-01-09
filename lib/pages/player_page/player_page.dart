@@ -1,5 +1,6 @@
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
+import 'package:aoeiv_leaderboard/config/tutorial.dart';
 import 'package:aoeiv_leaderboard/cubit/favorites_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
@@ -34,7 +35,6 @@ class PlayerPage extends StatefulWidget {
 }
 
 class _PlayerPageState extends State<PlayerPage> {
-  final String _tutorialKey = "favorites_tutorial_player";
   final GlobalKey _favoritesButtonKey = GlobalKey();
 
   @override
@@ -61,7 +61,7 @@ class _PlayerPageState extends State<PlayerPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getShowTutorial(_tutorialKey),
+      future: getShowTutorial(Tutorial.favoritesPlayer),
       builder: (context, snapshot) {
         if (snapshot.data == true) {
           _showTutorial();
@@ -203,7 +203,7 @@ class _PlayerPageState extends State<PlayerPage> {
     final TutorialCoachMark tutorial = TutorialCoachMark(
       context,
       hideSkip: true,
-      onFinish: () => setShowTutorial(_tutorialKey),
+      onFinish: () => setShowTutorial(Tutorial.favoritesPlayer),
       targets: [
         TargetFocus(
           enableOverlayTab: true,

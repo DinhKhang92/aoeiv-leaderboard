@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
+import 'package:aoeiv_leaderboard/config/tutorial.dart';
 import 'package:aoeiv_leaderboard/cubit/favorites_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/leaderboard_data_cubit.dart';
@@ -31,7 +32,6 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  final String _tutorialKey = "favorites_tutorial_landing";
   final GlobalKey _favoritesButtonKey = GlobalKey();
   final TextEditingController _searchFieldController = TextEditingController();
 
@@ -59,7 +59,7 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getShowTutorial(_tutorialKey),
+      future: getShowTutorial(Tutorial.favoritesLanding),
       builder: (context, snapshot) {
         if (snapshot.data == true) {
           _showTutorial();
@@ -217,7 +217,7 @@ class _LandingPageState extends State<LandingPage> {
     final TutorialCoachMark tutorial = TutorialCoachMark(
       context,
       hideSkip: true,
-      onFinish: () => setShowTutorial(_tutorialKey),
+      onFinish: () => setShowTutorial(Tutorial.favoritesLanding),
       targets: [
         TargetFocus(
           enableOverlayTab: true,
