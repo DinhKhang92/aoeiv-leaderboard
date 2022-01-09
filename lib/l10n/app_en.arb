@@ -241,7 +241,7 @@
             }
         }
     },
-    "playerDetailSnackbarMessageFavoriteAdded": "Added {playerName} to favorites",
+    "playerDetailSnackbarMessageFavoriteAdded": "Added \"{playerName}\" to favorites",
     "@favoritesModalBottomSheetHeaderTitle": {
         "description": "favorites modal bottom sheet header title"
     },

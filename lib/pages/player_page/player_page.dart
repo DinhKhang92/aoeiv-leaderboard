@@ -203,6 +203,7 @@ class _PlayerPageState extends State<PlayerPage> {
     final TutorialCoachMark tutorial = TutorialCoachMark(
       context,
       hideSkip: true,
+      focusAnimationDuration: const Duration(milliseconds: 700),
       onFinish: () => setShowTutorial(Tutorial.favoritesPlayer),
       targets: [
         TargetFocus(

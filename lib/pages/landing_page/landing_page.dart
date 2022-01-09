@@ -217,6 +217,7 @@ class _LandingPageState extends State<LandingPage> {
     final TutorialCoachMark tutorial = TutorialCoachMark(
       context,
       hideSkip: true,
+      focusAnimationDuration: const Duration(milliseconds: 700),
       onFinish: () => setShowTutorial(Tutorial.favoritesLanding),
       targets: [
         TargetFocus(
