@@ -241,9 +241,21 @@
             }
         }
     },
-    "playerDetailSnackbarMessageFavoriteAdded": "Added {playerName} to favorites",
+    "playerDetailSnackbarMessageFavoriteAdded": "Added \"{playerName}\" to favorites",
     "@favoritesModalBottomSheetHeaderTitle": {
         "description": "favorites modal bottom sheet header title"
     },
-    "favoritesModalBottomSheetHeaderTitle": "Favorites"
+    "favoritesModalBottomSheetHeaderTitle": "Favorites",
+    "@tutorialFavoritesListHeader": {
+        "description": "tutorial favorites list header"
+    },
+    "tutorialFavoritesListHeader": "Favorites",
+    "@tutorialFavoritesListDescription": {
+        "description": "tutorial favorites list description"
+    },
+    "tutorialFavoritesListDescription": "Add players to your favorites and access them here!",
+    "@tutorialFavoriteAddDescription": {
+        "description": "tutorial add favorite description"
+    },
+    "tutorialFavoriteAddDescription": "Here you can add the player to your favorites!"
 }

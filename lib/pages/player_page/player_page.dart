@@ -1,5 +1,6 @@
 import 'package:aoeiv_leaderboard/config/styles/colors.dart';
 import 'package:aoeiv_leaderboard/config/styles/spacing.dart';
+import 'package:aoeiv_leaderboard/config/tutorial.dart';
 import 'package:aoeiv_leaderboard/cubit/favorites_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/game_mode_selector_cubit.dart';
 import 'package:aoeiv_leaderboard/cubit/match_history_data_cubit.dart';
@@ -10,15 +11,18 @@ import 'package:aoeiv_leaderboard/pages/player_page/widgets/match_history_sectio
 import 'package:aoeiv_leaderboard/pages/player_page/widgets/player_detail_bottom_navigation_bar.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_leaderboard_id_to_index.dart';
+import 'package:aoeiv_leaderboard/utils/show_tutorials.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/pages/player_page/widgets/civ_pick_section.dart';
 import 'package:aoeiv_leaderboard/widgets/header.dart';
 import 'package:aoeiv_leaderboard/pages/player_page/widgets/mmr_history_section.dart';
 import 'package:aoeiv_leaderboard/pages/player_page/widgets/player_stats.dart';
 import 'package:aoeiv_leaderboard/pages/player_page/widgets/player_detail_game_mode_selector.dart';
+import 'package:aoeiv_leaderboard/widgets/tutorial_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class PlayerPage extends StatefulWidget {
   final Player player;
@@ -31,6 +35,8 @@ class PlayerPage extends StatefulWidget {
 }
 
 class _PlayerPageState extends State<PlayerPage> {
+  final GlobalKey _favoritesButtonKey = GlobalKey();
+
   @override
   void initState() {
     _clearPlayerDetailNavigation();
@@ -54,9 +60,18 @@ class _PlayerPageState extends State<PlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildBody(),
-      bottomNavigationBar: const PlayerDetailBottomNavigationBar(),
+    return FutureBuilder(
+      future: getShowTutorial(Tutorial.favoritesPlayer),
+      builder: (context, snapshot) {
+        if (snapshot.data == true) {
+          _showTutorial();
+        }
+
+        return Scaffold(
+          body: _buildBody(),
+          bottomNavigationBar: const PlayerDetailBottomNavigationBar(),
+        );
+      },
     );
   }
 
@@ -106,6 +121,7 @@ class _PlayerPageState extends State<PlayerPage> {
           final bool couldAddFavorite = state.favorites.where((Favorite favorite) => favorite.profileId == widget.player.profileId).toList().isEmpty;
 
           return InkWell(
+            key: _favoritesButtonKey,
             onTap: () => BlocProvider.of<FavoritesCubit>(context).updateFavorites(widget.leaderboardId, widget.player.profileId, widget.player.name),
             child: couldAddFavorite ? const Icon(Icons.star_border) : const Icon(Icons.star),
           );
@@ -181,5 +197,35 @@ class _PlayerPageState extends State<PlayerPage> {
         }
       },
     );
+  }
+
+  void _showTutorial() {
+    final TutorialCoachMark tutorial = TutorialCoachMark(
+      context,
+      hideSkip: true,
+      focusAnimationDuration: const Duration(milliseconds: 700),
+      onFinish: () => setShowTutorial(Tutorial.favoritesPlayer),
+      targets: [
+        TargetFocus(
+          enableOverlayTab: true,
+          keyTarget: _favoritesButtonKey,
+          contents: [
+            TargetContent(
+              align: ContentAlign.bottom,
+              child: Builder(builder: (context) {
+                return TutorialContent(
+                  title: AppLocalizations.of(context)!.tutorialFavoritesListHeader,
+                  description: AppLocalizations.of(context)!.tutorialFavoriteAddDescription,
+                );
+              }),
+            )
+          ],
+        ),
+      ],
+    );
+
+    Future.delayed(const Duration(milliseconds: 700), () {
+      tutorial.show();
+    });
   }
 }
