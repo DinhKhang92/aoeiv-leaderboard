@@ -20,7 +20,7 @@ const TextSelectionThemeData ktTextSelectionTheme = TextSelectionThemeData(
 
 InputDecorationTheme ktInputDecorationTheme = InputDecorationTheme(
   hintStyle: const TextStyle(fontSize: 12, color: kcHintColor),
-  contentPadding: EdgeInsets.symmetric(horizontal: Spacing.s.spacing),
+  contentPadding: EdgeInsets.symmetric(horizontal: Spacing.s.value),
   border: InputBorder.none,
 );
 

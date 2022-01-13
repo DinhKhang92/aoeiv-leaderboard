@@ -18,6 +18,10 @@ class LeaderboardDataRepository {
   }
 
   Future<List<Player>> searchPlayer(int leaderboardId, String playerName) async {
+    if (playerName.isEmpty) {
+      return [];
+    }
+
     final String url = "${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId&search=$playerName&count=${_config.leaderboardCount}";
     final Map jsonData = await leaderboardDataProvider.fetchLeaderboardData(_client, url);
 

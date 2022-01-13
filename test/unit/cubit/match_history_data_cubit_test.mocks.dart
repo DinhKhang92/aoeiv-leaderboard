@@ -9,7 +9,6 @@ import 'package:aoeiv_leaderboard/providers/match_history_data_provider.dart'
     as _i2;
 import 'package:aoeiv_leaderboard/repositories/match_history_data_repository.dart'
     as _i3;
-import 'package:http/http.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -55,22 +54,4 @@ class MockMatchHistoryDataRepository extends _i1.Mock
           Invocation.method(
               #getCivDistributionByProfileId, [matches, profileId]),
           returnValue: <String, int>{}) as Map<String, int>);
-}
-
-/// A class which mocks [MatchHistoryDataProvider].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockMatchHistoryDataProvider extends _i1.Mock
-    implements _i2.MatchHistoryDataProvider {
-  MockMatchHistoryDataProvider() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i4.Future<List<dynamic>> fetchMatchHistoryData(
-          _i6.Client? client, String? url) =>
-      (super.noSuchMethod(
-              Invocation.method(#fetchMatchHistoryData, [client, url]),
-              returnValue: Future<List<dynamic>>.value(<dynamic>[]))
-          as _i4.Future<List<dynamic>>);
 }
