@@ -1,19 +1,11 @@
 import * as functions from "firebase-functions";
 
-import { FirebaseOptions, initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set } from "firebase/database";
 import axios from 'axios';
+import { firebaseConfig } from "./config";
 
 export const scheduledUpdateDatabase = functions.pubsub.schedule("every 5 minutes").onRun((_) => {
-    const firebaseConfig: FirebaseOptions = {
-        apiKey: "AIzaSyBLWn3Iq2FklNPFsr9tWq6VGbIx2KYWsBE",
-        authDomain: "aoe4-leaderboard-ac8c3.firebaseapp.com",
-        projectId: "aoe4-leaderboard-ac8c3",
-        storageBucket: "aoe4-leaderboard-ac8c3.appspot.com",
-        messagingSenderId: "774416121199",
-        appId: "1:774416121199:web:f93033d46c5c0bb7a53c9a",
-        measurementId: "G-XV8NJHVBW8"
-    };
     const app = initializeApp(firebaseConfig);
 
     const databaseUrl = 'https://aoe4-leaderboard-ac8c3-default-rtdb.europe-west1.firebasedatabase.app';

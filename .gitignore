@@ -30,6 +30,7 @@
 .pub-cache/
 .pub/
 /build/
+/firebase_crons/functions/
 
 # Web related
 lib/generated_plugin_registrant.dart
