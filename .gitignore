@@ -29,8 +29,13 @@
 .packages
 .pub-cache/
 .pub/
+google-services.json
+GoogleService-Info.plist
+
+# Firebase functions related
+.node_modules/
 /build/
-/firebase_crons/functions/
+/firebase_crons/functions/src/config.ts
 
 # Web related
 lib/generated_plugin_registrant.dart
