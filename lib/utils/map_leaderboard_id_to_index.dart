@@ -1,13 +1,13 @@
 import 'package:aoeiv_leaderboard/config/config.dart';
 
-int mapLeaderboardIdToIndex(int leaderboardId) {
-  if (leaderboardId == LeaderboardId.oneVOne.id) {
+int mapLeaderboardIdToIndex(String leaderboard) {
+  if (leaderboard == LeaderboardId.qmOneVOne.leaderboard) {
     return 0;
-  } else if (leaderboardId == LeaderboardId.twoVTwo.id) {
+  } else if (leaderboard == LeaderboardId.qmTwoVTwo.leaderboard) {
     return 1;
-  } else if (leaderboardId == LeaderboardId.threeVThree.id) {
+  } else if (leaderboard == LeaderboardId.qmThreeVThree.leaderboard) {
     return 2;
-  } else if (leaderboardId == LeaderboardId.fourVFour.id) {
+  } else if (leaderboard == LeaderboardId.qmFourVFour.leaderboard) {
     return 3;
   } else {
     return 0;

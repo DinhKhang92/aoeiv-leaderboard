@@ -203,7 +203,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
   Widget _buildMateSection(MatchPlayer mate, int gameModeIndex) {
     return Expanded(
       child: InkWell(
-        onTap: () => BlocProvider.of<FavoritesCubit>(context).fetchFavorite(mapIndexToLeaderboardId(gameModeIndex), mate.profileId),
+        onTap: () => BlocProvider.of<FavoritesCubit>(context).fetchFavorite(-1, mate.profileId),
         child: Wrap(
           spacing: Spacing.s.value,
           children: [
@@ -224,7 +224,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
   Widget _buildOpponentSection(MatchPlayer opponent, int gameModeIndex) {
     return Expanded(
       child: InkWell(
-        onTap: () => BlocProvider.of<FavoritesCubit>(context).fetchFavorite(mapIndexToLeaderboardId(gameModeIndex), opponent.profileId),
+        onTap: () => BlocProvider.of<FavoritesCubit>(context).fetchFavorite(-1, opponent.profileId),
         child: Wrap(
           spacing: Spacing.s.value,
           alignment: WrapAlignment.end,

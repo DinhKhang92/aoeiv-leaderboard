@@ -3,9 +3,9 @@ import 'package:equatable/equatable.dart';
 class Player extends Equatable {
   final int rank;
   final String name;
-  final int totalGames;
-  final int totalWins;
-  final int totalLosses;
+  final int gamesCount;
+  final int winsCount;
+  final int lossesCount;
   final int mmr;
   final int profileId;
   final int winRate;
@@ -14,9 +14,9 @@ class Player extends Equatable {
   const Player({
     required this.rank,
     required this.name,
-    required this.totalGames,
-    required this.totalWins,
-    required this.totalLosses,
+    required this.gamesCount,
+    required this.winsCount,
+    required this.lossesCount,
     required this.mmr,
     required this.profileId,
     required this.winRate,
@@ -24,17 +24,17 @@ class Player extends Equatable {
   });
 
   @override
-  List<Object?> get props => [rank, name, totalGames, totalWins, totalLosses, mmr, profileId, winRate, previousRating];
+  List<Object?> get props => [rank, name, gamesCount, winsCount, lossesCount, mmr, profileId, winRate, previousRating];
 
   factory Player.fromJson(Map json) => Player(
         rank: json['rank'],
         name: json['name'],
-        totalGames: json['games'],
-        totalWins: json['wins'],
-        totalLosses: json['losses'],
+        gamesCount: json['games_count'],
+        winsCount: json['wins_count'],
+        lossesCount: json['losses_count'],
         mmr: json['rating'],
         profileId: json['profile_id'],
-        previousRating: json['previous_rating'],
-        winRate: (json['wins'] / json['games'] * 100).round(),
+        previousRating: json['rating'] - json['last_rating_change'],
+        winRate: json['win_rate'].round(),
       );
 }

@@ -25,7 +25,7 @@ class SearchBar extends StatelessWidget {
       ),
       child: BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
         builder: (context, state) {
-          final int leaderboardId = mapIndexToLeaderboardId(state.leaderboardGameModeIndex);
+          final String leaderboard = mapIndexToLeaderboard(state.leaderboardGameModeIndex);
 
           return TextField(
             controller: searchFieldController,
@@ -38,14 +38,14 @@ class SearchBar extends StatelessWidget {
                 onPressed: () {
                   if (searchFieldController.text.isNotEmpty) {
                     searchFieldController.clear();
-                    BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, searchFieldController.text);
+                    BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboard, searchFieldController.text);
                   }
                 },
               ),
             ),
             onChanged: (playerName) {
               _debouncer.run(() {
-                BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboardId, playerName.toLowerCase());
+                BlocProvider.of<LeaderboardDataCubit>(context).searchPlayer(leaderboard, playerName.toLowerCase());
               });
             },
           );

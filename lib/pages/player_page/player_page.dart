@@ -41,7 +41,7 @@ class _PlayerPageState extends State<PlayerPage> {
   void initState() {
     _clearPlayerDetailNavigation();
     _initGameMode();
-    _fetchData(widget.leaderboardId);
+    _fetchData("widget.leaderboardId");
     super.initState();
   }
 
@@ -50,12 +50,12 @@ class _PlayerPageState extends State<PlayerPage> {
   }
 
   void _initGameMode() {
-    BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(mapLeaderboardIdToIndex(widget.leaderboardId));
+    BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(mapLeaderboardIdToIndex("qm_1v1"));
   }
 
-  Future<void> _fetchData(int leaderboardId) async {
-    BlocProvider.of<RatingHistoryDataCubit>(context).fetchPlayerData(leaderboardId, widget.player.profileId);
-    BlocProvider.of<MatchHistoryDataCubit>(context).fetchMatchHistoryData(leaderboardId, widget.player.profileId);
+  Future<void> _fetchData(String leaderboard) async {
+    BlocProvider.of<RatingHistoryDataCubit>(context).fetchPlayerData(-1, widget.player.profileId);
+    BlocProvider.of<MatchHistoryDataCubit>(context).fetchMatchHistoryData(-1, widget.player.profileId);
   }
 
   @override
@@ -163,8 +163,8 @@ class _PlayerPageState extends State<PlayerPage> {
                       if (state.ratingHistoryGameModeIndex != index) {
                         BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(index);
 
-                        final int leaderboardId = mapIndexToLeaderboardId(index);
-                        _fetchData(leaderboardId);
+                        final String leaderboard = mapIndexToLeaderboard(index);
+                        _fetchData(leaderboard);
                       }
                     },
                     child: PlayerDetailGameModeSelector(

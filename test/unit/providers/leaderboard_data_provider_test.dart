@@ -24,12 +24,12 @@ void main() {
       test("it returns a future list of players if request succeeded", () {
         when(_mockClient.get(Uri.parse(url))).thenAnswer((_) async => Response(exampleLeaderboardData, 200));
 
-        expect(_leaderboardDataProvider.fetchLeaderboardData(_mockClient, url), isA<Future<Map>>());
+        expect(_leaderboardDataProvider.fetchLeaderboardData(_mockClient), isA<Future<Map>>());
       });
       test("it throws an Exception if request failed", () {
         when(_mockClient.get(Uri.parse(url))).thenAnswer((_) async => Response('failed', 500));
 
-        expect(_leaderboardDataProvider.fetchLeaderboardData(_mockClient, url), throwsException);
+        expect(_leaderboardDataProvider.fetchLeaderboardData(_mockClient), throwsException);
       });
     });
   });
