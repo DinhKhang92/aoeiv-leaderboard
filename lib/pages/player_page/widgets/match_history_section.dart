@@ -42,7 +42,7 @@ class _MatchHistorySectionState extends State<MatchHistorySection> {
           if (state is FavoritesNavigation) {
             Navigator.of(context).popAndPushNamed(
               Routes.playerDetailsPage,
-              arguments: RatingHistoryScreenArgs(leaderboardId: state.leaderboardId!, player: state.favorite!),
+              arguments: RatingHistoryScreenArgs(leaderboard: "qm_1v1", player: state.favorite!),
             );
           }
         },

@@ -12,6 +12,7 @@ import 'package:aoeiv_leaderboard/pages/landing_page/widgets/favorites_button.da
 import 'package:aoeiv_leaderboard/pages/landing_page/widgets/search_bar.dart';
 import 'package:aoeiv_leaderboard/routes/route_generator.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_game_mode.dart';
+import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/show_tutorials.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/bottom_shader.dart';
@@ -167,7 +168,7 @@ class _LandingPageState extends State<LandingPage> {
                 return InkWell(
                   onTap: () => Navigator.of(context).pushNamed(
                     Routes.playerDetailsPage,
-                    arguments: RatingHistoryScreenArgs(leaderboardId: -1, player: player),
+                    arguments: RatingHistoryScreenArgs(leaderboard: mapIndexToLeaderboard(state.leaderboardGameModeIndex), player: player),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

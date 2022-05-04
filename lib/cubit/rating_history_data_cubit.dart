@@ -12,12 +12,12 @@ class RatingHistoryDataCubit extends Cubit<RatingHistoryDataState> {
 
   RatingHistoryDataCubit({required this.ratingHistoryDataRepository}) : super(const RatingHistoryDataInitial(ratingHistoryData: []));
 
-  Future<void> fetchPlayerData(int leaderboardId, int profileId) async {
+  Future<void> fetchPlayerData(int profileId) async {
     try {
       emit(RatingHistoryDataLoading(ratingHistoryData: state.ratingHistoryData, player: state.player));
-      final List<Rating> ratingHistoryData = await ratingHistoryDataRepository.fetchRatingHistoryData(leaderboardId, profileId);
-      final Player player = await ratingHistoryDataRepository.fetchPlayerDataByProfileId(leaderboardId, profileId);
-      emit(RatingHistoryDataLoaded(ratingHistoryData: ratingHistoryData, player: player));
+      // final List<Rating> ratingHistoryData = await ratingHistoryDataRepository.fetchRatingHistoryData(leaderboard, profileId);
+      final Player player = await ratingHistoryDataRepository.fetchPlayerDataByProfileId(profileId);
+      emit(RatingHistoryDataLoaded(ratingHistoryData: [], player: player));
     } on Exception catch (error, _) {
       emit(RatingHistoryDataError(error: error));
     }

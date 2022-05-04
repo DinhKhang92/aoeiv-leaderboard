@@ -27,9 +27,10 @@ class RatingHistoryDataRepository {
     return ratingHistoryData;
   }
 
-  Future<Player> fetchPlayerDataByProfileId(int leaderboardId, int profileId) async {
-    final String url = "${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId&profile_id=$profileId";
-    final Map jsonData = await leaderboardDataProvider.fetchLeaderboardData(_client, "qm_1v1");
+  Future<Player> fetchPlayerDataByProfileId(int profileId) async {
+    final String url = "${_config.playerStatsBaseUrl}/$profileId";
+    final Map jsonData = await leaderboardDataProvider.fetchLeaderboardData(_client, url);
+    print(jsonData);
 
     final List leaderboardData = jsonData['leaderboard'];
     leaderboardData.map((leaderboard) => Player.fromJson(leaderboard)).toList();

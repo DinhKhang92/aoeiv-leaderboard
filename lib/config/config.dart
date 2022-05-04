@@ -44,6 +44,7 @@ class Config {
   final int leaderboardCount = 1000;
   final int matchHistoryCount = 1000;
   final String leaderboardBaseUrl = "https://aoe4world.com/api/v0/leaderboards";
+  final String playerStatsBaseUrl = "https://aoe4world.com/api/v0/players";
   final String ratingHistoryBaseUrl = "https://aoeiv.net/api/player/ratinghistory?game=aoe4";
   final String matchHistoryBaseUrl = "https://aoeiv.net/api/player/matches?game=aoe4";
 }

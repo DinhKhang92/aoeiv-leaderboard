@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 class Player extends Equatable {
+  final int profileId;
   final int rank;
   final String name;
   final int gamesCount;
   final int winsCount;
   final int lossesCount;
   final int mmr;
-  final int profileId;
   final int winRate;
   final int? previousRating;
 
