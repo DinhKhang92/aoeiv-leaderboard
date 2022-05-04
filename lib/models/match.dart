@@ -23,7 +23,7 @@ class Match extends Equatable {
 
   factory Match.fromJSON(Map json) => Match(
         name: json['name'],
-        mapType: json['map_type'],
+        mapType: json['map_type'] ?? 0,
         isRanked: json['ranked'],
         ratingTypeId: json['rating_type_id'],
         matchPlayers: (json['players'] as List).map((matchHistoryPlayer) => MatchPlayer.fromJSON(matchHistoryPlayer)).toList(),
