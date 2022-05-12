@@ -33,9 +33,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   void _handleBottomNavbarOnTap(BuildContext context, int index) {
     searchFieldController.clear();
-    final int leaderboardId = mapIndexToLeaderboardId(index);
+    final String leaderboard = mapIndexToLeaderboard(index);
 
     BlocProvider.of<GameModeSelectorCubit>(context).setLeaderboardGameMode(index);
-    BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(leaderboardId);
+    BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(leaderboard);
   }
 }

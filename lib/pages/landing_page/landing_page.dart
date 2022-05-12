@@ -11,8 +11,8 @@ import 'package:aoeiv_leaderboard/models/rating_history_screen_args.dart';
 import 'package:aoeiv_leaderboard/pages/landing_page/widgets/favorites_button.dart';
 import 'package:aoeiv_leaderboard/pages/landing_page/widgets/search_bar.dart';
 import 'package:aoeiv_leaderboard/routes/route_generator.dart';
-import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/map_index_to_game_mode.dart';
+import 'package:aoeiv_leaderboard/utils/map_index_to_leaderboard_id.dart';
 import 'package:aoeiv_leaderboard/utils/show_tutorials.dart';
 import 'package:aoeiv_leaderboard/widgets/background.dart';
 import 'package:aoeiv_leaderboard/widgets/bottom_shader.dart';
@@ -54,7 +54,7 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> _fetchLeaderboardData() async {
-    await BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.oneVOne.id);
+    await BlocProvider.of<LeaderboardDataCubit>(context).fetchLeaderboardData(LeaderboardId.qmOneVOne.leaderboard);
   }
 
   @override
@@ -162,13 +162,13 @@ class _LandingPageState extends State<LandingPage> {
           separatorBuilder: (context, index) => SizedBox(height: Spacing.xl.value),
           itemCount: leaderboardData.length,
           itemBuilder: (context, index) {
-            final Player player = leaderboardData[index];
+            final PlayerPreview player = leaderboardData[index];
             return BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
               builder: (context, state) {
                 return InkWell(
                   onTap: () => Navigator.of(context).pushNamed(
                     Routes.playerDetailsPage,
-                    arguments: RatingHistoryScreenArgs(leaderboardId: mapIndexToLeaderboardId(state.leaderboardGameModeIndex), player: player),
+                    arguments: RatingHistoryScreenArgs(leaderboard: mapIndexToLeaderboard(state.leaderboardGameModeIndex), player: player),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

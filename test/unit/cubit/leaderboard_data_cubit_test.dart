@@ -18,7 +18,7 @@ void main() {
 
     const int leaderboardId = 17;
 
-    const Player examplePlayer = Player(rank: 1412, name: "T0nb3rry", totalGames: 100, totalWins: 71, totalLosses: 29, mmr: 1412, profileId: 1412, winRate: 40);
+    const Player examplePlayer = Player(rank: 1412, name: "T0nb3rry", gamesCount: 100, winsCount: 71, lossesCount: 29, mmr: 1412, profileId: 1412, winRate: 40);
 
     setUp(() {
       _leaderboardDataCubit = LeaderboardDataCubit(leaderboardDataRepository: _mockLeaderboardDataRepository);

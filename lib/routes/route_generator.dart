@@ -22,7 +22,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => PlayerPage(
             player: args.player,
-            leaderboardId: args.leaderboardId,
+            leaderboard: args.leaderboard,
           ),
         );
       default:

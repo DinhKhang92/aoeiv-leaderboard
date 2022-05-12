@@ -73,7 +73,7 @@ class _FavoritesModalBottomSheetState extends State<FavoritesModalBottomSheet> {
           if (state is FavoritesNavigation) {
             Navigator.of(context).pushNamed(
               Routes.playerDetailsPage,
-              arguments: RatingHistoryScreenArgs(leaderboardId: state.leaderboardId!, player: state.favorite!),
+              arguments: RatingHistoryScreenArgs(leaderboard: "qm_1v1", player: state.favorite!),
             );
           }
           if (state is FavoritesError) {

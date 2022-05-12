@@ -1,8 +1,8 @@
 import 'package:aoeiv_leaderboard/models/player.dart';
 
 class RatingHistoryScreenArgs {
-  final int leaderboardId;
+  final String leaderboard;
   final Player player;
 
-  const RatingHistoryScreenArgs({required this.leaderboardId, required this.player});
+  const RatingHistoryScreenArgs({required this.leaderboard, required this.player});
 }

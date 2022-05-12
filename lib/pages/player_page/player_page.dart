@@ -26,9 +26,9 @@ import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class PlayerPage extends StatefulWidget {
   final Player player;
-  final int leaderboardId;
+  final String leaderboard;
 
-  const PlayerPage({required this.leaderboardId, required this.player, Key? key}) : super(key: key);
+  const PlayerPage({required this.leaderboard, required this.player, Key? key}) : super(key: key);
 
   @override
   _PlayerPageState createState() => _PlayerPageState();
@@ -41,7 +41,7 @@ class _PlayerPageState extends State<PlayerPage> {
   void initState() {
     _clearPlayerDetailNavigation();
     _initGameMode();
-    _fetchData(widget.leaderboardId);
+    _fetchData(widget.leaderboard);
     super.initState();
   }
 
@@ -50,12 +50,12 @@ class _PlayerPageState extends State<PlayerPage> {
   }
 
   void _initGameMode() {
-    BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(mapLeaderboardIdToIndex(widget.leaderboardId));
+    BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(mapLeaderboardIdToIndex("qm_1v1"));
   }
 
-  Future<void> _fetchData(int leaderboardId) async {
-    BlocProvider.of<RatingHistoryDataCubit>(context).fetchPlayerData(leaderboardId, widget.player.profileId);
-    BlocProvider.of<MatchHistoryDataCubit>(context).fetchMatchHistoryData(leaderboardId, widget.player.profileId);
+  Future<void> _fetchData(String leaderboard) async {
+    BlocProvider.of<RatingHistoryDataCubit>(context).fetchPlayerData(widget.player.profileId);
+    // BlocProvider.of<MatchHistoryDataCubit>(context).fetchMatchHistoryData(-1, widget.player.profileId);
   }
 
   @override
@@ -122,7 +122,7 @@ class _PlayerPageState extends State<PlayerPage> {
 
           return InkWell(
             key: _favoritesButtonKey,
-            onTap: () => BlocProvider.of<FavoritesCubit>(context).updateFavorites(widget.leaderboardId, widget.player.profileId, widget.player.name),
+            onTap: () => BlocProvider.of<FavoritesCubit>(context).updateFavorites(-1, widget.player.profileId, widget.player.name),
             child: couldAddFavorite ? const Icon(Icons.star_border) : const Icon(Icons.star),
           );
         },
@@ -163,8 +163,8 @@ class _PlayerPageState extends State<PlayerPage> {
                       if (state.ratingHistoryGameModeIndex != index) {
                         BlocProvider.of<GameModeSelectorCubit>(context).setRatingHistoryGameMode(index);
 
-                        final int leaderboardId = mapIndexToLeaderboardId(index);
-                        _fetchData(leaderboardId);
+                        final String leaderboard = mapIndexToLeaderboard(index);
+                        _fetchData(leaderboard);
                       }
                     },
                     child: PlayerDetailGameModeSelector(

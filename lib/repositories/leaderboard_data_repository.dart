@@ -10,26 +10,26 @@ class LeaderboardDataRepository {
 
   LeaderboardDataRepository({required this.leaderboardDataProvider});
 
-  Future<List<Player>> fetchLeaderboardData(int leaderboardId) async {
-    final String url = "${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId&start=1&count=${_config.leaderboardCount}";
+  Future<List<PlayerPreview>> fetchLeaderboardData(String leaderboard) async {
+    final String url = "${_config.leaderboardBaseUrl}/$leaderboard";
     final Map jsonData = await leaderboardDataProvider.fetchLeaderboardData(_client, url);
 
     return _parsePlayers(jsonData);
   }
 
-  Future<List<Player>> searchPlayer(int leaderboardId, String playerName) async {
+  Future<List<PlayerPreview>> searchPlayer(String leaderboard, String playerName) async {
     if (playerName.isEmpty) {
       return [];
     }
 
-    final String url = "${_config.leaderboardBaseUrl}&leaderboard_id=$leaderboardId&search=$playerName&count=${_config.leaderboardCount}";
+    final String url = "${_config.leaderboardBaseUrl}/$leaderboard?query=$playerName";
     final Map jsonData = await leaderboardDataProvider.fetchLeaderboardData(_client, url);
 
     return _parsePlayers(jsonData);
   }
 
-  List<Player> _parsePlayers(Map jsonData) {
-    final List leaderboardData = jsonData['leaderboard'];
-    return leaderboardData.map((leaderboard) => Player.fromJson(leaderboard)).toList();
+  List<PlayerPreview> _parsePlayers(Map jsonData) {
+    final List leaderboardData = jsonData['players'];
+    return leaderboardData.map((leaderboard) => PlayerPreview.fromJson(leaderboard)).toList();
   }
 }

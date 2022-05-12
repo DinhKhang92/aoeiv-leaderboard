@@ -20,11 +20,12 @@ class MatchHistoryDataRepository {
   }
 
   List<Match> filterMatches(int leaderboardId, List<Match> matches) {
-    final List<Match> filteredMatches = matches.where((Match match) => match.ratingTypeId == mapLeaderboardIdToRatingTypeId(leaderboardId)).toList();
-    if (filteredMatches.isEmpty) {
-      throw NoDataException("No matches found");
-    }
-    return filteredMatches;
+    // final List<Match> filteredMatches = matches.where((Match match) => match.ratingTypeId == mapLeaderboardIdToRatingTypeId(leaderboardId)).toList();
+    // if (filteredMatches.isEmpty) {
+    //   throw NoDataException("No matches found");
+    // }
+    // return filteredMatches;
+    return [];
   }
 
   Map<String, int> getCivDistributionByProfileId(List<Match> matches, int profileId) {

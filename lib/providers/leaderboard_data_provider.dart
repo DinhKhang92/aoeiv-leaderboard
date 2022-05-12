@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aoeiv_leaderboard/config/config.dart';
 import 'package:aoeiv_leaderboard/exceptions/fetch_data_exception.dart';
 import 'package:http/http.dart';
 

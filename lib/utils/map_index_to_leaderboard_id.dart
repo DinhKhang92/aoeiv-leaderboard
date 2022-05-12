@@ -1,15 +1,15 @@
 import 'package:aoeiv_leaderboard/config/config.dart';
 
-int mapIndexToLeaderboardId(int index) {
+String mapIndexToLeaderboard(int index) {
   if (index == 0) {
-    return LeaderboardId.oneVOne.id;
+    return LeaderboardId.qmOneVOne.leaderboard;
   } else if (index == 1) {
-    return LeaderboardId.twoVTwo.id;
+    return LeaderboardId.qmTwoVTwo.leaderboard;
   } else if (index == 2) {
-    return LeaderboardId.threeVThree.id;
+    return LeaderboardId.qmThreeVThree.leaderboard;
   } else if (index == 3) {
-    return LeaderboardId.fourVFour.id;
+    return LeaderboardId.qmFourVFour.leaderboard;
   } else {
-    return LeaderboardId.oneVOne.id;
+    return LeaderboardId.qmOneVOne.leaderboard;
   }
 }

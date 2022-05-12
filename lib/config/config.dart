@@ -1,16 +1,16 @@
-enum LeaderboardId { oneVOne, twoVTwo, threeVThree, fourVFour }
+enum LeaderboardId { qmOneVOne, qmTwoVTwo, qmThreeVThree, qmFourVFour }
 
 extension LeaderboardIdExtension on LeaderboardId {
-  int get id {
+  String get leaderboard {
     switch (this) {
-      case LeaderboardId.oneVOne:
-        return 17;
-      case LeaderboardId.twoVTwo:
-        return 18;
-      case LeaderboardId.threeVThree:
-        return 19;
-      case LeaderboardId.fourVFour:
-        return 20;
+      case LeaderboardId.qmOneVOne:
+        return "qm_1v1";
+      case LeaderboardId.qmTwoVTwo:
+        return "qm_2v2";
+      case LeaderboardId.qmThreeVThree:
+        return "qm_3v3";
+      case LeaderboardId.qmFourVFour:
+        return "qm_4v4";
     }
   }
 }
@@ -43,7 +43,8 @@ extension CivilizationIdExtension on CivilizationId {
 class Config {
   final int leaderboardCount = 1000;
   final int matchHistoryCount = 1000;
-  final String leaderboardBaseUrl = "https://aoeiv.net/api/leaderboard?game=aoe4";
+  final String leaderboardBaseUrl = "https://aoe4world.com/api/v0/leaderboards";
+  final String playerStatsBaseUrl = "https://aoe4world.com/api/v0/players";
   final String ratingHistoryBaseUrl = "https://aoeiv.net/api/player/ratinghistory?game=aoe4";
   final String matchHistoryBaseUrl = "https://aoeiv.net/api/player/matches?game=aoe4";
 }
