@@ -30,11 +30,15 @@ class RatingHistoryDataRepository {
   Future<Player> fetchPlayerDataByProfileId(int profileId) async {
     final String url = "${_config.playerStatsBaseUrl}/$profileId";
     final Map jsonData = await leaderboardDataProvider.fetchLeaderboardData(_client, url);
-    print(jsonData);
 
-    final List leaderboardData = jsonData['leaderboard'];
-    leaderboardData.map((leaderboard) => Player.fromJson(leaderboard)).toList();
-    final List<Player> playerList = leaderboardData.map((leaderboard) => Player.fromJson(leaderboard)).toList();
+    final String name = jsonData["name"];
+    final Map leaderboardData = jsonData['modes'];
+    print(leaderboardData);
+    leaderboardData.forEach((key, value) {
+      print(key);
+    });
+    final List<Player> playerList = [];
+    // final List<Player> playerList = leaderboardData.map((leaderboard) => Player.fromJson(leaderboard)).toList();
 
     if (playerList.isEmpty) {
       throw NoDataException("No player data found for profileId: $profileId with url :$url");

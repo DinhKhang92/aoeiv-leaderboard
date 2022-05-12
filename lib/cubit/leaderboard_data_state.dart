@@ -2,8 +2,8 @@ part of 'leaderboard_data_cubit.dart';
 
 @immutable
 abstract class LeaderboardDataState extends Equatable {
-  final List leaderboardData;
-  final List searchedPlayers;
+  final List<PlayerPreview> leaderboardData;
+  final List<PlayerPreview> searchedPlayers;
   final Exception? error;
 
   const LeaderboardDataState({required this.leaderboardData, required this.searchedPlayers, this.error});
@@ -13,17 +13,20 @@ abstract class LeaderboardDataState extends Equatable {
 }
 
 class LeaderboardDataInitial extends LeaderboardDataState {
-  const LeaderboardDataInitial({leaderboardData, searchedPlayers}) : super(leaderboardData: leaderboardData, searchedPlayers: searchedPlayers);
+  const LeaderboardDataInitial({required List<PlayerPreview> leaderboardData, required List<PlayerPreview> searchedPlayers})
+      : super(leaderboardData: leaderboardData, searchedPlayers: searchedPlayers);
 }
 
 class LeaderboardDataLoading extends LeaderboardDataState {
-  const LeaderboardDataLoading({leaderboardData, searchedPlayers}) : super(leaderboardData: leaderboardData, searchedPlayers: searchedPlayers);
+  const LeaderboardDataLoading({required List<PlayerPreview> leaderboardData, required List<PlayerPreview> searchedPlayers})
+      : super(leaderboardData: leaderboardData, searchedPlayers: searchedPlayers);
 }
 
 class LeaderboardDataLoaded extends LeaderboardDataState {
-  const LeaderboardDataLoaded({leaderboardData, searchedPlayers}) : super(leaderboardData: leaderboardData, searchedPlayers: searchedPlayers);
+  const LeaderboardDataLoaded({required List<PlayerPreview> leaderboardData, required List<PlayerPreview> searchedPlayers})
+      : super(leaderboardData: leaderboardData, searchedPlayers: searchedPlayers);
 }
 
 class LeaderboardDataError extends LeaderboardDataState {
-  LeaderboardDataError({Exception? error}) : super(leaderboardData: [], searchedPlayers: [], error: error);
+  LeaderboardDataError({required Exception error}) : super(leaderboardData: [], searchedPlayers: [], error: error);
 }

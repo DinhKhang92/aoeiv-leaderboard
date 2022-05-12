@@ -14,13 +14,13 @@ class PlayerStats extends StatelessWidget {
           final int wins = state.ratingHistoryData.first.totalWins;
           final int losses = state.ratingHistoryData.first.totalLosses;
           final int winRate = state.ratingHistoryData.first.winRate;
-          final int previousRating = state.player?.previousRating ?? 0;
+          final int previousRating = 0;
           final int mmrDifference = mmr - previousRating;
 
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("#${state.player?.rank} | $mmr "),
+              Text("#${1} | $mmr "),
               Icon(
                 mmrDifference < 0 ? Icons.arrow_downward : Icons.arrow_upward,
                 size: 14,

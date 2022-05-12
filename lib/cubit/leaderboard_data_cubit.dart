@@ -13,7 +13,7 @@ class LeaderboardDataCubit extends Cubit<LeaderboardDataState> {
   Future<void> fetchLeaderboardData(String leaderboard) async {
     try {
       emit(LeaderboardDataLoading(leaderboardData: state.leaderboardData, searchedPlayers: state.searchedPlayers));
-      final List<Player> leaderboardData = await leaderboardDataRepository.fetchLeaderboardData(leaderboard);
+      final List<PlayerPreview> leaderboardData = await leaderboardDataRepository.fetchLeaderboardData(leaderboard);
       emit(LeaderboardDataLoaded(leaderboardData: leaderboardData, searchedPlayers: state.searchedPlayers));
     } on Exception catch (error, _) {
       emit(LeaderboardDataError(error: error));
@@ -23,7 +23,7 @@ class LeaderboardDataCubit extends Cubit<LeaderboardDataState> {
   Future<void> searchPlayer(String leaderboard, String playerName) async {
     try {
       emit(LeaderboardDataLoading(leaderboardData: state.leaderboardData, searchedPlayers: state.searchedPlayers));
-      final List<Player> searchedPlayers = await leaderboardDataRepository.searchPlayer(leaderboard, playerName);
+      final List<PlayerPreview> searchedPlayers = await leaderboardDataRepository.searchPlayer(leaderboard, playerName);
       emit(LeaderboardDataLoaded(leaderboardData: state.leaderboardData, searchedPlayers: searchedPlayers));
     } on Exception catch (error, _) {
       emit(LeaderboardDataError(error: error));

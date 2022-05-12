@@ -162,7 +162,7 @@ class _LandingPageState extends State<LandingPage> {
           separatorBuilder: (context, index) => SizedBox(height: Spacing.xl.value),
           itemCount: leaderboardData.length,
           itemBuilder: (context, index) {
-            final Player player = leaderboardData[index];
+            final PlayerPreview player = leaderboardData[index];
             return BlocBuilder<GameModeSelectorCubit, GameModeSelectorState>(
               builder: (context, state) {
                 return InkWell(
